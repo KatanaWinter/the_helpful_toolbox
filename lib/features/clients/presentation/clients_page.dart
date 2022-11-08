@@ -5,13 +5,27 @@ import 'package:the_helpful_toolbox/features/clients/presentation/dialog/newClie
 import 'package:the_helpful_toolbox/features/navigation/presentation/sidebarnav.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
-class ClientsPage extends StatelessWidget {
-  ClientsPage({super.key});
+class ClientsPage extends StatefulWidget {
+  ClientsPage({Key? key});
+
+  @override
+  State<ClientsPage> createState() => _ClientsPageState();
+}
+
+class _ClientsPageState extends State<ClientsPage> {
+  TextEditingController searchController = TextEditingController();
+  List<Client> lClients = getAllClients();
+  late List<Client> lFilteredClients = List<Client>.empty(growable: true);
+  String _searchResult = '';
+
+  @override
+  void initState() {
+    lFilteredClients = lClients;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController searchController = TextEditingController();
-    List<Client> lClients = getAllClients();
     double tableWidth = 0.00;
 
     double screenWidth = getScreenWidth(context);
@@ -63,6 +77,36 @@ class ClientsPage extends StatelessWidget {
                                                 ),
                                                 hintText: 'Search for ...',
                                               ),
+                                              onChanged: (val) {
+                                                _searchResult = val;
+                                                setState(() {
+                                                  String _searchVal =
+                                                      val.toLowerCase();
+                                                  lFilteredClients = lClients
+                                                      .where((e) =>
+                                                          e.firstname
+                                                              .toLowerCase()
+                                                              .contains(
+                                                                  _searchVal) ||
+                                                          e.lastname
+                                                              .toLowerCase()
+                                                              .contains(
+                                                                  _searchVal) ||
+                                                          e.email
+                                                              .toLowerCase()
+                                                              .contains(
+                                                                  _searchVal) ||
+                                                          e.phonenumber
+                                                              .toLowerCase()
+                                                              .contains(
+                                                                  _searchVal) ||
+                                                          e.mobilenumber
+                                                              .toLowerCase()
+                                                              .contains(
+                                                                  _searchVal))
+                                                      .toList();
+                                                });
+                                              },
                                             ),
                                           ),
                                           const SizedBox(
@@ -89,7 +133,7 @@ class ClientsPage extends StatelessWidget {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Column(
                                         children: [
-                                          buildList(context, lClients)
+                                          buildList(context, lFilteredClients)
                                         ],
                                       ),
                                     )
@@ -112,7 +156,7 @@ class ClientsPage extends StatelessWidget {
     return lClients;
   }
 
-  buildList(context, List<Client> lClients) {
+  buildList(context, List<Client> lFiltered) {
     double tableWidth = getScreenWidth(context);
     isSmallScreen(context)
         ? tableWidth = tableWidth - 100
@@ -120,9 +164,9 @@ class ClientsPage extends StatelessWidget {
     return ListView.builder(
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
-      itemCount: lClients.length,
+      itemCount: lFiltered.length,
       itemBuilder: ((context, index) {
-        Client client = lClients[index];
+        Client client = lFiltered[index];
         return Column(
           children: [
             Row(
@@ -224,7 +268,4 @@ class ClientsPage extends StatelessWidget {
       },
     );
   }
-
-  // set up the button
-
 }

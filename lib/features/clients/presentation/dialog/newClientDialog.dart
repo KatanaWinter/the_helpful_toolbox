@@ -190,13 +190,16 @@ class _NewClientDialogState extends State<NewClientDialog> {
             child: Text('Save'),
           ),
           onPressed: () {
+            saveClientWithProperty(context);
             // Hier passiert etwas anderes
-            Navigator.of(context).pop();
           },
         ),
       ],
     );
   }
 
-  saveClientWithProperty() {}
+  saveClientWithProperty(context) {
+    debugPrint("save client to Database");
+    Navigator.of(context).pop();
+  }
 }
