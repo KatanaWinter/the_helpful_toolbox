@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/features/clients/data/client.dart';
+import 'package:the_helpful_toolbox/features/clients/presentation/dialog/editClientDialog.dart';
 import 'package:the_helpful_toolbox/features/clients/presentation/dialog/newClientDialog.dart';
 import 'package:the_helpful_toolbox/features/navigation/presentation/sidebarnav.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
@@ -224,7 +225,7 @@ class _ClientsPageState extends State<ClientsPage> {
                         width: tableWidth * 0.2,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children: const [
                             AutoSizeText(
                               "4752 Garret Street",
                               style: const TextStyle(fontSize: 15),
@@ -243,7 +244,11 @@ class _ClientsPageState extends State<ClientsPage> {
                 Expanded(
                   child: ButtonBar(
                     children: [
-                      IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+                      IconButton(
+                          onPressed: () {
+                            openEditClientDialog(context, client);
+                          },
+                          icon: Icon(Icons.edit)),
                       IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
                     ],
                   ),
@@ -265,6 +270,15 @@ class _ClientsPageState extends State<ClientsPage> {
       context: context,
       builder: (BuildContext context) {
         return NewClientDialog();
+      },
+    );
+  }
+
+  openEditClientDialog(context, Client client) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return EditClientDialog(client);
       },
     );
   }

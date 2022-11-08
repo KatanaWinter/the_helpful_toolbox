@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/features/clients/data/client.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
-class NewClientDialog extends StatefulWidget {
-  const NewClientDialog({super.key});
+class EditClientDialog extends StatefulWidget {
+  Client client;
+  EditClientDialog(this.client, {super.key});
 
   @override
-  State<NewClientDialog> createState() => _NewClientDialogState();
+  State<EditClientDialog> createState() => _EditClientDialogState();
 }
 
-class _NewClientDialogState extends State<NewClientDialog> {
+class _EditClientDialogState extends State<EditClientDialog> {
   final _formKey = GlobalKey<FormState>();
   Client _client = new Client(firstname: "", lastname: "");
   @override
@@ -47,6 +48,7 @@ class _NewClientDialogState extends State<NewClientDialog> {
                                 onChanged: (val) => setState(() {
                                   _client.firstname = val;
                                 }),
+                                initialValue: widget.client.firstname,
                               ),
                             ),
                             Padding(
@@ -58,6 +60,7 @@ class _NewClientDialogState extends State<NewClientDialog> {
                                 onChanged: (val) => setState(() {
                                   _client.lastname = val;
                                 }),
+                                initialValue: widget.client.lastname,
                               ),
                             ),
                             Padding(
@@ -66,6 +69,7 @@ class _NewClientDialogState extends State<NewClientDialog> {
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Company name'),
+                                initialValue: "",
                               ),
                             ),
                             Padding(
@@ -77,6 +81,7 @@ class _NewClientDialogState extends State<NewClientDialog> {
                                 onChanged: (val) => setState(() {
                                   _client.phonenumber = val;
                                 }),
+                                initialValue: widget.client.phonenumber,
                               ),
                             ),
                             Padding(
@@ -85,6 +90,7 @@ class _NewClientDialogState extends State<NewClientDialog> {
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Mobile number'),
+                                initialValue: widget.client.mobilenumber,
                               ),
                             ),
                             Padding(
@@ -93,6 +99,7 @@ class _NewClientDialogState extends State<NewClientDialog> {
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Email'),
+                                initialValue: widget.client.email,
                               ),
                             ),
                           ],
@@ -123,6 +130,7 @@ class _NewClientDialogState extends State<NewClientDialog> {
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Name'),
+                                initialValue: "Main",
                               ),
                             ),
                             Padding(
@@ -131,6 +139,7 @@ class _NewClientDialogState extends State<NewClientDialog> {
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Street'),
+                                initialValue: "4752 Garret Street",
                               ),
                             ),
                             Padding(
@@ -147,6 +156,7 @@ class _NewClientDialogState extends State<NewClientDialog> {
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'City'),
+                                initialValue: "Sunnydale",
                               ),
                             ),
                             Padding(
@@ -155,6 +165,7 @@ class _NewClientDialogState extends State<NewClientDialog> {
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'State'),
+                                initialValue: "NH",
                               ),
                             ),
                             Padding(
@@ -163,6 +174,7 @@ class _NewClientDialogState extends State<NewClientDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Postal Code'),
+                                initialValue: "04985",
                               ),
                             ),
                           ],
@@ -203,7 +215,7 @@ class _NewClientDialogState extends State<NewClientDialog> {
   }
 
   saveClientWithProperty(context) {
-    debugPrint("save client to Database");
+    debugPrint("edit client to Database");
     Navigator.of(context).pop();
   }
 }
