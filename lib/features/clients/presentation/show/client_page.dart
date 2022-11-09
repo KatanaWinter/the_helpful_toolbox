@@ -4,6 +4,7 @@ import 'package:the_helpful_toolbox/features/clients/data/client.dart';
 import 'package:the_helpful_toolbox/features/clients/data/property.dart';
 import 'package:the_helpful_toolbox/features/clients/presentation/dialog/editClientDialog.dart';
 import 'package:the_helpful_toolbox/features/clients/presentation/dialog/newClientDialog.dart';
+import 'package:the_helpful_toolbox/features/clients/presentation/show/contactdata_card.dart';
 import 'package:the_helpful_toolbox/features/clients/presentation/show/properties_card.dart';
 import 'package:the_helpful_toolbox/features/navigation/presentation/sidebarnav.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
@@ -103,6 +104,7 @@ class _ClientPageState extends State<ClientPage> {
                       Wrap(
                         children: [
                           PropertiesCard(_client, lProperties),
+                          ContactDataCard(_client),
                         ],
                       ),
                     ],
