@@ -104,6 +104,10 @@ class _ClientPageState extends State<ClientPage> {
                       Wrap(
                         children: [
                           PropertiesCard(_client, lProperties),
+                        ],
+                      ),
+                      Wrap(
+                        children: [
                           ContactDataCard(_client),
                         ],
                       ),

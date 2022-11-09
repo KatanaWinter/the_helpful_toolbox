@@ -16,7 +16,7 @@ class ContactDataCard extends StatelessWidget {
         elevation: 10,
         color: ThemeData.dark().cardColor,
         child: SizedBox(
-          width: isSmallScreen(context) ? contentWidth : contentWidth * 0.45,
+          width: isSmallScreen(context) ? contentWidth : contentWidth * 0.3,
           child: Column(
             children: [
               SizedBox(
