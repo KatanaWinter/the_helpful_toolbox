@@ -1,43 +1,114 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/features/clients/data/client.dart';
+import 'package:the_helpful_toolbox/features/clients/data/property.dart';
 import 'package:the_helpful_toolbox/features/clients/presentation/dialog/editClientDialog.dart';
 import 'package:the_helpful_toolbox/features/clients/presentation/dialog/newClientDialog.dart';
+import 'package:the_helpful_toolbox/features/clients/presentation/show/properties_card.dart';
 import 'package:the_helpful_toolbox/features/navigation/presentation/sidebarnav.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class ClientPage extends StatefulWidget {
-  ClientPage({Key? key});
+  Client client;
+  ClientPage(this.client, {Key? key});
 
   @override
   State<ClientPage> createState() => _ClientPageState();
 }
 
 class _ClientPageState extends State<ClientPage> {
+  List<Property> lProperties = List<Property>.empty(growable: true);
   @override
   void initState() {
+    lProperties = getClientProperties(widget.client);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = getScreenWidth(context);
+    Client _client = widget.client;
+    double contentWidth = getContentWidth(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Clients'),
+        title: Text("${_client.firstname} ${_client.lastname}"),
       ),
       body: SafeArea(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SidebarNavigation(screenWidth),
+            SidebarNavigation(contentWidth),
             SingleChildScrollView(
-              child: Padding(
+              child: SizedBox(
+                width: contentWidth,
+                child: Padding(
                   padding: const EdgeInsets.all(20),
-                  child: Wrap(
-                    children: [],
-                  )),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text("Back to Clients"),
+                              )),
+                          const Spacer(),
+                          ButtonBar(children: [
+                            ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all(
+                                        Colors.brown[700])),
+                                onPressed: () {
+                                  debugPrint("ToDo: implement set active");
+                                },
+                                child: _client.active
+                                    ? const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text("Set Inactive"),
+                                      )
+                                    : const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text("Set Active"),
+                                      )),
+                            SizedBox(
+                              width: 2,
+                            ),
+                            IconButton(
+                                onPressed: () {}, icon: Icon(Icons.edit)),
+                          ]),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                color:
+                                    _client.active ? Colors.green : Colors.red,
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child:
+                                  Text(_client.active ? "Active" : "Inactive"),
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Wrap(
+                        children: [
+                          PropertiesCard(_client, lProperties),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -185,5 +256,23 @@ class _ClientPageState extends State<ClientPage> {
         return EditClientDialog(client);
       },
     );
+  }
+
+  getClientProperties(Client client) {
+    List<Property> lProperties = [
+      Property(
+          name: "Main Property",
+          street: "Meta-Grube-Weg 29",
+          city: "Cuxhaven",
+          postalcode: "27474",
+          state: "NI"),
+      Property(
+          name: "Second Property",
+          street: "Meta-Grube-Weg 29",
+          city: "Cuxhaven",
+          postalcode: "27474",
+          state: "NI"),
+    ];
+    return lProperties;
   }
 }

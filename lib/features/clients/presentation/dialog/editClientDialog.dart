@@ -20,7 +20,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
   void initState() {
     // TODO: implement initState
 
-    billingAddress = _client.getBillingAddress();
+    billingAddress = _client.getBillingAddress(_client);
     super.initState();
   }
 

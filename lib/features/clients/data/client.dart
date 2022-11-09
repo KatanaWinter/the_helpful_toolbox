@@ -36,7 +36,7 @@ class Client {
     debugPrint("delete new Client: ${this.firstname} ${this.lastname}");
   }
 
-  getBillingAddress() {
+  getBillingAddress(Client client) {
     debugPrint("get Property of Client");
     Property prop = Property(
         name: "Main Property",

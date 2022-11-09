@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/features/clients/data/client.dart';
+import 'package:the_helpful_toolbox/features/clients/data/property.dart';
 import 'package:the_helpful_toolbox/features/clients/presentation/dialog/editClientDialog.dart';
 import 'package:the_helpful_toolbox/features/clients/presentation/dialog/newClientDialog.dart';
 import 'package:the_helpful_toolbox/features/clients/presentation/show/client_page.dart';
@@ -169,6 +170,7 @@ class _ClientsPageState extends State<ClientsPage> {
       itemCount: lFiltered.length,
       itemBuilder: ((context, index) {
         Client client = lFiltered[index];
+        Property billingAddress = client.getBillingAddress(client);
         return Column(
           children: [
             Row(
@@ -300,6 +302,6 @@ class _ClientsPageState extends State<ClientsPage> {
 
   showClient(context, Client client) {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => ClientPage()));
+        .push(MaterialPageRoute(builder: (context) => ClientPage(client)));
   }
 }

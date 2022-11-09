@@ -15,3 +15,11 @@ isSmallScreen(context) {
     return false;
   }
 }
+
+getContentWidth(context) {
+  if (isSmallScreen(context)) {
+    return getScreenWidth(context) - 50;
+  } else {
+    return getScreenWidth(context) - 200;
+  }
+}
