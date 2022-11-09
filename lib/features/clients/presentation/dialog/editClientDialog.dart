@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/features/clients/data/client.dart';
+import 'package:the_helpful_toolbox/features/clients/data/property.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class EditClientDialog extends StatefulWidget {
@@ -12,7 +13,17 @@ class EditClientDialog extends StatefulWidget {
 
 class _EditClientDialogState extends State<EditClientDialog> {
   final _formKey = GlobalKey<FormState>();
-  Client _client = new Client(firstname: "", lastname: "");
+  Client _client = getSingleClient(1);
+  Property billingAddress = Property();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    billingAddress = _client.getBillingAddress();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -130,7 +141,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Name'),
-                                initialValue: "Main",
+                                initialValue: billingAddress.name,
                               ),
                             ),
                             Padding(
@@ -139,7 +150,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Street'),
-                                initialValue: "4752 Garret Street",
+                                initialValue: billingAddress.street,
                               ),
                             ),
                             Padding(
@@ -148,6 +159,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Street 2'),
+                                initialValue: billingAddress.street2,
                               ),
                             ),
                             Padding(
@@ -156,7 +168,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'City'),
-                                initialValue: "Sunnydale",
+                                initialValue: billingAddress.city,
                               ),
                             ),
                             Padding(
@@ -165,7 +177,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
                                 decoration: InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'State'),
-                                initialValue: "NH",
+                                initialValue: billingAddress.state,
                               ),
                             ),
                             Padding(
@@ -174,7 +186,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Postal Code'),
-                                initialValue: "04985",
+                                initialValue: billingAddress.postalcode,
                               ),
                             ),
                           ],

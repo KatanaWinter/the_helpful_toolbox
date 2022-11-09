@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:the_helpful_toolbox/features/clients/data/property.dart';
 
 class Client {
   int id;
@@ -10,6 +11,7 @@ class Client {
   bool active;
   String email;
   int rating;
+  Property? billingAddress;
 
   Client(
       {this.id = 1,
@@ -21,6 +23,30 @@ class Client {
       this.email = "",
       this.rating = 5,
       this.active = true});
+
+  saveClient() {
+    debugPrint("save new Client: ${this.firstname} ${this.lastname}");
+  }
+
+  edit() {
+    debugPrint("edit new Client: ${this.firstname} ${this.lastname}");
+  }
+
+  delete() {
+    debugPrint("delete new Client: ${this.firstname} ${this.lastname}");
+  }
+
+  getBillingAddress() {
+    debugPrint("get Property of Client");
+    Property prop = Property(
+        name: "Main Property",
+        street: "Meta-Grube-Weg 29",
+        city: "Cuxhaven",
+        postalcode: "27474",
+        state: "NI");
+
+    return prop;
+  }
 }
 
 getSingleClient(int clientId) {
@@ -42,16 +68,4 @@ getAllClients() {
     Client(firstname: "Pascal", lastname: "Oujo Millan"),
     Client(firstname: "Justine", lastname: "Müller"),
   ];
-}
-
-saveClient(Client client) {
-  debugPrint("save new Client");
-}
-
-edit(Client client) {
-  debugPrint("edit new Client");
-}
-
-delete(Client client) {
-  debugPrint("delete new Client");
 }

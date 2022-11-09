@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/features/clients/data/client.dart';
 import 'package:the_helpful_toolbox/features/clients/presentation/dialog/editClientDialog.dart';
 import 'package:the_helpful_toolbox/features/clients/presentation/dialog/newClientDialog.dart';
+import 'package:the_helpful_toolbox/features/clients/presentation/show/client_page.dart';
 import 'package:the_helpful_toolbox/features/navigation/presentation/sidebarnav.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
@@ -179,13 +180,18 @@ class _ClientsPageState extends State<ClientsPage> {
                 const SizedBox(
                   width: 5,
                 ),
-                SizedBox(
-                    width: tableWidth * 0.1, child: Text(client.id.toString())),
+                isSmallScreen(context)
+                    ? SizedBox()
+                    : SizedBox(
+                        width: tableWidth * 0.1,
+                        child: Text(client.id.toString())),
                 const SizedBox(
                   width: 5,
                 ),
                 SizedBox(
-                  width: tableWidth * 0.1,
+                  width: isSmallScreen(context)
+                      ? tableWidth * 0.2
+                      : tableWidth * 0.1,
                   child: AutoSizeText(
                     "${client.firstname} ${client.lastname}",
                     style: const TextStyle(fontSize: 15),
@@ -197,7 +203,7 @@ class _ClientsPageState extends State<ClientsPage> {
                 ),
                 SizedBox(
                   width: isSmallScreen(context)
-                      ? tableWidth * 0.5
+                      ? tableWidth * 0.4
                       : tableWidth * 0.3,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -246,10 +252,19 @@ class _ClientsPageState extends State<ClientsPage> {
                     children: [
                       IconButton(
                           onPressed: () {
+                            showClient(context, client);
+                          },
+                          icon: Icon(Icons.open_in_new)),
+                      IconButton(
+                          onPressed: () {
                             openEditClientDialog(context, client);
                           },
                           icon: Icon(Icons.edit)),
-                      IconButton(onPressed: () {}, icon: Icon(Icons.delete)),
+                      IconButton(
+                          onPressed: () {
+                            client.delete();
+                          },
+                          icon: Icon(Icons.delete)),
                     ],
                   ),
                 ),
@@ -281,5 +296,10 @@ class _ClientsPageState extends State<ClientsPage> {
         return EditClientDialog(client);
       },
     );
+  }
+
+  showClient(context, Client client) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => ClientPage()));
   }
 }
