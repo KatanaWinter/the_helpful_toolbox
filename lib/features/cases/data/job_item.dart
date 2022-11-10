@@ -1,8 +1,9 @@
+import 'package:the_helpful_toolbox/features/cases/data/job.dart';
 import 'package:the_helpful_toolbox/features/cases/data/quote.dart';
 
-class Quote_Item {
+class Job_Item {
   int? id;
-  Quote quote;
+  Job job;
   String name;
   String description;
   double quantity;
@@ -12,8 +13,8 @@ class Quote_Item {
   bool optional;
   DateTime? createdAt;
 
-  Quote_Item({
-    required this.quote,
+  Job_Item({
+    required this.job,
     required this.name,
     required this.description,
     required this.quantity,

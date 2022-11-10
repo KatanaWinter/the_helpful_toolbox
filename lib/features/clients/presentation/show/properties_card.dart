@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/features/clients/data/client.dart';
 import 'package:the_helpful_toolbox/features/clients/data/property.dart';
@@ -46,34 +47,42 @@ class PropertiesCard extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-              ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: lProperties.length,
-                  itemBuilder: ((context, index) {
-                    Property property = lProperties[index];
-                    return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IntrinsicHeight(
-                            child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(property.name),
-                            const VerticalDivider(),
-                            Text(
-                                "${property.street} ${property.city}, ${property.state} ${property.postalcode}"),
-                            ButtonBar(
-                              children: [
-                                IconButton(
-                                    onPressed: () {
-                                      openEditPropertyDialog(context, property);
-                                    },
-                                    icon: Icon(Icons.edit))
-                              ],
-                            ),
-                          ],
-                        )));
-                  }))
+              Container(
+                height: 250,
+                child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    // shrinkWrap: true,
+                    itemCount: lProperties.length,
+                    itemBuilder: ((context, index) {
+                      Property property = lProperties[index];
+                      return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              SizedBox(
+                                  width: contentWidth * 0.1,
+                                  child: AutoSizeText(property.name)),
+                              SizedBox(
+                                width: contentWidth * 0.2,
+                                child: AutoSizeText(
+                                    "${property.street} ${property.city}, ${property.state} ${property.postalcode}",
+                                    maxLines: 3),
+                              ),
+                              ButtonBar(
+                                children: [
+                                  IconButton(
+                                      onPressed: () {
+                                        openEditPropertyDialog(
+                                            context, property);
+                                      },
+                                      icon: Icon(Icons.edit))
+                                ],
+                              ),
+                            ],
+                          ));
+                    })),
+              )
             ],
           ),
         ));
