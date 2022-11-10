@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/features/cases/data/case.dart';
 import 'package:the_helpful_toolbox/features/cases/data/case_state.dart';
 import 'package:the_helpful_toolbox/features/cases/data/case_status.dart';
+import 'package:the_helpful_toolbox/features/cases/presentation/dialog/newCaseDialog.dart';
 import 'package:the_helpful_toolbox/features/floatingActionButton/actionbutton.dart';
 import 'package:the_helpful_toolbox/features/navigation/presentation/sidebarnav.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
@@ -124,7 +125,7 @@ class _CasesPageState extends State<CasesPage> {
                                           ),
                                           ElevatedButton(
                                               onPressed: () {
-                                                // openNewClientDialog(context);
+                                                openNewCaseDialog(context);
                                               },
                                               style: ButtonStyle(
                                                   backgroundColor:
@@ -161,5 +162,12 @@ class _CasesPageState extends State<CasesPage> {
     );
   }
 
-  openNewCaseDialog() {}
+  openNewCaseDialog(context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return NewCaseDialog();
+      },
+    );
+  }
 }
