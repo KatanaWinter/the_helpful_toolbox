@@ -13,6 +13,9 @@ class CasesCard extends StatefulWidget {
 }
 
 class _CasesCardState extends State<CasesCard> {
+  TextEditingController searchController = TextEditingController();
+
+  String _searchResult = '';
   List<Case> lCases = List<Case>.empty(growable: true);
   List<Case> lFilteredCases = List<Case>.empty(growable: true);
   bool allActions = true,
@@ -30,17 +33,14 @@ class _CasesCardState extends State<CasesCard> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController searchController = TextEditingController();
-
-    String _searchResult;
     double contentWidth = getContentWidth(context);
     double tableWidth =
-        isSmallScreen(context) ? contentWidth - 16 : (contentWidth * 0.45) - 16;
+        isSmallScreen(context) ? contentWidth - 16 : (contentWidth * 0.9) - 16;
     return Card(
         elevation: 10,
         color: ThemeData.dark().cardColor,
         child: SizedBox(
-          width: isSmallScreen(context) ? contentWidth : contentWidth * 0.45,
+          width: isSmallScreen(context) ? contentWidth : contentWidth * 0.9,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -82,13 +82,25 @@ class _CasesCardState extends State<CasesCard> {
                         ),
                         onChanged: (val) {
                           _searchResult = val;
-                          // setState(() {
-                          //   String _searchVal = val.toLowerCase();
-                          //   lFilteredCases = lCases
-                          //       .where((e) =>
-                          //           e.name.toLowerCase().contains(_searchVal))
-                          //       .toList();
-                          // });
+                          setState(() {
+                            String _searchVal = val.toLowerCase();
+                            lFilteredCases = lCases
+                                .where((e) =>
+                                    e.name.toLowerCase().contains(_searchVal) ||
+                                    e.state.name
+                                        .toLowerCase()
+                                        .contains(_searchVal) ||
+                                    e.property.street
+                                        .toLowerCase()
+                                        .contains(_searchVal) ||
+                                    e.property.city
+                                        .toLowerCase()
+                                        .contains(_searchVal) ||
+                                    e.property.postalcode
+                                        .toLowerCase()
+                                        .contains(_searchVal))
+                                .toList();
+                          });
                         },
                       ),
                     ),
@@ -103,6 +115,7 @@ class _CasesCardState extends State<CasesCard> {
                     ElevatedButton(
                         onPressed: () {
                           setState(() {
+                            lFilteredCases = lCases;
                             allActions = true;
                             activeJobs = false;
                             requests = false;
@@ -120,6 +133,12 @@ class _CasesCardState extends State<CasesCard> {
                     ElevatedButton(
                         onPressed: () {
                           setState(() {
+                            lFilteredCases = lCases
+                                .where((e) =>
+                                    e.state.name.toLowerCase() == "jobs" &&
+                                    e.status.name.toLowerCase() == "new")
+                                .toList();
+
                             allActions = false;
                             activeJobs = true;
                             requests = false;
@@ -137,6 +156,10 @@ class _CasesCardState extends State<CasesCard> {
                     ElevatedButton(
                         onPressed: () {
                           setState(() {
+                            lFilteredCases = lCases
+                                .where((e) =>
+                                    e.state.name.toLowerCase() == "request")
+                                .toList();
                             allActions = false;
                             activeJobs = false;
                             requests = true;
@@ -154,6 +177,11 @@ class _CasesCardState extends State<CasesCard> {
                     ElevatedButton(
                         onPressed: () {
                           setState(() {
+                            lFilteredCases = lCases
+                                .where((e) => e.state.name
+                                    .toLowerCase()
+                                    .contains("quote"))
+                                .toList();
                             allActions = false;
                             activeJobs = false;
                             requests = false;
@@ -171,6 +199,10 @@ class _CasesCardState extends State<CasesCard> {
                     ElevatedButton(
                         onPressed: () {
                           setState(() {
+                            lFilteredCases = lCases
+                                .where(
+                                    (e) => e.state.name.toLowerCase() == "job")
+                                .toList();
                             allActions = false;
                             activeJobs = false;
                             requests = false;
@@ -188,6 +220,10 @@ class _CasesCardState extends State<CasesCard> {
                     ElevatedButton(
                         onPressed: () {
                           setState(() {
+                            lFilteredCases = lCases
+                                .where((e) =>
+                                    e.state.name.toLowerCase() == "invoice")
+                                .toList();
                             allActions = false;
                             activeJobs = false;
                             requests = false;
@@ -214,20 +250,20 @@ class _CasesCardState extends State<CasesCard> {
                           children: [
                             SizedBox(
                               width: tableWidth * 0.2,
-                              child: Text("Type"),
+                              child: AutoSizeText("Type"),
                             ),
                             SizedBox(
                               width: tableWidth * 0.3,
-                              child: Text("Job Name"),
+                              child: AutoSizeText("Job Name"),
                             ),
                             SizedBox(
                               width: tableWidth * 0.3,
-                              child: Text("Address"),
+                              child: AutoSizeText("Address"),
                             ),
-                            SizedBox(
-                              width: tableWidth * 0.1,
-                              child: Text("Price"),
-                            ),
+                            // SizedBox(
+                            //   width: tableWidth * 0.1,
+                            //   child: AutoSizeText("Price"),
+                            // ),
                           ],
                         ),
                         SizedBox(

@@ -46,6 +46,8 @@ getMainNavigationItems() {
 }
 
 openNewScreen(NavigationItem item, BuildContext context) {
-  Navigator.of(context)
-      .push(MaterialPageRoute(builder: (context) => item.Screen));
+  Navigator.of(context).pushAndRemoveUntil(
+    MaterialPageRoute(builder: (context) => item.Screen),
+    (route) => false,
+  );
 }

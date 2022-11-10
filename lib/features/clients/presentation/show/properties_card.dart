@@ -18,7 +18,7 @@ class PropertiesCard extends StatelessWidget {
         elevation: 10,
         color: ThemeData.dark().cardColor,
         child: SizedBox(
-          width: isSmallScreen(context) ? contentWidth : contentWidth * 0.45,
+          width: isSmallScreen(context) ? contentWidth : contentWidth * 0.6,
           child: Column(
             children: [
               SizedBox(

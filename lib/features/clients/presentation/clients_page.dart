@@ -206,7 +206,7 @@ class _ClientsPageState extends State<ClientsPage> {
                 SizedBox(
                   width: isSmallScreen(context)
                       ? tableWidth * 0.4
-                      : tableWidth * 0.3,
+                      : tableWidth * 0.25,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -248,7 +248,6 @@ class _ClientsPageState extends State<ClientsPage> {
                         ),
                       )
                     : Container(),
-                Spacer(),
                 Expanded(
                   child: ButtonBar(
                     children: [

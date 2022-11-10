@@ -22,7 +22,9 @@ class IconSidebar extends StatelessWidget {
                   child: IconButton(
                     icon: lNavItems[index].icon,
                     // onTap: openNewScreen(lNavItems[index], context),
-                    onPressed: () {},
+                    onPressed: () {
+                      openNewScreen(lNavItems[index], context);
+                    },
                   ),
                 );
               }),
