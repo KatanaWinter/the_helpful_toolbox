@@ -5,6 +5,7 @@ import 'package:the_helpful_toolbox/features/clients/data/property.dart';
 import 'package:the_helpful_toolbox/features/clients/presentation/dialog/editClientDialog.dart';
 import 'package:the_helpful_toolbox/features/clients/presentation/dialog/newClientDialog.dart';
 import 'package:the_helpful_toolbox/features/clients/presentation/show/client_page.dart';
+import 'package:the_helpful_toolbox/features/floatingActionButton/actionbutton.dart';
 import 'package:the_helpful_toolbox/features/navigation/presentation/sidebarnav.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
@@ -37,6 +38,7 @@ class _ClientsPageState extends State<ClientsPage> {
         centerTitle: true,
         title: const Text('Clients'),
       ),
+      floatingActionButton: ActionButton(),
       body: SafeArea(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
