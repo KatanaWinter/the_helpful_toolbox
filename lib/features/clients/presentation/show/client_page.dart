@@ -66,7 +66,7 @@ class _ClientPageState extends State<ClientPage> {
                                 onPressed: () {
                                   debugPrint("ToDo: implement set active");
                                 },
-                                child: _client.active
+                                child: _client.active >= 1
                                     ? const Padding(
                                         padding: EdgeInsets.all(8.0),
                                         child: Text("Set Inactive"),
@@ -75,11 +75,11 @@ class _ClientPageState extends State<ClientPage> {
                                         padding: EdgeInsets.all(8.0),
                                         child: Text("Set Active"),
                                       )),
-                            SizedBox(
+                            const SizedBox(
                               width: 2,
                             ),
                             IconButton(
-                                onPressed: () {}, icon: Icon(Icons.edit)),
+                                onPressed: () {}, icon: const Icon(Icons.edit)),
                           ]),
                         ],
                       ),
@@ -88,18 +88,19 @@ class _ClientPageState extends State<ClientPage> {
                         children: [
                           Container(
                             decoration: BoxDecoration(
-                                color:
-                                    _client.active ? Colors.green : Colors.red,
+                                color: _client.active >= 1
+                                    ? Colors.green
+                                    : Colors.red,
                                 borderRadius: BorderRadius.circular(5)),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child:
-                                  Text(_client.active ? "Active" : "Inactive"),
+                              child: Text(
+                                  _client.active >= 1 ? "Active" : "Inactive"),
                             ),
                           )
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Wrap(
@@ -142,12 +143,12 @@ class _ClientPageState extends State<ClientPage> {
                 Container(
                     width: tableWidth * 0.05,
                     height: 20,
-                    color: client.active ? Colors.green : Colors.red),
+                    color: (client.active >= 1) ? Colors.green : Colors.red),
                 const SizedBox(
                   width: 5,
                 ),
                 isSmallScreen(context)
-                    ? SizedBox()
+                    ? const SizedBox()
                     : SizedBox(
                         width: tableWidth * 0.1,
                         child: Text(client.id.toString())),
@@ -212,26 +213,27 @@ class _ClientPageState extends State<ClientPage> {
                         ),
                       )
                     : Container(),
-                Spacer(),
+                const Spacer(),
                 Expanded(
                   child: ButtonBar(
                     children: [
                       IconButton(
-                          onPressed: () {}, icon: Icon(Icons.open_in_new)),
+                          onPressed: () {},
+                          icon: const Icon(Icons.open_in_new)),
                       IconButton(
                           onPressed: () {
                             openEditClientDialog(context, client);
                           },
-                          icon: Icon(Icons.edit)),
+                          icon: const Icon(Icons.edit)),
                       IconButton(
                           onPressed: () {
                             client.delete();
                           },
-                          icon: Icon(Icons.delete)),
+                          icon: const Icon(Icons.delete)),
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 )
               ],
@@ -247,7 +249,7 @@ class _ClientPageState extends State<ClientPage> {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return NewClientDialog();
+        return const NewClientDialog();
       },
     );
   }

@@ -47,7 +47,7 @@ class ClientElement {
   String phonenumber;
   String email;
   int rating;
-  bool active;
+  int active;
   dynamic createdAt;
   dynamic updatedAt;
 

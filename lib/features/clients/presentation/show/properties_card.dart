@@ -21,30 +21,30 @@ class PropertiesCard extends StatelessWidget {
           width: isSmallScreen(context) ? contentWidth : contentWidth * 0.6,
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Spacer(),
-                  Text(
+                  const Spacer(),
+                  const Text(
                     'Properties',
                     style: TextStyle(fontSize: 20),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   ElevatedButton(
                     onPressed: () {
                       openAddPropertyDialog(context, client);
                     },
-                    child: Icon(Icons.add),
+                    child: const Icon(Icons.add),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Container(
@@ -76,7 +76,7 @@ class PropertiesCard extends StatelessWidget {
                                         openEditPropertyDialog(
                                             context, property);
                                       },
-                                      icon: Icon(Icons.edit))
+                                      icon: const Icon(Icons.edit))
                                 ],
                               ),
                             ],

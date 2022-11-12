@@ -22,17 +22,22 @@ class _ClientsPageState extends State<ClientsPage> {
   late List<ClientElement> lClients = [];
   late List<ClientElement> lFilteredClients = [];
   String _searchResult = '';
+  late Future dataLoaded;
 
   @override
   void initState() {
     super.initState();
-    _getData();
+    // _getData();
+    dataLoaded = _getData();
     lFilteredClients = lClients;
   }
 
-  void _getData() async {
-    lClients = (await ApiService().getClients())!;
-    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
+  Future<List<ClientElement>> _getData() async {
+    lClients = (await ApiService().getClients());
+    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {
+          lFilteredClients = lClients;
+        }));
+    return lClients;
   }
 
   @override
@@ -145,7 +150,8 @@ class _ClientsPageState extends State<ClientsPage> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Column(
                                         children: [
-                                          buildList(context, lFilteredClients)
+                                          buildAsyncList(context)
+                                          // buildList(context, lFilteredClients)
                                         ],
                                       ),
                                     )
@@ -163,12 +169,24 @@ class _ClientsPageState extends State<ClientsPage> {
     );
   }
 
+  buildAsyncList(context) {
+    return FutureBuilder(
+        future: dataLoaded,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return buildList(context, lFilteredClients);
+          } else {
+            return CircularProgressIndicator();
+          }
+        });
+  }
+
   buildList(context, List<ClientElement> lFiltered) {
     double tableWidth = getScreenWidth(context);
     isSmallScreen(context)
         ? tableWidth = tableWidth - 100
         : tableWidth = tableWidth - 250;
-    return lClients.isEmpty
+    return lClients.length <= 0
         ? const Center(
             child: CircularProgressIndicator(),
           )
@@ -185,7 +203,8 @@ class _ClientsPageState extends State<ClientsPage> {
                       Container(
                           width: tableWidth * 0.05,
                           height: 20,
-                          color: client.active ? Colors.green : Colors.red),
+                          color:
+                              client.active >= 1 ? Colors.green : Colors.red),
                       const SizedBox(
                         width: 5,
                       ),

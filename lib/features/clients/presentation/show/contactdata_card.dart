@@ -22,12 +22,12 @@ class ContactDataCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Text(
                       'Contact Data',
                       style: TextStyle(fontSize: 20),
@@ -37,7 +37,7 @@ class ContactDataCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
@@ -46,7 +46,7 @@ class ContactDataCard extends StatelessWidget {
                       width: 100,
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                          children: const [
                             Text("Customer:"),
                             SizedBox(
                               height: 10,
@@ -71,22 +71,22 @@ class ContactDataCard extends StatelessWidget {
                       children: [
                         SelectableText(
                             "${client.firstname} ${client.lastname}"),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
-                        SelectableText(""),
-                        SizedBox(
+                        const SelectableText(""),
+                        const SizedBox(
                           height: 10,
                         ),
-                        SelectableText("${client.phonenumber}"),
-                        SizedBox(
+                        SelectableText(client.phonenumber),
+                        const SizedBox(
                           height: 10,
                         ),
-                        SelectableText("${client.mobilenumber}"),
-                        SizedBox(
+                        SelectableText(client.mobilenumber),
+                        const SizedBox(
                           height: 10,
                         ),
-                        SelectableText("${client.email}"),
+                        SelectableText(client.email),
                       ],
                     )
                   ],

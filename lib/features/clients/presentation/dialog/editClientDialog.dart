@@ -22,7 +22,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
       phonenumber: "",
       email: "kcgwinter@t-online.de",
       rating: 5,
-      active: true,
+      active: 1,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now());
   Property billingAddress = Property();

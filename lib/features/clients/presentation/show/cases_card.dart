@@ -124,11 +124,11 @@ class _CasesCardState extends State<CasesCard> {
                             invoices = false;
                           });
                         },
-                        child: AutoSizeText("All Cases"),
+                        child: const AutoSizeText("All Cases"),
                         style: ButtonStyle(
                             backgroundColor: allActions
                                 ? MaterialStateProperty.all(
-                                    Color.fromARGB(255, 50, 73, 0))
+                                    const Color.fromARGB(255, 50, 73, 0))
                                 : MaterialStateProperty.all(Colors.blue))),
                     ElevatedButton(
                         onPressed: () {
@@ -147,11 +147,11 @@ class _CasesCardState extends State<CasesCard> {
                             invoices = false;
                           });
                         },
-                        child: Text("Active Jobs"),
+                        child: const Text("Active Jobs"),
                         style: ButtonStyle(
                             backgroundColor: activeJobs
                                 ? MaterialStateProperty.all(
-                                    Color.fromARGB(255, 50, 73, 0))
+                                    const Color.fromARGB(255, 50, 73, 0))
                                 : MaterialStateProperty.all(Colors.blue))),
                     ElevatedButton(
                         onPressed: () {
@@ -168,11 +168,11 @@ class _CasesCardState extends State<CasesCard> {
                             invoices = false;
                           });
                         },
-                        child: Text("Requests"),
+                        child: const Text("Requests"),
                         style: ButtonStyle(
                             backgroundColor: requests
                                 ? MaterialStateProperty.all(
-                                    Color.fromARGB(255, 50, 73, 0))
+                                    const Color.fromARGB(255, 50, 73, 0))
                                 : MaterialStateProperty.all(Colors.blue))),
                     ElevatedButton(
                         onPressed: () {
@@ -190,11 +190,11 @@ class _CasesCardState extends State<CasesCard> {
                             invoices = false;
                           });
                         },
-                        child: Text("Quotes"),
+                        child: const Text("Quotes"),
                         style: ButtonStyle(
                             backgroundColor: quotes
                                 ? MaterialStateProperty.all(
-                                    Color.fromARGB(255, 50, 73, 0))
+                                    const Color.fromARGB(255, 50, 73, 0))
                                 : MaterialStateProperty.all(Colors.blue))),
                     ElevatedButton(
                         onPressed: () {
@@ -211,11 +211,11 @@ class _CasesCardState extends State<CasesCard> {
                             invoices = false;
                           });
                         },
-                        child: Text("Jobs"),
+                        child: const Text("Jobs"),
                         style: ButtonStyle(
                             backgroundColor: jobs
                                 ? MaterialStateProperty.all(
-                                    Color.fromARGB(255, 50, 73, 0))
+                                    const Color.fromARGB(255, 50, 73, 0))
                                 : MaterialStateProperty.all(Colors.blue))),
                     ElevatedButton(
                         onPressed: () {
@@ -232,11 +232,11 @@ class _CasesCardState extends State<CasesCard> {
                             invoices = true;
                           });
                         },
-                        child: Text("Invoices"),
+                        child: const Text("Invoices"),
                         style: ButtonStyle(
                             backgroundColor: invoices
                                 ? MaterialStateProperty.all(
-                                    Color.fromARGB(255, 50, 73, 0))
+                                    const Color.fromARGB(255, 50, 73, 0))
                                 : MaterialStateProperty.all(Colors.blue))),
                   ],
                 ),
@@ -250,15 +250,15 @@ class _CasesCardState extends State<CasesCard> {
                           children: [
                             SizedBox(
                               width: tableWidth * 0.2,
-                              child: AutoSizeText("Type"),
+                              child: const AutoSizeText("Type"),
                             ),
                             SizedBox(
                               width: tableWidth * 0.3,
-                              child: AutoSizeText("Job Name"),
+                              child: const AutoSizeText("Job Name"),
                             ),
                             SizedBox(
                               width: tableWidth * 0.3,
-                              child: AutoSizeText("Address"),
+                              child: const AutoSizeText("Address"),
                             ),
                             // SizedBox(
                             //   width: tableWidth * 0.1,
@@ -266,7 +266,7 @@ class _CasesCardState extends State<CasesCard> {
                             // ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         buildList(tableWidth, lFilteredCases)
