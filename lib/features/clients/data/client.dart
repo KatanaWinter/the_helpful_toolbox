@@ -1,39 +1,94 @@
 import 'package:flutter/foundation.dart';
 import 'package:the_helpful_toolbox/features/clients/data/property.dart';
 
+import 'dart:convert';
+
+Client clientFromJson(String str) => Client.fromJson(json.decode(str));
+
+String clientToJson(Client data) => json.encode(data.toJson());
+
 class Client {
+  Client({
+    required this.clients,
+  });
+
+  List<ClientElement> clients;
+
+  factory Client.fromJson(Map<String, dynamic> json) => Client(
+        clients: List<ClientElement>.from(
+            json["clients"].map((x) => ClientElement.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "clients": List<dynamic>.from(clients.map((x) => x.toJson())),
+      };
+}
+
+class ClientElement {
+  ClientElement({
+    required this.id,
+    required this.title,
+    required this.firstname,
+    required this.lastname,
+    required this.mobilenumber,
+    required this.phonenumber,
+    required this.email,
+    required this.rating,
+    required this.active,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
   int id;
-  String title;
+  dynamic title;
   String firstname;
   String lastname;
-  String phonenumber;
   String mobilenumber;
-  bool active;
+  String phonenumber;
   String email;
   int rating;
-  Property? billingAddress;
+  bool active;
+  dynamic createdAt;
+  dynamic updatedAt;
 
-  Client(
-      {this.id = 1,
-      this.title = "",
-      required this.firstname,
-      required this.lastname,
-      this.mobilenumber = "",
-      this.phonenumber = "",
-      this.email = "",
-      this.rating = 5,
-      this.active = true});
+  factory ClientElement.fromJson(Map<String, dynamic> json) => ClientElement(
+        id: json["id"],
+        title: json["title"],
+        firstname: json["firstname"],
+        lastname: json["lastname"],
+        mobilenumber: json["mobilenumber"],
+        phonenumber: json["phonenumber"],
+        email: json["email"],
+        rating: json["rating"],
+        active: json["active"],
+        createdAt: json["created_at"],
+        updatedAt: json["updated_at"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "firstname": firstname,
+        "lastname": lastname,
+        "mobilenumber": mobilenumber,
+        "phonenumber": phonenumber,
+        "email": email,
+        "rating": rating,
+        "active": active,
+        "created_at": createdAt,
+        "updated_at": updatedAt,
+      };
 
   saveClient() {
-    debugPrint("save new Client: ${this.firstname} ${this.lastname}");
+    debugPrint("save new Client: $firstname $lastname");
   }
 
   edit() {
-    debugPrint("edit new Client: ${this.firstname} ${this.lastname}");
+    debugPrint("edit new Client: $firstname $lastname");
   }
 
   delete() {
-    debugPrint("delete new Client: ${this.firstname} ${this.lastname}");
+    debugPrint("delete new Client: $firstname $lastname");
   }
 
   getBillingAddress(Client client) {
@@ -47,25 +102,4 @@ class Client {
 
     return prop;
   }
-}
-
-getSingleClient(int clientId) {
-  debugPrint("ToDo: create connection to database");
-  return Client(id: clientId, firstname: "Kevin", lastname: "Winter");
-}
-
-getAllClients() {
-  return [
-    Client(
-        firstname: "Kevin", lastname: "Winter", email: "kcgwinter@gmail.com"),
-    Client(
-        firstname: "Vanessa",
-        lastname: "Winter",
-        email: "vou.winter@gmail.com"),
-    Client(
-        firstname: "Eugenio", lastname: "Oujo Millan", email: "emillan@gmx.de"),
-    Client(firstname: "Heike", lastname: "Oujo Millan"),
-    Client(firstname: "Pascal", lastname: "Oujo Millan"),
-    Client(firstname: "Justine", lastname: "Müller"),
-  ];
 }

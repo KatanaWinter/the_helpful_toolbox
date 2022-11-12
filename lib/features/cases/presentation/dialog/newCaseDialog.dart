@@ -21,12 +21,12 @@ class _NewCaseDialogState extends State<NewCaseDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Center(child: Text('New Case')),
+      title: const Center(child: Text('New Case')),
       content: SingleChildScrollView(
         child: SizedBox(
             child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             ElevatedButton(
@@ -34,11 +34,11 @@ class _NewCaseDialogState extends State<NewCaseDialog> {
                 style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all(Colors.green[800])),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Text("Request"),
                 )),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             ElevatedButton(
@@ -46,11 +46,11 @@ class _NewCaseDialogState extends State<NewCaseDialog> {
                 style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all(Colors.orange[800])),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Text("Quote"),
                 )),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             ElevatedButton(
@@ -58,11 +58,11 @@ class _NewCaseDialogState extends State<NewCaseDialog> {
                 style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all(Colors.brown[800])),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Text("Job"),
                 )),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             ElevatedButton(
@@ -70,8 +70,8 @@ class _NewCaseDialogState extends State<NewCaseDialog> {
                 style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all(Colors.purple[800])),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Text("Invoice"),
                 )),
           ],
@@ -80,8 +80,8 @@ class _NewCaseDialogState extends State<NewCaseDialog> {
       actionsAlignment: MainAxisAlignment.center,
       actions: <Widget>[
         ElevatedButton(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
               child: Text('Cancel'),
             ),
             onPressed: () {

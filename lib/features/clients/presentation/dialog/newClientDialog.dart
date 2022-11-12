@@ -11,7 +11,7 @@ class NewClientDialog extends StatefulWidget {
 
 class _NewClientDialogState extends State<NewClientDialog> {
   final _formKey = GlobalKey<FormState>();
-  Client _client = new Client(firstname: "", lastname: "");
+  late ClientElement _client;
   @override
   Widget build(BuildContext context) {
     return AlertDialog(

@@ -5,7 +5,7 @@ import 'package:the_helpful_toolbox/features/clients/data/client.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class CasesCard extends StatefulWidget {
-  Client client;
+  ClientElement client;
   CasesCard(this.client, {super.key});
 
   @override

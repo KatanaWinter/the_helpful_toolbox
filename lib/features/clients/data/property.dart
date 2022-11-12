@@ -26,15 +26,15 @@ class Property {
   });
 
   saveClient() {
-    debugPrint("save new Client: ${this.name} street: ${this.street}");
+    debugPrint("save new Client: $name street: $street");
   }
 
   edit() {
-    debugPrint("edit new Client: ${this.name} street: ${this.street}");
+    debugPrint("edit new Client: $name street: $street");
   }
 
   delete() {
-    debugPrint("delete new Client: ${this.name} street: ${this.street}");
+    debugPrint("delete new Client: $name street: $street");
   }
 }
 

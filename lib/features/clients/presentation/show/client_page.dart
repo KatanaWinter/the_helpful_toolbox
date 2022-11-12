@@ -11,7 +11,7 @@ import 'package:the_helpful_toolbox/features/navigation/presentation/sidebarnav.
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class ClientPage extends StatefulWidget {
-  Client client;
+  ClientElement client;
   ClientPage(this.client, {Key? key});
 
   @override
@@ -28,7 +28,7 @@ class _ClientPageState extends State<ClientPage> {
 
   @override
   Widget build(BuildContext context) {
-    Client _client = widget.client;
+    ClientElement _client = widget.client;
     double contentWidth = getContentWidth(context);
     return Scaffold(
       appBar: AppBar(
@@ -124,12 +124,7 @@ class _ClientPageState extends State<ClientPage> {
     );
   }
 
-  getDataItems() {
-    List<Client> lClients = getAllClients();
-    return lClients;
-  }
-
-  buildList(context, List<Client> lFiltered) {
+  buildList(context, List<ClientElement> lFiltered) {
     double tableWidth = getScreenWidth(context);
     isSmallScreen(context)
         ? tableWidth = tableWidth - 100
@@ -139,7 +134,7 @@ class _ClientPageState extends State<ClientPage> {
       shrinkWrap: true,
       itemCount: lFiltered.length,
       itemBuilder: ((context, index) {
-        Client client = lFiltered[index];
+        ClientElement client = lFiltered[index];
         return Column(
           children: [
             Row(
@@ -257,7 +252,7 @@ class _ClientPageState extends State<ClientPage> {
     );
   }
 
-  openEditClientDialog(context, Client client) {
+  openEditClientDialog(context, ClientElement client) {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -266,7 +261,7 @@ class _ClientPageState extends State<ClientPage> {
     );
   }
 
-  getClientProperties(Client client) {
+  getClientProperties(ClientElement client) {
     List<Property> lProperties = [
       Property(
           name: "Main Property",

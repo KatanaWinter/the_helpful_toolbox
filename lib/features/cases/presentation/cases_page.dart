@@ -143,9 +143,7 @@ class _CasesPageState extends State<CasesPage> {
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Column(
-                                        children: [
-                                          // buildList(context, lFilteredClients)
-                                        ],
+                                        children: [buildList(context, lCases)],
                                       ),
                                     )
                                   ],
@@ -167,6 +165,23 @@ class _CasesPageState extends State<CasesPage> {
       context: context,
       builder: (BuildContext context) {
         return NewCaseDialog();
+      },
+    );
+  }
+
+  buildList(BuildContext context, List<Case> lCases) {
+    double tableWidth = getScreenWidth(context);
+    isSmallScreen(context)
+        ? tableWidth = tableWidth - 100
+        : tableWidth = tableWidth - 250;
+    return ListView.builder(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      itemCount: lCases.length,
+      itemBuilder: (context, i) {
+        return Column(
+          children: [Text(lCases[i].name)],
+        );
       },
     );
   }

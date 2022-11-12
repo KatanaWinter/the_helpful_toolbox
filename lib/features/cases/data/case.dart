@@ -69,7 +69,7 @@ getAllCases() {
   ];
 }
 
-getCasesOfClient(Client client) {
+getCasesOfClient(ClientElement client) {
   return [
     Case(
         name: "Our first Case",

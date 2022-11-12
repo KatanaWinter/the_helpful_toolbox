@@ -4,7 +4,7 @@ import 'package:the_helpful_toolbox/features/clients/data/property.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class AddPropertyDialog extends StatefulWidget {
-  Client client;
+  ClientElement client;
   AddPropertyDialog(this.client, {super.key});
 
   @override

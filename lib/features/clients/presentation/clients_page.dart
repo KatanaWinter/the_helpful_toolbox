@@ -7,6 +7,7 @@ import 'package:the_helpful_toolbox/features/clients/presentation/dialog/newClie
 import 'package:the_helpful_toolbox/features/clients/presentation/show/client_page.dart';
 import 'package:the_helpful_toolbox/features/floatingActionButton/actionbutton.dart';
 import 'package:the_helpful_toolbox/features/navigation/presentation/sidebarnav.dart';
+import 'package:the_helpful_toolbox/helper/api_service.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class ClientsPage extends StatefulWidget {
@@ -18,14 +19,20 @@ class ClientsPage extends StatefulWidget {
 
 class _ClientsPageState extends State<ClientsPage> {
   TextEditingController searchController = TextEditingController();
-  List<Client> lClients = getAllClients();
-  late List<Client> lFilteredClients = List<Client>.empty(growable: true);
+  late List<ClientElement> lClients = [];
+  late List<ClientElement> lFilteredClients = [];
   String _searchResult = '';
 
   @override
   void initState() {
-    lFilteredClients = lClients;
     super.initState();
+    _getData();
+    lFilteredClients = lClients;
+  }
+
+  void _getData() async {
+    lClients = (await ApiService().getClients())!;
+    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
   }
 
   @override
@@ -156,131 +163,129 @@ class _ClientsPageState extends State<ClientsPage> {
     );
   }
 
-  getDataItems() {
-    List<Client> lClients = getAllClients();
-    return lClients;
-  }
-
-  buildList(context, List<Client> lFiltered) {
+  buildList(context, List<ClientElement> lFiltered) {
     double tableWidth = getScreenWidth(context);
     isSmallScreen(context)
         ? tableWidth = tableWidth - 100
         : tableWidth = tableWidth - 250;
-    return ListView.builder(
-      scrollDirection: Axis.vertical,
-      shrinkWrap: true,
-      itemCount: lFiltered.length,
-      itemBuilder: ((context, index) {
-        Client client = lFiltered[index];
-        Property billingAddress = client.getBillingAddress(client);
-        return Column(
-          children: [
-            Row(
-              children: [
-                Container(
-                    width: tableWidth * 0.05,
-                    height: 20,
-                    color: client.active ? Colors.green : Colors.red),
-                const SizedBox(
-                  width: 5,
-                ),
-                isSmallScreen(context)
-                    ? SizedBox()
-                    : SizedBox(
-                        width: tableWidth * 0.1,
-                        child: Text(client.id.toString())),
-                const SizedBox(
-                  width: 5,
-                ),
-                SizedBox(
-                  width: isSmallScreen(context)
-                      ? tableWidth * 0.2
-                      : tableWidth * 0.1,
-                  child: AutoSizeText(
-                    "${client.firstname} ${client.lastname}",
-                    style: const TextStyle(fontSize: 15),
-                    maxLines: 2,
-                  ),
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                SizedBox(
-                  width: isSmallScreen(context)
-                      ? tableWidth * 0.4
-                      : tableWidth * 0.25,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+    return lClients.isEmpty
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
+        : ListView.builder(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: lFiltered.length,
+            itemBuilder: ((context, index) {
+              ClientElement client = lFiltered[index];
+              return Column(
+                children: [
+                  Row(
                     children: [
-                      AutoSizeText(
-                        "Email: ${client.email}",
-                        style: const TextStyle(fontSize: 15),
-                        maxLines: 2,
+                      Container(
+                          width: tableWidth * 0.05,
+                          height: 20,
+                          color: client.active ? Colors.green : Colors.red),
+                      const SizedBox(
+                        width: 5,
                       ),
-                      AutoSizeText(
-                        "Mobile: ${client.mobilenumber}",
-                        style: const TextStyle(fontSize: 15),
-                        maxLines: 2,
+                      isSmallScreen(context)
+                          ? SizedBox()
+                          : SizedBox(
+                              width: tableWidth * 0.1,
+                              child: Text(client.id.toString())),
+                      const SizedBox(
+                        width: 5,
                       ),
-                      AutoSizeText(
-                        "Phone: ${client.phonenumber}",
-                        style: const TextStyle(fontSize: 15),
-                        maxLines: 2,
+                      SizedBox(
+                        width: isSmallScreen(context)
+                            ? tableWidth * 0.2
+                            : tableWidth * 0.1,
+                        child: AutoSizeText(
+                          "${client.firstname} ${client.lastname}",
+                          style: const TextStyle(fontSize: 15),
+                          maxLines: 2,
+                        ),
                       ),
-                    ],
-                  ),
-                ),
-                !isSmallScreen(context)
-                    ? SizedBox(
-                        width: tableWidth * 0.2,
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      SizedBox(
+                        width: isSmallScreen(context)
+                            ? tableWidth * 0.4
+                            : tableWidth * 0.25,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             AutoSizeText(
-                              "4752 Garret Street",
+                              "Email: ${client.email}",
                               style: const TextStyle(fontSize: 15),
                               maxLines: 2,
                             ),
                             AutoSizeText(
-                              "Sunnydale, NH 04985",
+                              "Mobile: ${client.mobilenumber}",
+                              style: const TextStyle(fontSize: 15),
+                              maxLines: 2,
+                            ),
+                            AutoSizeText(
+                              "Phone: ${client.phonenumber}",
                               style: const TextStyle(fontSize: 15),
                               maxLines: 2,
                             ),
                           ],
                         ),
+                      ),
+                      !isSmallScreen(context)
+                          ? SizedBox(
+                              width: tableWidth * 0.2,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: const [
+                                  AutoSizeText(
+                                    "4752 Garret Street",
+                                    style: const TextStyle(fontSize: 15),
+                                    maxLines: 2,
+                                  ),
+                                  AutoSizeText(
+                                    "Sunnydale, NH 04985",
+                                    style: const TextStyle(fontSize: 15),
+                                    maxLines: 2,
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Container(),
+                      Expanded(
+                        child: ButtonBar(
+                          children: [
+                            IconButton(
+                                onPressed: () {
+                                  showClient(context, client);
+                                },
+                                icon: Icon(Icons.open_in_new)),
+                            IconButton(
+                                onPressed: () {
+                                  openEditClientDialog(context, client);
+                                },
+                                icon: Icon(Icons.edit)),
+                            IconButton(
+                                onPressed: () {
+                                  client.delete();
+                                },
+                                icon: Icon(Icons.delete)),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5,
                       )
-                    : Container(),
-                Expanded(
-                  child: ButtonBar(
-                    children: [
-                      IconButton(
-                          onPressed: () {
-                            showClient(context, client);
-                          },
-                          icon: Icon(Icons.open_in_new)),
-                      IconButton(
-                          onPressed: () {
-                            openEditClientDialog(context, client);
-                          },
-                          icon: Icon(Icons.edit)),
-                      IconButton(
-                          onPressed: () {
-                            client.delete();
-                          },
-                          icon: Icon(Icons.delete)),
                     ],
                   ),
-                ),
-                SizedBox(
-                  width: 5,
-                )
-              ],
-            ),
-            const Divider(),
-          ],
-        );
-      }),
-    );
+                  const Divider(),
+                ],
+              );
+            }),
+          );
   }
 
   openNewClientDialog(context) {
@@ -292,7 +297,7 @@ class _ClientsPageState extends State<ClientsPage> {
     );
   }
 
-  openEditClientDialog(context, Client client) {
+  openEditClientDialog(context, ClientElement client) {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -301,7 +306,7 @@ class _ClientsPageState extends State<ClientsPage> {
     );
   }
 
-  showClient(context, Client client) {
+  showClient(context, ClientElement client) {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => ClientPage(client)));
   }

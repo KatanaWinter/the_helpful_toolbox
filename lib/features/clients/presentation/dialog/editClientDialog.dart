@@ -4,7 +4,7 @@ import 'package:the_helpful_toolbox/features/clients/data/property.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class EditClientDialog extends StatefulWidget {
-  Client client;
+  ClientElement client;
   EditClientDialog(this.client, {super.key});
 
   @override
@@ -13,14 +13,25 @@ class EditClientDialog extends StatefulWidget {
 
 class _EditClientDialogState extends State<EditClientDialog> {
   final _formKey = GlobalKey<FormState>();
-  Client _client = getSingleClient(1);
+  ClientElement _client = ClientElement(
+      id: 1,
+      title: "",
+      firstname: "Kevin Winter",
+      lastname: "Winter",
+      mobilenumber: "",
+      phonenumber: "",
+      email: "kcgwinter@t-online.de",
+      rating: 5,
+      active: true,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now());
   Property billingAddress = Property();
 
   @override
   void initState() {
     // TODO: implement initState
 
-    billingAddress = _client.getBillingAddress(_client);
+    // billingAddress = _client.getBillingAddress(_client);
     super.initState();
   }
 

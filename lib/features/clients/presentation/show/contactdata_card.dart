@@ -6,7 +6,7 @@ import 'package:the_helpful_toolbox/features/clients/presentation/dialog/editPro
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class ContactDataCard extends StatelessWidget {
-  Client client;
+  ClientElement client;
   ContactDataCard(this.client, {super.key});
 
   @override
