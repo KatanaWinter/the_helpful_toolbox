@@ -109,15 +109,15 @@ class _ClientsPageState extends State<ClientsPage> {
                                                               .toLowerCase()
                                                               .contains(
                                                                   _searchVal) ||
-                                                          e.email
+                                                          e.email!
                                                               .toLowerCase()
                                                               .contains(
                                                                   _searchVal) ||
-                                                          e.phonenumber
+                                                          e.phonenumber!
                                                               .toLowerCase()
                                                               .contains(
                                                                   _searchVal) ||
-                                                          e.mobilenumber
+                                                          e.mobilenumber!
                                                               .toLowerCase()
                                                               .contains(
                                                                   _searchVal))

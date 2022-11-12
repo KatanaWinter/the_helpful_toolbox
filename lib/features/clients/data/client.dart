@@ -26,16 +26,14 @@ class Client {
   });
 
   int id;
-  dynamic title;
+  String? title;
   String firstname;
   String lastname;
-  String mobilenumber;
-  String phonenumber;
-  String email;
+  String? mobilenumber;
+  String? phonenumber;
+  String? email;
   int rating;
   int active;
-  dynamic createdAt;
-  dynamic updatedAt;
   List<Property> properties;
 
   factory Client.fromJson(Map<String, dynamic> json) => Client(
@@ -43,9 +41,9 @@ class Client {
         title: json["title"],
         firstname: json["firstname"],
         lastname: json["lastname"],
-        mobilenumber: json["mobilenumber"],
-        phonenumber: json["phonenumber"],
-        email: json["email"],
+        mobilenumber: json["mobilenumber"] != null ? json["mobilenumber"] : "",
+        phonenumber: json["phonenumber"] != null ? json["phonenumber"] : "",
+        email: json["email"] != null ? json["email"] : "",
         rating: json["rating"],
         active: json["active"],
         properties: List<Property>.from(
@@ -53,18 +51,19 @@ class Client {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "title": title,
+        "id": id.toString(),
+        "title": title.toString(),
         "firstname": firstname,
         "lastname": lastname,
         "mobilenumber": mobilenumber,
         "phonenumber": phonenumber,
         "email": email,
-        "rating": rating,
-        "active": active,
-        "created_at": createdAt,
-        "updated_at": updatedAt,
-        "properties": List<dynamic>.from(properties.map((x) => x.toJson())),
+        "rating": rating.toString(),
+        "active": active.toString(),
+        "created_at": DateTime.now().toString(),
+        "updated_at": DateTime.now().toString(),
+        "properties":
+            List<dynamic>.from(properties.map((x) => x.toJson())).toString(),
       };
 
   Future<http.Response?> saveClient(Client client) async {
@@ -81,7 +80,7 @@ class Client {
       if (response.statusCode == 200) {
         debugPrint("Save success");
       } else {
-        debugPrint("Error in save :${response.body}");
+        debugPrint(response.body);
       }
 
       return response;

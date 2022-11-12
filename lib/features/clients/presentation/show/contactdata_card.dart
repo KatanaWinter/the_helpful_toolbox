@@ -75,15 +75,15 @@ class ContactDataCard extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        SelectableText(client.phonenumber),
+                        SelectableText(client.phonenumber!),
                         const SizedBox(
                           height: 10,
                         ),
-                        SelectableText(client.mobilenumber),
+                        SelectableText(client.mobilenumber!),
                         const SizedBox(
                           height: 10,
                         ),
-                        SelectableText(client.email),
+                        SelectableText(client.email!),
                       ],
                     )
                   ],
