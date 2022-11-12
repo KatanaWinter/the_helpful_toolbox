@@ -7,7 +7,7 @@ import 'package:the_helpful_toolbox/features/clients/presentation/dialog/editPro
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class PropertiesCard extends StatelessWidget {
-  ClientElement client;
+  Client client;
   List<Property> lProperties;
   PropertiesCard(this.client, this.lProperties, {super.key});
 
@@ -47,7 +47,7 @@ class PropertiesCard extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              Container(
+              SizedBox(
                 height: 250,
                 child: ListView.builder(
                     scrollDirection: Axis.vertical,
@@ -88,7 +88,7 @@ class PropertiesCard extends StatelessWidget {
         ));
   }
 
-  openAddPropertyDialog(context, ClientElement client) {
+  openAddPropertyDialog(context, Client client) {
     return showDialog(
       context: context,
       builder: (BuildContext context) {

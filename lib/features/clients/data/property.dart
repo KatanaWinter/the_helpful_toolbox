@@ -1,29 +1,57 @@
 import 'package:flutter/foundation.dart';
-import 'package:the_helpful_toolbox/features/clients/data/client.dart';
 
 class Property {
+  Property({
+    this.id = 1,
+    required this.clientId,
+    required this.name,
+    required this.street,
+    this.street2 = "",
+    required this.city,
+    required this.state,
+    required this.postalcode,
+    required this.country,
+    this.active = 1,
+  });
+
   int id;
+  int clientId;
   String name;
-  Client? client;
   String street;
   String street2;
   String city;
   String state;
   String postalcode;
   String country;
-  bool active;
+  int active;
+  dynamic createdAt;
+  dynamic updatedAt;
 
-  Property({
-    this.id = 1,
-    this.name = "",
-    this.street = "",
-    this.street2 = "",
-    this.city = "",
-    this.state = "",
-    this.postalcode = "",
-    this.country = "",
-    this.active = true,
-  });
+  factory Property.fromJson(Map<String, dynamic> json) => Property(
+        id: json["id"],
+        clientId: json["client_id"],
+        name: json["name"],
+        street: json["street"],
+        street2: json["street2"],
+        city: json["city"],
+        state: json["state"],
+        postalcode: json["postalcode"],
+        country: json["country"],
+        active: json["active"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "client_id": clientId,
+        "name": name,
+        "street": street,
+        "street2": street2,
+        "city": city,
+        "state": state,
+        "postalcode": postalcode,
+        "country": country,
+        "active": active,
+      };
 
   saveClient() {
     debugPrint("save new Client: $name street: $street");
@@ -45,7 +73,9 @@ getSingleProperty(int clientId) {
       street: "Meta-Grube-Weg 29",
       city: "Cuxhaven",
       postalcode: "27474",
-      state: "NI");
+      state: "NI",
+      clientId: 1,
+      country: 'Test');
 }
 
 getAllProperties() {
@@ -55,12 +85,16 @@ getAllProperties() {
         street: "Meta-Grube-Weg 29",
         city: "Cuxhaven",
         postalcode: "27474",
-        state: "NI"),
+        state: "NI",
+        clientId: 1,
+        country: 'Test'),
     Property(
         name: "Second Property",
         street: "Meta-Grube-Weg 29",
         city: "Cuxhaven",
         postalcode: "27474",
-        state: "NI"),
+        state: "NI",
+        clientId: 1,
+        country: 'Test'),
   ];
 }

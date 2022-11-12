@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:the_helpful_toolbox/features/clients/data/client.dart';
-import 'package:the_helpful_toolbox/features/clients/data/property.dart';
-import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class NewCaseDialog extends StatefulWidget {
   NewCaseDialog({super.key});
@@ -13,7 +10,7 @@ class NewCaseDialog extends StatefulWidget {
 class _NewCaseDialogState extends State<NewCaseDialog> {
   @override
   void initState() {
-    // TODO: implement initState
+    //
 
     super.initState();
   }

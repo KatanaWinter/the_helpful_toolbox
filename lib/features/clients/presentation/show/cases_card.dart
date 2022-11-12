@@ -5,7 +5,7 @@ import 'package:the_helpful_toolbox/features/clients/data/client.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class CasesCard extends StatefulWidget {
-  ClientElement client;
+  Client client;
   CasesCard(this.client, {super.key});
 
   @override
@@ -83,22 +83,22 @@ class _CasesCardState extends State<CasesCard> {
                         onChanged: (val) {
                           _searchResult = val;
                           setState(() {
-                            String _searchVal = val.toLowerCase();
+                            String searchVal = val.toLowerCase();
                             lFilteredCases = lCases
                                 .where((e) =>
-                                    e.name.toLowerCase().contains(_searchVal) ||
+                                    e.name.toLowerCase().contains(searchVal) ||
                                     e.state.name
                                         .toLowerCase()
-                                        .contains(_searchVal) ||
+                                        .contains(searchVal) ||
                                     e.property.street
                                         .toLowerCase()
-                                        .contains(_searchVal) ||
+                                        .contains(searchVal) ||
                                     e.property.city
                                         .toLowerCase()
-                                        .contains(_searchVal) ||
+                                        .contains(searchVal) ||
                                     e.property.postalcode
                                         .toLowerCase()
-                                        .contains(_searchVal))
+                                        .contains(searchVal))
                                 .toList();
                           });
                         },
@@ -124,12 +124,12 @@ class _CasesCardState extends State<CasesCard> {
                             invoices = false;
                           });
                         },
-                        child: const AutoSizeText("All Cases"),
                         style: ButtonStyle(
                             backgroundColor: allActions
                                 ? MaterialStateProperty.all(
                                     const Color.fromARGB(255, 50, 73, 0))
-                                : MaterialStateProperty.all(Colors.blue))),
+                                : MaterialStateProperty.all(Colors.blue)),
+                        child: const AutoSizeText("All Cases")),
                     ElevatedButton(
                         onPressed: () {
                           setState(() {
@@ -147,12 +147,12 @@ class _CasesCardState extends State<CasesCard> {
                             invoices = false;
                           });
                         },
-                        child: const Text("Active Jobs"),
                         style: ButtonStyle(
                             backgroundColor: activeJobs
                                 ? MaterialStateProperty.all(
                                     const Color.fromARGB(255, 50, 73, 0))
-                                : MaterialStateProperty.all(Colors.blue))),
+                                : MaterialStateProperty.all(Colors.blue)),
+                        child: const Text("Active Jobs")),
                     ElevatedButton(
                         onPressed: () {
                           setState(() {
@@ -168,12 +168,12 @@ class _CasesCardState extends State<CasesCard> {
                             invoices = false;
                           });
                         },
-                        child: const Text("Requests"),
                         style: ButtonStyle(
                             backgroundColor: requests
                                 ? MaterialStateProperty.all(
                                     const Color.fromARGB(255, 50, 73, 0))
-                                : MaterialStateProperty.all(Colors.blue))),
+                                : MaterialStateProperty.all(Colors.blue)),
+                        child: const Text("Requests")),
                     ElevatedButton(
                         onPressed: () {
                           setState(() {
@@ -190,12 +190,12 @@ class _CasesCardState extends State<CasesCard> {
                             invoices = false;
                           });
                         },
-                        child: const Text("Quotes"),
                         style: ButtonStyle(
                             backgroundColor: quotes
                                 ? MaterialStateProperty.all(
                                     const Color.fromARGB(255, 50, 73, 0))
-                                : MaterialStateProperty.all(Colors.blue))),
+                                : MaterialStateProperty.all(Colors.blue)),
+                        child: const Text("Quotes")),
                     ElevatedButton(
                         onPressed: () {
                           setState(() {
@@ -211,12 +211,12 @@ class _CasesCardState extends State<CasesCard> {
                             invoices = false;
                           });
                         },
-                        child: const Text("Jobs"),
                         style: ButtonStyle(
                             backgroundColor: jobs
                                 ? MaterialStateProperty.all(
                                     const Color.fromARGB(255, 50, 73, 0))
-                                : MaterialStateProperty.all(Colors.blue))),
+                                : MaterialStateProperty.all(Colors.blue)),
+                        child: const Text("Jobs")),
                     ElevatedButton(
                         onPressed: () {
                           setState(() {
@@ -232,12 +232,12 @@ class _CasesCardState extends State<CasesCard> {
                             invoices = true;
                           });
                         },
-                        child: const Text("Invoices"),
                         style: ButtonStyle(
                             backgroundColor: invoices
                                 ? MaterialStateProperty.all(
                                     const Color.fromARGB(255, 50, 73, 0))
-                                : MaterialStateProperty.all(Colors.blue))),
+                                : MaterialStateProperty.all(Colors.blue)),
+                        child: const Text("Invoices")),
                   ],
                 ),
                 SizedBox(
@@ -281,7 +281,6 @@ class _CasesCardState extends State<CasesCard> {
   }
 
   buildList(listWidth, List<Case> lFiltered) {
-    double tableWidth = getScreenWidth(context);
     return SizedBox(
       height: 200,
       width: listWidth,

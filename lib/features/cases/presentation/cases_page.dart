@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/features/cases/data/case.dart';
 import 'package:the_helpful_toolbox/features/cases/data/case_state.dart';
-import 'package:the_helpful_toolbox/features/cases/data/case_status.dart';
 import 'package:the_helpful_toolbox/features/cases/presentation/dialog/newCaseDialog.dart';
 import 'package:the_helpful_toolbox/features/floatingActionButton/actionbutton.dart';
 import 'package:the_helpful_toolbox/features/navigation/presentation/sidebarnav.dart';
@@ -18,7 +17,6 @@ class _CasesPageState extends State<CasesPage> {
   TextEditingController searchController = TextEditingController();
   List<Case> lCases = getAllCases();
   late List<Case> lFilteredCases = List<Case>.empty(growable: true);
-  String _searchResult = '';
   List<CaseState> lCaseState = getAllStateFilter();
   CaseState _selectedState = CaseState(name: "All");
 
@@ -31,15 +29,13 @@ class _CasesPageState extends State<CasesPage> {
 
   @override
   Widget build(BuildContext context) {
-    double tableWidth = 0.00;
-
     double screenWidth = getScreenWidth(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Cases'),
       ),
-      floatingActionButton: ActionButton(),
+      floatingActionButton: const ActionButton(),
       body: SafeArea(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,14 +80,13 @@ class _CasesPageState extends State<CasesPage> {
                                                 hintText: 'Search for ...',
                                               ),
                                               onChanged: (val) {
-                                                _searchResult = val;
                                                 setState(() {
-                                                  String _searchVal =
+                                                  String searchVal =
                                                       val.toLowerCase();
                                                   lFilteredCases = lCases
                                                       .where((e) => e.name
                                                           .toLowerCase()
-                                                          .contains(_searchVal))
+                                                          .contains(searchVal))
                                                       .toList();
                                                 });
                                               },

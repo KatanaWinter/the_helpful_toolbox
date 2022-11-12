@@ -1,5 +1,3 @@
-import 'package:the_helpful_toolbox/features/cases/data/case.dart';
-
 class Quote {
   int? id;
   int opportunity;

@@ -25,7 +25,7 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
   Widget build(BuildContext context) {
     Property _property = widget.property;
     return AlertDialog(
-      title: Text('Edit Property'),
+      title: const Text('Edit Property'),
       content: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -44,13 +44,13 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Name'),
                                 initialValue: _property.name,
@@ -59,7 +59,7 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Street'),
                                 initialValue: _property.street,
@@ -68,7 +68,7 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Street 2'),
                                 initialValue: _property.street2,
@@ -77,7 +77,7 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'City'),
                                 initialValue: _property.city,
@@ -86,7 +86,7 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'State'),
                                 initialValue: _property.state,
@@ -113,20 +113,20 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
       actionsAlignment: MainAxisAlignment.center,
       actions: <Widget>[
         ElevatedButton(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
               child: Text('Cancel'),
             ),
             onPressed: () {
               // Hier passiert etwas
               Navigator.of(context).pop();
             }),
-        SizedBox(
+        const SizedBox(
           width: 10,
         ),
         ElevatedButton(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
+          child: const Padding(
+            padding: EdgeInsets.all(8.0),
             child: Text('Save'),
           ),
           onPressed: () {

@@ -2,41 +2,27 @@ import 'package:flutter/foundation.dart';
 import 'package:the_helpful_toolbox/features/clients/data/property.dart';
 
 import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:the_helpful_toolbox/helper/constants.dart';
 
-Client clientFromJson(String str) => Client.fromJson(json.decode(str));
+List<Client> clientFromJson(String str) =>
+    List<Client>.from(json.decode(str).map((x) => Client.fromJson(x)));
 
-String clientToJson(Client data) => json.encode(data.toJson());
+String clientToJson(List<Client> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Client {
   Client({
-    required this.clients,
-  });
-
-  List<ClientElement> clients;
-
-  factory Client.fromJson(Map<String, dynamic> json) => Client(
-        clients: List<ClientElement>.from(
-            json["clients"].map((x) => ClientElement.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "clients": List<dynamic>.from(clients.map((x) => x.toJson())),
-      };
-}
-
-class ClientElement {
-  ClientElement({
-    required this.id,
-    required this.title,
+    this.id = 1,
+    this.title = "",
     required this.firstname,
     required this.lastname,
-    required this.mobilenumber,
-    required this.phonenumber,
+    this.mobilenumber = "",
+    this.phonenumber = "",
     required this.email,
-    required this.rating,
+    this.rating = 5,
     required this.active,
-    required this.createdAt,
-    required this.updatedAt,
+    required this.properties,
   });
 
   int id;
@@ -50,8 +36,9 @@ class ClientElement {
   int active;
   dynamic createdAt;
   dynamic updatedAt;
+  List<Property> properties;
 
-  factory ClientElement.fromJson(Map<String, dynamic> json) => ClientElement(
+  factory Client.fromJson(Map<String, dynamic> json) => Client(
         id: json["id"],
         title: json["title"],
         firstname: json["firstname"],
@@ -61,8 +48,8 @@ class ClientElement {
         email: json["email"],
         rating: json["rating"],
         active: json["active"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
+        properties: List<Property>.from(
+            json["properties"].map((x) => Property.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -77,10 +64,31 @@ class ClientElement {
         "active": active,
         "created_at": createdAt,
         "updated_at": updatedAt,
+        "properties": List<dynamic>.from(properties.map((x) => x.toJson())),
       };
 
-  saveClient() {
-    debugPrint("save new Client: $firstname $lastname");
+  Future<http.Response?> saveClient(Client client) async {
+    try {
+      debugPrint("save new Client: $firstname $lastname");
+
+      var body = client.toJson();
+
+      http.Response response = await http.post(
+        Uri.parse(ApiConstants.baseUrl + ApiConstants.clientsEndpoint),
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint("Save success");
+      } else {
+        debugPrint("Error in save :${response.body}");
+      }
+
+      return response;
+    } catch (e) {
+      debugPrint("Error in save :$e");
+    }
+    return null;
   }
 
   edit() {
@@ -98,7 +106,9 @@ class ClientElement {
         street: "Meta-Grube-Weg 29",
         city: "Cuxhaven",
         postalcode: "27474",
-        state: "NI");
+        state: "NI",
+        clientId: 1,
+        country: "test");
 
     return prop;
   }

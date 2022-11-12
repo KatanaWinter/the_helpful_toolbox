@@ -11,11 +11,22 @@ class NewClientDialog extends StatefulWidget {
 
 class _NewClientDialogState extends State<NewClientDialog> {
   final _formKey = GlobalKey<FormState>();
-  late ClientElement _client;
+  Client _client = Client(
+    id: 1,
+    title: "",
+    firstname: "",
+    lastname: "",
+    mobilenumber: "",
+    phonenumber: "",
+    email: "",
+    rating: 5,
+    active: 1,
+    properties: [],
+  );
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('New Client'),
+      title: const Text('New Client'),
       content: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -34,36 +45,48 @@ class _NewClientDialogState extends State<NewClientDialog> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Client:"),
-                            SizedBox(
+                            const Text("Client:"),
+                            const SizedBox(
                               height: 10,
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'First name'),
                                 onChanged: (val) => setState(() {
                                   _client.firstname = val;
                                 }),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter a value';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Last name'),
                                 onChanged: (val) => setState(() {
                                   _client.lastname = val;
                                 }),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter a value';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Company name'),
                               ),
@@ -71,7 +94,7 @@ class _NewClientDialogState extends State<NewClientDialog> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Phone number'),
                                 onChanged: (val) => setState(() {
@@ -82,7 +105,7 @@ class _NewClientDialogState extends State<NewClientDialog> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Mobile number'),
                               ),
@@ -90,9 +113,15 @@ class _NewClientDialogState extends State<NewClientDialog> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Email'),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter a value';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                           ],
@@ -113,14 +142,14 @@ class _NewClientDialogState extends State<NewClientDialog> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Property:"),
-                            SizedBox(
+                            const Text("Property:"),
+                            const SizedBox(
                               height: 10,
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Name'),
                               ),
@@ -128,7 +157,7 @@ class _NewClientDialogState extends State<NewClientDialog> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Street'),
                               ),
@@ -136,7 +165,7 @@ class _NewClientDialogState extends State<NewClientDialog> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Street 2'),
                               ),
@@ -144,7 +173,7 @@ class _NewClientDialogState extends State<NewClientDialog> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'City'),
                               ),
@@ -152,7 +181,7 @@ class _NewClientDialogState extends State<NewClientDialog> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'State'),
                               ),
@@ -177,24 +206,28 @@ class _NewClientDialogState extends State<NewClientDialog> {
       actionsAlignment: MainAxisAlignment.center,
       actions: <Widget>[
         ElevatedButton(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
               child: Text('Cancel'),
             ),
             onPressed: () {
               // Hier passiert etwas
               Navigator.of(context).pop();
             }),
-        SizedBox(
+        const SizedBox(
           width: 10,
         ),
         ElevatedButton(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
+          child: const Padding(
+            padding: EdgeInsets.all(8.0),
             child: Text('Save'),
           ),
           onPressed: () {
-            saveClientWithProperty(context);
+            if (_formKey.currentState!.validate()) {
+              saveClientWithProperty(context, _client);
+            } else {
+              print('Error');
+            }
             // Hier passiert etwas anderes
           },
         ),
@@ -202,8 +235,9 @@ class _NewClientDialogState extends State<NewClientDialog> {
     );
   }
 
-  saveClientWithProperty(context) {
+  saveClientWithProperty(context, Client _client) async {
     debugPrint("save client to Database");
+    await _client.saveClient(_client);
     Navigator.of(context).pop();
   }
 }

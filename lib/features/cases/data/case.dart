@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:the_helpful_toolbox/features/cases/data/case_state.dart';
 import 'package:the_helpful_toolbox/features/cases/data/case_status.dart';
-import 'package:the_helpful_toolbox/features/cases/data/invoice.dart';
 import 'package:the_helpful_toolbox/features/cases/data/job.dart';
 import 'package:the_helpful_toolbox/features/cases/data/quote.dart';
 import 'package:the_helpful_toolbox/features/cases/data/request.dart';
@@ -16,7 +15,7 @@ class Case {
   Request? request;
   Quote? quote;
   Job? job;
-  Invoice? invoice;
+  // Invoice? invoice;
   CaseState state;
   CaseStatus status;
 
@@ -28,15 +27,15 @@ class Case {
       required this.property});
 
   saveClient() {
-    debugPrint("save new Case: ${this.name} ");
+    debugPrint("save new Case: $name ");
   }
 
   edit() {
-    debugPrint("edit new Case: ${this.name} ");
+    debugPrint("edit new Case: $name ");
   }
 
   delete() {
-    debugPrint("delete new Case: ${this.name}");
+    debugPrint("delete new Case: $name");
   }
 }
 
@@ -69,7 +68,7 @@ getAllCases() {
   ];
 }
 
-getCasesOfClient(ClientElement client) {
+getCasesOfClient(Client client) {
   return [
     Case(
         name: "Our first Case",

@@ -19,8 +19,8 @@ class ClientsPage extends StatefulWidget {
 
 class _ClientsPageState extends State<ClientsPage> {
   TextEditingController searchController = TextEditingController();
-  late List<ClientElement> lClients = [];
-  late List<ClientElement> lFilteredClients = [];
+  late List<Client> lClients = [];
+  late List<Client> lFilteredClients = [];
   String _searchResult = '';
   late Future dataLoaded;
 
@@ -32,7 +32,7 @@ class _ClientsPageState extends State<ClientsPage> {
     lFilteredClients = lClients;
   }
 
-  Future<List<ClientElement>> _getData() async {
+  Future<List<Client>> _getData() async {
     lClients = (await ApiService().getClients());
     Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {
           lFilteredClients = lClients;
@@ -50,7 +50,7 @@ class _ClientsPageState extends State<ClientsPage> {
         centerTitle: true,
         title: const Text('Clients'),
       ),
-      floatingActionButton: ActionButton(),
+      floatingActionButton: const ActionButton(),
       body: SafeArea(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,12 +176,12 @@ class _ClientsPageState extends State<ClientsPage> {
           if (snapshot.hasData) {
             return buildList(context, lFilteredClients);
           } else {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           }
         });
   }
 
-  buildList(context, List<ClientElement> lFiltered) {
+  buildList(context, List<Client> lFiltered) {
     double tableWidth = getScreenWidth(context);
     isSmallScreen(context)
         ? tableWidth = tableWidth - 100
@@ -195,7 +195,7 @@ class _ClientsPageState extends State<ClientsPage> {
             shrinkWrap: true,
             itemCount: lFiltered.length,
             itemBuilder: ((context, index) {
-              ClientElement client = lFiltered[index];
+              Client client = lFiltered[index];
               return Column(
                 children: [
                   Row(
@@ -209,7 +209,7 @@ class _ClientsPageState extends State<ClientsPage> {
                         width: 5,
                       ),
                       isSmallScreen(context)
-                          ? SizedBox()
+                          ? const SizedBox()
                           : SizedBox(
                               width: tableWidth * 0.1,
                               child: Text(client.id.toString())),
@@ -281,21 +281,21 @@ class _ClientsPageState extends State<ClientsPage> {
                                 onPressed: () {
                                   showClient(context, client);
                                 },
-                                icon: Icon(Icons.open_in_new)),
+                                icon: const Icon(Icons.open_in_new)),
                             IconButton(
                                 onPressed: () {
                                   openEditClientDialog(context, client);
                                 },
-                                icon: Icon(Icons.edit)),
+                                icon: const Icon(Icons.edit)),
                             IconButton(
                                 onPressed: () {
                                   client.delete();
                                 },
-                                icon: Icon(Icons.delete)),
+                                icon: const Icon(Icons.delete)),
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       )
                     ],
@@ -311,12 +311,12 @@ class _ClientsPageState extends State<ClientsPage> {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return NewClientDialog();
+        return const NewClientDialog();
       },
     );
   }
 
-  openEditClientDialog(context, ClientElement client) {
+  openEditClientDialog(context, Client client) {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -325,7 +325,7 @@ class _ClientsPageState extends State<ClientsPage> {
     );
   }
 
-  showClient(context, ClientElement client) {
+  showClient(context, Client client) {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => ClientPage(client)));
   }

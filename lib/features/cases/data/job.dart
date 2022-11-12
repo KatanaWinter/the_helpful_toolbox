@@ -1,11 +1,11 @@
 class Job {
   int id;
   bool oneTimeJob;
-  DateTime? start_date;
-  DateTime? end_date;
+  DateTime? startDte;
+  DateTime? endDate;
   double subtotal;
   double total;
-  DateTime? created_at;
+  DateTime? createdAt;
 
   Job({
     this.id = 1,

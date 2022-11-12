@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/features/clients/data/client.dart';
-import 'package:the_helpful_toolbox/features/clients/data/property.dart';
-import 'package:the_helpful_toolbox/features/clients/presentation/dialog/addPropertyDialog.dart';
-import 'package:the_helpful_toolbox/features/clients/presentation/dialog/editPropertyDialog.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class ContactDataCard extends StatelessWidget {
-  ClientElement client;
+  Client client;
   ContactDataCard(this.client, {super.key});
 
   @override

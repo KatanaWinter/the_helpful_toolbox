@@ -11,7 +11,7 @@ import 'package:the_helpful_toolbox/features/navigation/presentation/sidebarnav.
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class ClientPage extends StatefulWidget {
-  ClientElement client;
+  Client client;
   ClientPage(this.client, {Key? key});
 
   @override
@@ -28,12 +28,12 @@ class _ClientPageState extends State<ClientPage> {
 
   @override
   Widget build(BuildContext context) {
-    ClientElement _client = widget.client;
+    Client client = widget.client;
     double contentWidth = getContentWidth(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("${_client.firstname} ${_client.lastname}"),
+        title: Text("${client.firstname} ${client.lastname}"),
       ),
       body: SafeArea(
         child: Row(
@@ -66,7 +66,7 @@ class _ClientPageState extends State<ClientPage> {
                                 onPressed: () {
                                   debugPrint("ToDo: implement set active");
                                 },
-                                child: _client.active >= 1
+                                child: client.active >= 1
                                     ? const Padding(
                                         padding: EdgeInsets.all(8.0),
                                         child: Text("Set Inactive"),
@@ -88,14 +88,14 @@ class _ClientPageState extends State<ClientPage> {
                         children: [
                           Container(
                             decoration: BoxDecoration(
-                                color: _client.active >= 1
+                                color: client.active >= 1
                                     ? Colors.green
                                     : Colors.red,
                                 borderRadius: BorderRadius.circular(5)),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                  _client.active >= 1 ? "Active" : "Inactive"),
+                                  client.active >= 1 ? "Active" : "Inactive"),
                             ),
                           )
                         ],
@@ -105,13 +105,13 @@ class _ClientPageState extends State<ClientPage> {
                       ),
                       Wrap(
                         children: [
-                          ContactDataCard(_client),
-                          PropertiesCard(_client, lProperties),
+                          ContactDataCard(client),
+                          PropertiesCard(client, lProperties),
                         ],
                       ),
                       Wrap(
                         children: [
-                          CasesCard(_client),
+                          CasesCard(client),
                         ],
                       ),
                     ],
@@ -125,7 +125,7 @@ class _ClientPageState extends State<ClientPage> {
     );
   }
 
-  buildList(context, List<ClientElement> lFiltered) {
+  buildList(context, List<Client> lFiltered) {
     double tableWidth = getScreenWidth(context);
     isSmallScreen(context)
         ? tableWidth = tableWidth - 100
@@ -135,7 +135,7 @@ class _ClientPageState extends State<ClientPage> {
       shrinkWrap: true,
       itemCount: lFiltered.length,
       itemBuilder: ((context, index) {
-        ClientElement client = lFiltered[index];
+        Client client = lFiltered[index];
         return Column(
           children: [
             Row(
@@ -201,12 +201,12 @@ class _ClientPageState extends State<ClientPage> {
                           children: const [
                             AutoSizeText(
                               "4752 Garret Street",
-                              style: const TextStyle(fontSize: 15),
+                              style: TextStyle(fontSize: 15),
                               maxLines: 2,
                             ),
                             AutoSizeText(
                               "Sunnydale, NH 04985",
-                              style: const TextStyle(fontSize: 15),
+                              style: TextStyle(fontSize: 15),
                               maxLines: 2,
                             ),
                           ],
@@ -254,7 +254,7 @@ class _ClientPageState extends State<ClientPage> {
     );
   }
 
-  openEditClientDialog(context, ClientElement client) {
+  openEditClientDialog(context, Client client) {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -263,20 +263,24 @@ class _ClientPageState extends State<ClientPage> {
     );
   }
 
-  getClientProperties(ClientElement client) {
+  getClientProperties(Client client) {
     List<Property> lProperties = [
       Property(
           name: "Main Property",
           street: "Meta-Grube-Weg 29",
           city: "Cuxhaven",
           postalcode: "27474",
-          state: "NI"),
+          state: "NI",
+          clientId: 1,
+          country: ''),
       Property(
           name: "Second Property",
           street: "Meta-Grube-Weg 29",
           city: "Cuxhaven",
           postalcode: "27474",
-          state: "NI"),
+          state: "NI",
+          clientId: 1,
+          country: ''),
     ];
     return lProperties;
   }

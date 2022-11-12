@@ -1,7 +1,7 @@
 class JobVisit {
   int? id;
-  DateTime? start_date;
-  DateTime? end_date;
+  DateTime? startDate;
+  DateTime? endDate;
   String note;
   int hours;
 

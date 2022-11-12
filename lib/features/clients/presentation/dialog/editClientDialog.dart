@@ -4,7 +4,7 @@ import 'package:the_helpful_toolbox/features/clients/data/property.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class EditClientDialog extends StatefulWidget {
-  ClientElement client;
+  Client client;
   EditClientDialog(this.client, {super.key});
 
   @override
@@ -13,24 +13,30 @@ class EditClientDialog extends StatefulWidget {
 
 class _EditClientDialogState extends State<EditClientDialog> {
   final _formKey = GlobalKey<FormState>();
-  ClientElement _client = ClientElement(
-      id: 1,
-      title: "",
-      firstname: "Kevin Winter",
-      lastname: "Winter",
-      mobilenumber: "",
-      phonenumber: "",
-      email: "kcgwinter@t-online.de",
-      rating: 5,
-      active: 1,
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now());
-  Property billingAddress = Property();
+  Client _client = Client(
+    id: 1,
+    title: "",
+    firstname: "Kevin Winter",
+    lastname: "Winter",
+    mobilenumber: "",
+    phonenumber: "",
+    email: "kcgwinter@t-online.de",
+    rating: 5,
+    active: 1,
+    properties: [],
+  );
+  Property billingAddress = Property(
+    city: '',
+    clientId: 1,
+    country: '',
+    name: '',
+    postalcode: '',
+    state: '',
+    street: '',
+  );
 
   @override
   void initState() {
-    // TODO: implement initState
-
     // billingAddress = _client.getBillingAddress(_client);
     super.initState();
   }
@@ -38,7 +44,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('New Client'),
+      title: const Text('New Client'),
       content: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -57,14 +63,14 @@ class _EditClientDialogState extends State<EditClientDialog> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Client:"),
-                            SizedBox(
+                            const Text("Client:"),
+                            const SizedBox(
                               height: 10,
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'First name'),
                                 onChanged: (val) => setState(() {
@@ -76,7 +82,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Last name'),
                                 onChanged: (val) => setState(() {
@@ -88,7 +94,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Company name'),
                                 initialValue: "",
@@ -97,7 +103,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Phone number'),
                                 onChanged: (val) => setState(() {
@@ -109,7 +115,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Mobile number'),
                                 initialValue: widget.client.mobilenumber,
@@ -118,7 +124,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Email'),
                                 initialValue: widget.client.email,
@@ -142,14 +148,14 @@ class _EditClientDialogState extends State<EditClientDialog> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Property:"),
-                            SizedBox(
+                            const Text("Property:"),
+                            const SizedBox(
                               height: 10,
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Name'),
                                 initialValue: billingAddress.name,
@@ -158,7 +164,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Street'),
                                 initialValue: billingAddress.street,
@@ -167,7 +173,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Street 2'),
                                 initialValue: billingAddress.street2,
@@ -176,7 +182,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'City'),
                                 initialValue: billingAddress.city,
@@ -185,7 +191,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'State'),
                                 initialValue: billingAddress.state,
@@ -212,20 +218,20 @@ class _EditClientDialogState extends State<EditClientDialog> {
       actionsAlignment: MainAxisAlignment.center,
       actions: <Widget>[
         ElevatedButton(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
               child: Text('Cancel'),
             ),
             onPressed: () {
               // Hier passiert etwas
               Navigator.of(context).pop();
             }),
-        SizedBox(
+        const SizedBox(
           width: 10,
         ),
         ElevatedButton(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
+          child: const Padding(
+            padding: EdgeInsets.all(8.0),
             child: Text('Save'),
           ),
           onPressed: () {
