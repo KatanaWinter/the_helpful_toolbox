@@ -23,6 +23,7 @@ class Client {
     this.rating = 5,
     required this.active,
     required this.properties,
+    this.billingAddress,
   });
 
   int id;
@@ -35,6 +36,7 @@ class Client {
   int rating;
   int active;
   List<Property> properties;
+  Property? billingAddress;
 
   factory Client.fromJson(Map<String, dynamic> json) => Client(
         id: json["id"],
@@ -90,12 +92,58 @@ class Client {
     return null;
   }
 
-  edit() {
-    debugPrint("edit new Client: $firstname $lastname");
+  Future<http.Response?> updateClient(Client client) async {
+    try {
+      debugPrint("save new Client: $firstname $lastname");
+
+      var body = client.toJson();
+
+      http.Response response = await http.put(
+        Uri.parse(ApiConstants.baseUrl +
+            ApiConstants.clientsEndpoint +
+            "/" +
+            client.id.toString()),
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint("Update success");
+      } else {
+        debugPrint(response.body);
+      }
+
+      return response;
+    } catch (e) {
+      debugPrint("Error in update :$e");
+    }
+    return null;
   }
 
-  delete() {
-    debugPrint("delete new Client: $firstname $lastname");
+  Future<http.Response?> deleteClient() async {
+    try {
+      debugPrint("delete Client: ${this.firstname} ${this.lastname}");
+
+      var body = this.toJson();
+
+      http.Response response = await http.delete(
+        Uri.parse(ApiConstants.baseUrl +
+            ApiConstants.clientsEndpoint +
+            "/" +
+            this.id.toString()),
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint("Delete success");
+      } else {
+        debugPrint(response.body);
+      }
+
+      return response;
+    } catch (e) {
+      debugPrint("Error in update :$e");
+    }
+    return null;
   }
 
   getBillingAddress(Client client) {

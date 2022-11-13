@@ -108,6 +108,9 @@ class _NewClientDialogState extends State<NewClientDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Mobile number'),
+                                onChanged: (val) => setState(() {
+                                  _client.mobilenumber = val;
+                                }),
                               ),
                             ),
                             Padding(
@@ -116,6 +119,9 @@ class _NewClientDialogState extends State<NewClientDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Email'),
+                                onChanged: (val) => setState(() {
+                                  _client.email = val;
+                                }),
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'Please enter a value';

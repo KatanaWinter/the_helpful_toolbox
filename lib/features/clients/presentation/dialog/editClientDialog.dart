@@ -38,13 +38,15 @@ class _EditClientDialogState extends State<EditClientDialog> {
   @override
   void initState() {
     // billingAddress = _client.getBillingAddress(_client);
+    _client = widget.client;
+    // billingAddress = widget.client.billingAddress;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('New Client'),
+      title: const Text('Edit Client'),
       content: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -98,6 +100,9 @@ class _EditClientDialogState extends State<EditClientDialog> {
                                     border: OutlineInputBorder(),
                                     labelText: 'Company name'),
                                 initialValue: "",
+                                onChanged: (val) => setState(() {
+                                  // _client.c = val;
+                                }),
                               ),
                             ),
                             Padding(
@@ -119,6 +124,9 @@ class _EditClientDialogState extends State<EditClientDialog> {
                                     border: OutlineInputBorder(),
                                     labelText: 'Mobile number'),
                                 initialValue: widget.client.mobilenumber,
+                                onChanged: (val) => setState(() {
+                                  _client.mobilenumber = val;
+                                }),
                               ),
                             ),
                             Padding(
@@ -128,6 +136,9 @@ class _EditClientDialogState extends State<EditClientDialog> {
                                     border: OutlineInputBorder(),
                                     labelText: 'Email'),
                                 initialValue: widget.client.email,
+                                onChanged: (val) => setState(() {
+                                  _client.email = val;
+                                }),
                               ),
                             ),
                           ],
@@ -235,7 +246,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
             child: Text('Save'),
           ),
           onPressed: () {
-            saveClientWithProperty(context);
+            saveClientWithProperty(context, _client);
             // Hier passiert etwas anderes
           },
         ),
@@ -243,8 +254,9 @@ class _EditClientDialogState extends State<EditClientDialog> {
     );
   }
 
-  saveClientWithProperty(context) {
-    debugPrint("edit client to Database");
+  saveClientWithProperty(context, Client client) async {
+    debugPrint("save client to Database");
+    await client.updateClient(client);
     Navigator.of(context).pop();
   }
 }

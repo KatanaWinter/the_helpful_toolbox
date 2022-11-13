@@ -22,7 +22,7 @@ class _ClientPageState extends State<ClientPage> {
   List<Property> lProperties = List<Property>.empty(growable: true);
   @override
   void initState() {
-    lProperties = getClientProperties(widget.client);
+    lProperties = widget.client.properties;
     super.initState();
   }
 
@@ -227,7 +227,7 @@ class _ClientPageState extends State<ClientPage> {
                           icon: const Icon(Icons.edit)),
                       IconButton(
                           onPressed: () {
-                            client.delete();
+                            client.deleteClient();
                           },
                           icon: const Icon(Icons.delete)),
                     ],
@@ -261,27 +261,5 @@ class _ClientPageState extends State<ClientPage> {
         return EditClientDialog(client);
       },
     );
-  }
-
-  getClientProperties(Client client) {
-    List<Property> lProperties = [
-      Property(
-          name: "Main Property",
-          street: "Meta-Grube-Weg 29",
-          city: "Cuxhaven",
-          postalcode: "27474",
-          state: "NI",
-          clientId: 1,
-          country: ''),
-      Property(
-          name: "Second Property",
-          street: "Meta-Grube-Weg 29",
-          city: "Cuxhaven",
-          postalcode: "27474",
-          state: "NI",
-          clientId: 1,
-          country: ''),
-    ];
-    return lProperties;
   }
 }

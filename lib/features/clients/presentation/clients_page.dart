@@ -289,7 +289,7 @@ class _ClientsPageState extends State<ClientsPage> {
                                 icon: const Icon(Icons.edit)),
                             IconButton(
                                 onPressed: () {
-                                  client.delete();
+                                  client.deleteClient();
                                 },
                                 icon: const Icon(Icons.delete)),
                           ],
