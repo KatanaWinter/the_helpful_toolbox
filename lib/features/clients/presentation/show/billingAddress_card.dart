@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/features/clients/data/client.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
@@ -30,9 +31,10 @@ class _BillingAddressCardState extends State<BillingAddressCard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
-                    Text(
+                    AutoSizeText(
                       'Billing Address',
                       style: TextStyle(fontSize: 20),
+                      maxLines: 3,
                     ),
                     SizedBox(
                       width: 10,
@@ -42,7 +44,16 @@ class _BillingAddressCardState extends State<BillingAddressCard> {
                 const SizedBox(
                   height: 10,
                 ),
-                Text("4725 Garret Street")
+                Row(
+                  children: [
+                    AutoSizeText(
+                      "4725 Garret Street",
+                      style: TextStyle(fontSize: 20),
+                      maxLines: 3,
+                    ),
+                    IconButton(onPressed: () {}, icon: Icon(Icons.edit))
+                  ],
+                )
               ],
             ),
           ),

@@ -80,7 +80,10 @@ class _ClientPageState extends State<ClientPage> {
                               width: 2,
                             ),
                             IconButton(
-                                onPressed: () {}, icon: const Icon(Icons.edit)),
+                                onPressed: () {
+                                  openEditClientDialog(context, client);
+                                },
+                                icon: const Icon(Icons.edit)),
                           ]),
                         ],
                       ),

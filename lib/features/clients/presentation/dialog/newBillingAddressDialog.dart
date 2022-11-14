@@ -4,50 +4,41 @@ import 'package:the_helpful_toolbox/features/clients/data/property.dart';
 import 'package:the_helpful_toolbox/features/clients/presentation/clients_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
-class EditClientDialog extends StatefulWidget {
-  Client client;
-  EditClientDialog(this.client, {super.key});
+class NewClientDialog extends StatefulWidget {
+  const NewClientDialog({super.key});
 
   @override
-  State<EditClientDialog> createState() => _EditClientDialogState();
+  State<NewClientDialog> createState() => _NewClientDialogState();
 }
 
-class _EditClientDialogState extends State<EditClientDialog> {
+class _NewClientDialogState extends State<NewClientDialog> {
   final _formKey = GlobalKey<FormState>();
   Client _client = Client(
     id: 1,
     title: "",
-    firstname: "Kevin Winter",
-    lastname: "Winter",
+    firstname: "",
+    lastname: "",
     mobilenumber: "",
     phonenumber: "",
-    email: "kcgwinter@t-online.de",
+    email: "",
     rating: 5,
     active: 1,
     properties: [],
   );
-  Property billingAddress = Property(
-    city: '',
-    clientId: 1,
-    country: '',
-    name: '',
-    postalcode: '',
-    state: '',
-    street: '',
-  );
 
-  @override
-  void initState() {
-    // billingAddress = _client.getBillingAddress(_client);
-    _client = widget.client;
-    // billingAddress = widget.client.billingAddress;
-    super.initState();
-  }
+  Property _billingAddress = Property(
+      clientId: 1,
+      name: "",
+      street: "",
+      city: "",
+      state: "",
+      postalcode: "",
+      country: "");
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Edit Client'),
+      title: const Text('New Client'),
       content: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -79,7 +70,12 @@ class _EditClientDialogState extends State<EditClientDialog> {
                                 onChanged: (val) => setState(() {
                                   _client.firstname = val;
                                 }),
-                                initialValue: widget.client.firstname,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter a value';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                             Padding(
@@ -91,7 +87,12 @@ class _EditClientDialogState extends State<EditClientDialog> {
                                 onChanged: (val) => setState(() {
                                   _client.lastname = val;
                                 }),
-                                initialValue: widget.client.lastname,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter a value';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                             Padding(
@@ -100,10 +101,6 @@ class _EditClientDialogState extends State<EditClientDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Company name'),
-                                initialValue: "",
-                                onChanged: (val) => setState(() {
-                                  // _client.c = val;
-                                }),
                               ),
                             ),
                             Padding(
@@ -115,7 +112,6 @@ class _EditClientDialogState extends State<EditClientDialog> {
                                 onChanged: (val) => setState(() {
                                   _client.phonenumber = val;
                                 }),
-                                initialValue: widget.client.phonenumber,
                               ),
                             ),
                             Padding(
@@ -124,7 +120,6 @@ class _EditClientDialogState extends State<EditClientDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Mobile number'),
-                                initialValue: widget.client.mobilenumber,
                                 onChanged: (val) => setState(() {
                                   _client.mobilenumber = val;
                                 }),
@@ -136,10 +131,15 @@ class _EditClientDialogState extends State<EditClientDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Email'),
-                                initialValue: widget.client.email,
                                 onChanged: (val) => setState(() {
                                   _client.email = val;
                                 }),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter a value';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                           ],
@@ -171,7 +171,11 @@ class _EditClientDialogState extends State<EditClientDialog> {
             child: Text('Save'),
           ),
           onPressed: () {
-            saveClientWithProperty(context, _client);
+            if (_formKey.currentState!.validate()) {
+              saveClientWithProperty(context, _client, _billingAddress);
+            } else {
+              print('Error');
+            }
             // Hier passiert etwas anderes
           },
         ),
@@ -179,10 +183,15 @@ class _EditClientDialogState extends State<EditClientDialog> {
     );
   }
 
-  saveClientWithProperty(context, Client client) async {
+  saveClientWithProperty(
+      context, Client _client, Property billingAddress) async {
     debugPrint("save client to Database");
-    client.billingAddress = billingAddress;
-    await client.updateClient(client);
+    if (_billingAddress.name.isNotEmpty) {
+      _client.billingAddress = _billingAddress;
+      await _client.saveClient(_client);
+    } else {
+      await _client.saveClient(_client);
+    }
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => ClientsPage()));
   }
