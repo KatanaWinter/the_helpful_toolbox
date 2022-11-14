@@ -1,4 +1,8 @@
 import 'package:flutter/foundation.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
+import 'package:the_helpful_toolbox/helper/constants.dart';
 
 class Property {
   Property({
@@ -56,8 +60,31 @@ class Property {
     debugPrint("save new Client: $name street: $street");
   }
 
-  edit() {
-    debugPrint("edit new Client: $name street: $street");
+  Future<http.Response?> updateProperty(Property property) async {
+    try {
+      debugPrint("update new Property: $name");
+
+      var body = property.toJson();
+
+      http.Response response = await http.put(
+        Uri.parse(ApiConstants.baseUrl +
+            ApiConstants.clientsEndpoint +
+            "/" +
+            property.id.toString()),
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint("Update success");
+      } else {
+        debugPrint(response.body);
+      }
+
+      return response;
+    } catch (e) {
+      debugPrint("Error in update :$e");
+    }
+    return null;
   }
 
   delete() {
