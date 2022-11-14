@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:the_helpful_toolbox/features/clients/data/client.dart';
 import 'package:the_helpful_toolbox/features/clients/data/property.dart';
 import 'package:the_helpful_toolbox/features/clients/presentation/clients_page.dart';
+import 'package:the_helpful_toolbox/features/clients/presentation/show/client_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class EditBillingAddressDialog extends StatefulWidget {
@@ -165,10 +167,17 @@ class _EditBillingAddressDialogState extends State<EditBillingAddressDialog> {
   saveBillingAddressForClient(
       context, Client _client, Property billingAddress) async {
     debugPrint("save billing address to Database");
-    Property _property = await billingAddress.updatedAt(billingAddress);
-    _client.billingAddressId = _property.id;
-    await _client.updateClient(_client);
+    billingAddress.clientId = _client.id;
+    if (_client.billingAddressId == -1) {
+      http.Response? _property =
+          await billingAddress.saveProperty(billingAddress);
+    } else {
+      http.Response? _property =
+          await billingAddress.updateProperty(billingAddress);
+    }
+    // _client.billingAddressId = _property.id;
+    // await _client.updateClient(_client);
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => ClientsPage()));
+        .push(MaterialPageRoute(builder: (context) => ClientPage(_client)));
   }
 }

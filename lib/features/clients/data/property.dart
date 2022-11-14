@@ -32,20 +32,20 @@ class Property {
   dynamic updatedAt;
 
   factory Property.fromJson(Map<String, dynamic> json) => Property(
-        id: json["id"],
+        id: json["id"] ?? "",
         clientId: json["client_id"],
-        name: json["name"],
-        street: json["street"],
-        street2: json["street2"],
-        city: json["city"],
-        state: json["state"],
-        postalcode: json["postalcode"],
-        country: json["country"],
+        name: json["name"] ?? "",
+        street: json["street"] ?? "",
+        street2: json["street2"] ?? "",
+        city: json["city"] ?? "",
+        state: json["state"] ?? "",
+        postalcode: json["postalcode"] ?? "",
+        country: json["country"] ?? "",
         active: json["active"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id.toString(),
+        "id": "",
         "client_id": clientId.toString(),
         "name": name.toString(),
         "street": street.toString(),
@@ -56,8 +56,28 @@ class Property {
         "country": country.toString(),
       };
 
-  saveClient() {
-    debugPrint("save new Client: $name street: $street");
+  Future<http.Response?> saveProperty(Property property) async {
+    try {
+      debugPrint("save new Property: $name");
+
+      var body = property.toJson();
+
+      http.Response response = await http.post(
+        Uri.parse(ApiConstants.baseUrl + ApiConstants.propertiesEndpoint),
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint("Save success");
+      } else {
+        debugPrint(response.body);
+      }
+
+      return response;
+    } catch (e) {
+      debugPrint("Error in update :$e");
+    }
+    return null;
   }
 
   Future<http.Response?> updateProperty(Property property) async {
@@ -68,7 +88,7 @@ class Property {
 
       http.Response response = await http.put(
         Uri.parse(ApiConstants.baseUrl +
-            ApiConstants.clientsEndpoint +
+            ApiConstants.propertiesEndpoint +
             "/" +
             property.id.toString()),
         body: body,
