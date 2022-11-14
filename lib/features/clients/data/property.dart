@@ -50,7 +50,6 @@ class Property {
         "state": state,
         "postalcode": postalcode,
         "country": country,
-        "active": active,
       };
 
   saveClient() {

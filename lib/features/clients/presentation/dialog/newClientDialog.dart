@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/features/clients/data/client.dart';
+import 'package:the_helpful_toolbox/features/clients/data/property.dart';
+import 'package:the_helpful_toolbox/features/clients/presentation/clients_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class NewClientDialog extends StatefulWidget {
@@ -23,6 +25,16 @@ class _NewClientDialogState extends State<NewClientDialog> {
     active: 1,
     properties: [],
   );
+
+  Property _billingAddress = Property(
+      clientId: 1,
+      name: "",
+      street: "",
+      city: "",
+      state: "",
+      postalcode: "",
+      country: "");
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -158,6 +170,16 @@ class _NewClientDialogState extends State<NewClientDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Name'),
+                                onChanged: (val) => setState(() {
+                                  _billingAddress.name = val;
+                                }),
+                                validator: (value) {
+                                  if (value!.isEmpty &&
+                                      _billingAddress.name.isNotEmpty) {
+                                    return 'Please enter a value';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                             Padding(
@@ -166,6 +188,16 @@ class _NewClientDialogState extends State<NewClientDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Street'),
+                                onChanged: (val) => setState(() {
+                                  _billingAddress.street = val;
+                                }),
+                                validator: (value) {
+                                  if (value!.isEmpty &&
+                                      _billingAddress.name.isNotEmpty) {
+                                    return 'Please enter a value';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                             Padding(
@@ -174,6 +206,9 @@ class _NewClientDialogState extends State<NewClientDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Street 2'),
+                                onChanged: (val) => setState(() {
+                                  _billingAddress.street2 = val;
+                                }),
                               ),
                             ),
                             Padding(
@@ -182,6 +217,16 @@ class _NewClientDialogState extends State<NewClientDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'City'),
+                                onChanged: (val) => setState(() {
+                                  _billingAddress.city = val;
+                                }),
+                                validator: (value) {
+                                  if (value!.isEmpty &&
+                                      _billingAddress.name.isNotEmpty) {
+                                    return 'Please enter a value';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                             Padding(
@@ -190,6 +235,16 @@ class _NewClientDialogState extends State<NewClientDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'State'),
+                                onChanged: (val) => setState(() {
+                                  _billingAddress.state = val;
+                                }),
+                                validator: (value) {
+                                  if (value!.isEmpty &&
+                                      _billingAddress.name.isNotEmpty) {
+                                    return 'Please enter a value';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                             Padding(
@@ -198,6 +253,16 @@ class _NewClientDialogState extends State<NewClientDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Postal Code'),
+                                onChanged: (val) => setState(() {
+                                  _billingAddress.postalcode = val;
+                                }),
+                                validator: (value) {
+                                  if (value!.isEmpty &&
+                                      _billingAddress.name.isNotEmpty) {
+                                    return 'Please enter a value';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                           ],
@@ -230,7 +295,7 @@ class _NewClientDialogState extends State<NewClientDialog> {
           ),
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              saveClientWithProperty(context, _client);
+              saveClientWithProperty(context, _client, _billingAddress);
             } else {
               print('Error');
             }
@@ -241,9 +306,16 @@ class _NewClientDialogState extends State<NewClientDialog> {
     );
   }
 
-  saveClientWithProperty(context, Client _client) async {
+  saveClientWithProperty(
+      context, Client _client, Property billingAddress) async {
     debugPrint("save client to Database");
-    await _client.saveClient(_client);
-    Navigator.of(context).pop();
+    if (_billingAddress.name.isNotEmpty) {
+      _client.billingAddress = _billingAddress;
+      await _client.saveClient(_client);
+    } else {
+      await _client.saveClient(_client);
+    }
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => ClientsPage()));
   }
 }

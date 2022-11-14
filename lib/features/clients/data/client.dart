@@ -35,6 +35,7 @@ class Client {
   String? email;
   int rating;
   int active;
+  int? billingAddress_id;
   List<Property> properties;
   Property? billingAddress;
 
@@ -50,6 +51,9 @@ class Client {
         active: json["active"],
         properties: List<Property>.from(
             json["properties"].map((x) => Property.fromJson(x))),
+        billingAddress: json["billing_address"] != null
+            ? Property.fromJson(json["billing_address"])
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -64,8 +68,10 @@ class Client {
         "active": active.toString(),
         "created_at": DateTime.now().toString(),
         "updated_at": DateTime.now().toString(),
+        // "billingAddress_id": billingAddress != null ? billingAddress!.id : null,
         "properties":
             List<dynamic>.from(properties.map((x) => x.toJson())).toString(),
+        // "billing_address": billingAddress!.toJson(),
       };
 
   Future<http.Response?> saveClient(Client client) async {
@@ -80,7 +86,7 @@ class Client {
       );
 
       if (response.statusCode == 200) {
-        debugPrint("Save success");
+        debugPrint("Save Client success");
       } else {
         debugPrint(response.body);
       }
@@ -144,19 +150,5 @@ class Client {
       debugPrint("Error in update :$e");
     }
     return null;
-  }
-
-  getBillingAddress(Client client) {
-    debugPrint("get Property of Client");
-    Property prop = Property(
-        name: "Main Property",
-        street: "Meta-Grube-Weg 29",
-        city: "Cuxhaven",
-        postalcode: "27474",
-        state: "NI",
-        clientId: 1,
-        country: "test");
-
-    return prop;
   }
 }
