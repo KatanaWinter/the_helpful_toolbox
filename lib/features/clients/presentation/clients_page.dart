@@ -259,14 +259,14 @@ class _ClientsPageState extends State<ClientsPage> {
                               width: tableWidth * 0.2,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
+                                children: [
                                   AutoSizeText(
-                                    "4752 Garret Street",
+                                    client.billingAddress!.street,
                                     style: const TextStyle(fontSize: 15),
                                     maxLines: 2,
                                   ),
                                   AutoSizeText(
-                                    "Sunnydale, NH 04985",
+                                    "${client.billingAddress!.city}, ${client.billingAddress!.state} ${client.billingAddress!.postalcode}",
                                     style: const TextStyle(fontSize: 15),
                                     maxLines: 2,
                                   ),
@@ -290,6 +290,9 @@ class _ClientsPageState extends State<ClientsPage> {
                             IconButton(
                                 onPressed: () {
                                   client.deleteClient();
+
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => ClientsPage()));
                                 },
                                 icon: const Icon(Icons.delete)),
                           ],

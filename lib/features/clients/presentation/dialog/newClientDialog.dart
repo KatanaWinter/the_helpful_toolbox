@@ -310,7 +310,7 @@ class _NewClientDialogState extends State<NewClientDialog> {
       context, Client _client, Property billingAddress) async {
     debugPrint("save client to Database");
     if (_billingAddress.name.isNotEmpty) {
-      // _client.billingAddress = _billingAddress;
+      _client.billingAddress = _billingAddress;
       await _client.saveClient(_client);
     } else {
       await _client.saveClient(_client);

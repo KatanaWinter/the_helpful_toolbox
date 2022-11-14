@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/features/clients/data/client.dart';
 import 'package:the_helpful_toolbox/features/clients/data/property.dart';
+import 'package:the_helpful_toolbox/features/clients/presentation/clients_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class EditClientDialog extends StatefulWidget {
@@ -256,7 +257,9 @@ class _EditClientDialogState extends State<EditClientDialog> {
 
   saveClientWithProperty(context, Client client) async {
     debugPrint("save client to Database");
+    client.billingAddress = billingAddress;
     await client.updateClient(client);
-    Navigator.of(context).pop();
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => ClientsPage()));
   }
 }

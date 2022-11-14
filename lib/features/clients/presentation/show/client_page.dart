@@ -23,7 +23,7 @@ class _ClientPageState extends State<ClientPage> {
   List<Property> lProperties = List<Property>.empty(growable: true);
   @override
   void initState() {
-    lProperties = widget.client.properties;
+    lProperties = widget.client.properties!;
     super.initState();
   }
 

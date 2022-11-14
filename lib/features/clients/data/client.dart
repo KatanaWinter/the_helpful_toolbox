@@ -14,29 +14,32 @@ String clientToJson(List<Client> data) =>
 class Client {
   Client({
     this.id = 1,
-    this.title = "",
-    required this.firstname,
-    required this.lastname,
-    this.mobilenumber = "",
-    this.phonenumber = "",
-    required this.email,
+    this.title,
+    this.firstname = "",
+    this.lastname = "",
+    this.mobilenumber,
+    this.phonenumber,
+    this.email,
     this.rating = 5,
-    required this.active,
-    required this.properties,
+    this.active = 1,
+    this.billingAddressId = 1,
+    this.properties,
     this.billingAddress,
   });
 
   int id;
-  String? title;
+  dynamic title;
   String firstname;
   String lastname;
-  String? mobilenumber;
-  String? phonenumber;
-  String? email;
+  dynamic mobilenumber;
+  dynamic phonenumber;
+  dynamic email;
   int rating;
   int active;
-  int? billingAddress_id;
-  List<Property> properties;
+  int billingAddressId;
+  dynamic createdAt;
+  dynamic updatedAt;
+  List<Property>? properties;
   Property? billingAddress;
 
   factory Client.fromJson(Map<String, dynamic> json) => Client(
@@ -44,16 +47,25 @@ class Client {
         title: json["title"],
         firstname: json["firstname"],
         lastname: json["lastname"],
-        mobilenumber: json["mobilenumber"] != null ? json["mobilenumber"] : "",
-        phonenumber: json["phonenumber"] != null ? json["phonenumber"] : "",
-        email: json["email"] != null ? json["email"] : "",
+        mobilenumber: json["mobilenumber"] ?? "",
+        phonenumber: json["phonenumber"] ?? "",
+        email: json["email"] ?? "",
         rating: json["rating"],
         active: json["active"],
+        billingAddressId:
+            json["billingAddress_id"] != null ? json["billingAddress_id"] : -1,
         properties: List<Property>.from(
             json["properties"].map((x) => Property.fromJson(x))),
         billingAddress: json["billing_address"] != null
             ? Property.fromJson(json["billing_address"])
-            : null,
+            : Property(
+                clientId: -1,
+                name: "",
+                street: "",
+                city: "",
+                state: "",
+                postalcode: "",
+                country: ""),
       );
 
   Map<String, dynamic> toJson() => {
@@ -66,12 +78,13 @@ class Client {
         "email": email,
         "rating": rating.toString(),
         "active": active.toString(),
-        "created_at": DateTime.now().toString(),
-        "updated_at": DateTime.now().toString(),
-        // "billingAddress_id": billingAddress != null ? billingAddress!.id : null,
+        "billingAddress_id": billingAddressId.toString(),
+        "created_at": createdAt.toString(),
+        "updated_at": updatedAt.toString(),
         "properties":
-            List<dynamic>.from(properties.map((x) => x.toJson())).toString(),
-        // "billing_address": billingAddress!.toJson(),
+            List<dynamic>.from(properties!.map((x) => x.toJson())).toString(),
+        "billing_address":
+            billingAddress != null ? billingAddress!.toJson().toString() : "",
       };
 
   Future<http.Response?> saveClient(Client client) async {

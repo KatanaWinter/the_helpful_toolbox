@@ -41,15 +41,15 @@ class Property {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "client_id": clientId,
-        "name": name,
-        "street": street,
-        "street2": street2,
-        "city": city,
-        "state": state,
-        "postalcode": postalcode,
-        "country": country,
+        "id": id.toString(),
+        "client_id": clientId.toString(),
+        "name": name.toString(),
+        "street": street.toString(),
+        "street2": street2.toString(),
+        "city": city.toString(),
+        "state": state.toString(),
+        "postalcode": postalcode.toString(),
+        "country": country.toString(),
       };
 
   saveClient() {
