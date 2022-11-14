@@ -1,6 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/features/clients/data/client.dart';
+import 'package:the_helpful_toolbox/features/clients/data/property.dart';
+import 'package:the_helpful_toolbox/features/clients/presentation/dialog/newBillingAddressDialog.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class BillingAddressCard extends StatefulWidget {
@@ -51,12 +53,25 @@ class _BillingAddressCardState extends State<BillingAddressCard> {
                       style: TextStyle(fontSize: 20),
                       maxLines: 3,
                     ),
-                    IconButton(onPressed: () {}, icon: Icon(Icons.edit))
+                    IconButton(
+                        onPressed: () {
+                          openEditPropertyDialog(context, widget.client);
+                        },
+                        icon: Icon(Icons.edit))
                   ],
                 )
               ],
             ),
           ),
         ));
+  }
+
+  openEditPropertyDialog(context, Client _client) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return EditBillingAddressDialog(client: _client);
+      },
+    );
   }
 }

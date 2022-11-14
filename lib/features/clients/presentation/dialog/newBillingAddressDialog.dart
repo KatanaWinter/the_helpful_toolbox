@@ -4,41 +4,31 @@ import 'package:the_helpful_toolbox/features/clients/data/property.dart';
 import 'package:the_helpful_toolbox/features/clients/presentation/clients_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
-class NewClientDialog extends StatefulWidget {
-  const NewClientDialog({super.key});
+class EditBillingAddressDialog extends StatefulWidget {
+  Client client;
+  EditBillingAddressDialog({required this.client, super.key});
 
   @override
-  State<NewClientDialog> createState() => _NewClientDialogState();
+  State<EditBillingAddressDialog> createState() =>
+      _EditBillingAddressDialogState();
 }
 
-class _NewClientDialogState extends State<NewClientDialog> {
+class _EditBillingAddressDialogState extends State<EditBillingAddressDialog> {
   final _formKey = GlobalKey<FormState>();
-  Client _client = Client(
-    id: 1,
-    title: "",
-    firstname: "",
-    lastname: "",
-    mobilenumber: "",
-    phonenumber: "",
-    email: "",
-    rating: 5,
-    active: 1,
-    properties: [],
-  );
-
-  Property _billingAddress = Property(
-      clientId: 1,
-      name: "",
-      street: "",
-      city: "",
-      state: "",
-      postalcode: "",
-      country: "");
 
   @override
   Widget build(BuildContext context) {
+    Property _billingAddress = Property(
+        clientId: 1,
+        name: "",
+        street: "",
+        city: "",
+        state: "",
+        postalcode: "",
+        country: "");
+    _billingAddress = widget.client.billingAddress!;
     return AlertDialog(
-      title: const Text('New Client'),
+      title: const Text('Edit Property'),
       content: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -57,7 +47,6 @@ class _NewClientDialogState extends State<NewClientDialog> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text("Client:"),
                             const SizedBox(
                               height: 10,
                             ),
@@ -66,16 +55,8 @@ class _NewClientDialogState extends State<NewClientDialog> {
                               child: TextFormField(
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'First name'),
-                                onChanged: (val) => setState(() {
-                                  _client.firstname = val;
-                                }),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please enter a value';
-                                  }
-                                  return null;
-                                },
+                                    labelText: 'Name'),
+                                initialValue: _billingAddress.name,
                               ),
                             ),
                             Padding(
@@ -83,16 +64,8 @@ class _NewClientDialogState extends State<NewClientDialog> {
                               child: TextFormField(
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'Last name'),
-                                onChanged: (val) => setState(() {
-                                  _client.lastname = val;
-                                }),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please enter a value';
-                                  }
-                                  return null;
-                                },
+                                    labelText: 'Street'),
+                                initialValue: _billingAddress.street,
                               ),
                             ),
                             Padding(
@@ -100,7 +73,8 @@ class _NewClientDialogState extends State<NewClientDialog> {
                               child: TextFormField(
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'Company name'),
+                                    labelText: 'Street 2'),
+                                initialValue: _billingAddress.street2,
                               ),
                             ),
                             Padding(
@@ -108,10 +82,8 @@ class _NewClientDialogState extends State<NewClientDialog> {
                               child: TextFormField(
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'Phone number'),
-                                onChanged: (val) => setState(() {
-                                  _client.phonenumber = val;
-                                }),
+                                    labelText: 'City'),
+                                initialValue: _billingAddress.city,
                               ),
                             ),
                             Padding(
@@ -119,10 +91,8 @@ class _NewClientDialogState extends State<NewClientDialog> {
                               child: TextFormField(
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'Mobile number'),
-                                onChanged: (val) => setState(() {
-                                  _client.mobilenumber = val;
-                                }),
+                                    labelText: 'State'),
+                                initialValue: _billingAddress.state,
                               ),
                             ),
                             Padding(
@@ -130,16 +100,8 @@ class _NewClientDialogState extends State<NewClientDialog> {
                               child: TextFormField(
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'Email'),
-                                onChanged: (val) => setState(() {
-                                  _client.email = val;
-                                }),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please enter a value';
-                                  }
-                                  return null;
-                                },
+                                    labelText: 'Postal Code'),
+                                initialValue: _billingAddress.postalcode,
                               ),
                             ),
                           ],
@@ -171,11 +133,7 @@ class _NewClientDialogState extends State<NewClientDialog> {
             child: Text('Save'),
           ),
           onPressed: () {
-            if (_formKey.currentState!.validate()) {
-              saveClientWithProperty(context, _client, _billingAddress);
-            } else {
-              print('Error');
-            }
+            saveClientWithProperty(context);
             // Hier passiert etwas anderes
           },
         ),
@@ -183,16 +141,8 @@ class _NewClientDialogState extends State<NewClientDialog> {
     );
   }
 
-  saveClientWithProperty(
-      context, Client _client, Property billingAddress) async {
-    debugPrint("save client to Database");
-    if (_billingAddress.name.isNotEmpty) {
-      _client.billingAddress = _billingAddress;
-      await _client.saveClient(_client);
-    } else {
-      await _client.saveClient(_client);
-    }
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => ClientsPage()));
+  saveClientWithProperty(context) {
+    debugPrint("edit client to Database");
+    Navigator.of(context).pop();
   }
 }
