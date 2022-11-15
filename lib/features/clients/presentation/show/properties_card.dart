@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/features/clients/data/client.dart';
@@ -84,7 +86,6 @@ class PropertiesCard extends StatelessWidget {
                                   IconButton(
                                       onPressed: () {
                                         property.deleteProperty();
-
                                         Navigator.of(context).push(
                                             MaterialPageRoute(
                                                 builder: (context) =>

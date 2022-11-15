@@ -130,7 +130,7 @@ class Property {
             ApiConstants.propertiesEndpoint +
             "/" +
             id.toString()),
-        body: body,
+        body: id.toString(),
       );
 
       if (response.statusCode == 200) {

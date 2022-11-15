@@ -33,7 +33,7 @@ class _ClientPageState extends State<ClientPage> {
 
   Future<Client> _getData() async {
     _client = (await _client.showClient());
-    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
+    Future.delayed(const Duration(seconds: 2)).then((value) => setState(() {}));
     return _client;
   }
 

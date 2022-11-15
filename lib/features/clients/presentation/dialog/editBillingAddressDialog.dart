@@ -177,6 +177,7 @@ class _EditBillingAddressDialogState extends State<EditBillingAddressDialog> {
     }
     // _client.billingAddressId = _property.id;
     // await _client.updateClient(_client);
+    setState(() {});
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => ClientPage(_client)));
   }
