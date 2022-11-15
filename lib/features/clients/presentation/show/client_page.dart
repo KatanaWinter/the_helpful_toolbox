@@ -21,10 +21,20 @@ class ClientPage extends StatefulWidget {
 
 class _ClientPageState extends State<ClientPage> {
   List<Property> lProperties = List<Property>.empty(growable: true);
+  late Future dataLoaded;
+  late Client _client;
   @override
   void initState() {
+    _client = widget.client;
+    dataLoaded = _getData();
     lProperties = widget.client.properties!;
     super.initState();
+  }
+
+  Future<Client> _getData() async {
+    _client = (await _client.showClient());
+    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
+    return _client;
   }
 
   @override
@@ -45,87 +55,8 @@ class _ClientPageState extends State<ClientPage> {
               child: SizedBox(
                 width: contentWidth,
                 child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          ElevatedButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Text("Back to Clients"),
-                              )),
-                          const Spacer(),
-                          ButtonBar(children: [
-                            ElevatedButton(
-                                style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(
-                                        Colors.brown[700])),
-                                onPressed: () {
-                                  debugPrint("ToDo: implement set active");
-                                },
-                                child: client.active >= 1
-                                    ? const Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Text("Set Inactive"),
-                                      )
-                                    : const Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Text("Set Active"),
-                                      )),
-                            const SizedBox(
-                              width: 2,
-                            ),
-                            IconButton(
-                                onPressed: () {
-                                  openEditClientDialog(context, client);
-                                },
-                                icon: const Icon(Icons.edit)),
-                          ]),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                color: client.active >= 1
-                                    ? Colors.green
-                                    : Colors.red,
-                                borderRadius: BorderRadius.circular(5)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                  client.active >= 1 ? "Active" : "Inactive"),
-                            ),
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Wrap(
-                        children: [
-                          Column(
-                            children: [
-                              ContactDataCard(client),
-                              BillingAddressCard(client)
-                            ],
-                          ),
-                          PropertiesCard(client, lProperties),
-                        ],
-                      ),
-                      Wrap(
-                        children: [
-                          CasesCard(client),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                    padding: const EdgeInsets.all(20),
+                    child: buildAsyncList(context, client)),
               ),
             ),
           ],
@@ -252,6 +183,93 @@ class _ClientPageState extends State<ClientPage> {
         );
       }),
     );
+  }
+
+  buildAsyncList(context, client) {
+    return FutureBuilder(
+        future: dataLoaded,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Column(
+              children: [
+                Row(
+                  children: [
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text("Back to Clients"),
+                        )),
+                    const Spacer(),
+                    ButtonBar(children: [
+                      ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.brown[700])),
+                          onPressed: () {
+                            debugPrint("ToDo: implement set active");
+                          },
+                          child: client.active >= 1
+                              ? const Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text("Set Inactive"),
+                                )
+                              : const Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text("Set Active"),
+                                )),
+                      const SizedBox(
+                        width: 2,
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            openEditClientDialog(context, client);
+                          },
+                          icon: const Icon(Icons.edit)),
+                    ]),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          color: client.active >= 1 ? Colors.green : Colors.red,
+                          borderRadius: BorderRadius.circular(5)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(client.active >= 1 ? "Active" : "Inactive"),
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Wrap(
+                  children: [
+                    Column(
+                      children: [
+                        ContactDataCard(client),
+                        BillingAddressCard(client)
+                      ],
+                    ),
+                    PropertiesCard(client, lProperties),
+                  ],
+                ),
+                Wrap(
+                  children: [
+                    CasesCard(client),
+                  ],
+                ),
+              ],
+            );
+          } else {
+            return const CircularProgressIndicator();
+          }
+        });
   }
 
   openNewClientDialog(context) {

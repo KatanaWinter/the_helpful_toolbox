@@ -45,7 +45,7 @@ class Property {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": "",
+        "id": id.toString(),
         "client_id": clientId.toString(),
         "name": name.toString(),
         "street": street.toString(),
@@ -85,12 +85,12 @@ class Property {
       debugPrint("update new Property: $name");
 
       var body = property.toJson();
-
+      String url = ApiConstants.baseUrl +
+          ApiConstants.propertiesEndpoint +
+          "/" +
+          property.id.toString();
       http.Response response = await http.put(
-        Uri.parse(ApiConstants.baseUrl +
-            ApiConstants.propertiesEndpoint +
-            "/" +
-            property.id.toString()),
+        Uri.parse(url),
         body: body,
       );
 
@@ -103,6 +103,59 @@ class Property {
       return response;
     } catch (e) {
       debugPrint("Error in update :$e");
+    }
+    return null;
+  }
+
+  Future<http.Response?> deleteProperty() async {
+    try {
+      debugPrint("delete Property: ${name}");
+
+      var body = toJson();
+
+      http.Response response = await http.delete(
+        Uri.parse(ApiConstants.baseUrl +
+            ApiConstants.propertiesEndpoint +
+            "/" +
+            id.toString()),
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint("Delete success");
+      } else {
+        debugPrint(response.body);
+      }
+
+      return response;
+    } catch (e) {
+      debugPrint("Error in update :$e");
+    }
+    return null;
+  }
+
+  Future<http.Response?> getProperty() async {
+    try {
+      debugPrint("get Property: ${id}");
+
+      var body = toJson();
+
+      http.Response response = await http.get(
+        Uri.parse(ApiConstants.baseUrl +
+            ApiConstants.propertiesEndpoint +
+            "/" +
+            id.toString()),
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint("Property received successful");
+      } else {
+        debugPrint(response.body);
+      }
+
+      return response;
+    } catch (e) {
+      debugPrint("Error in show :$e");
     }
     return null;
   }

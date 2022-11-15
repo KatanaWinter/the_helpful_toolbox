@@ -4,6 +4,7 @@ import 'package:the_helpful_toolbox/features/clients/data/client.dart';
 import 'package:the_helpful_toolbox/features/clients/data/property.dart';
 import 'package:the_helpful_toolbox/features/clients/presentation/dialog/addPropertyDialog.dart';
 import 'package:the_helpful_toolbox/features/clients/presentation/dialog/editPropertyDialog.dart';
+import 'package:the_helpful_toolbox/features/clients/presentation/show/client_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class PropertiesCard extends StatelessWidget {
@@ -76,7 +77,21 @@ class PropertiesCard extends StatelessWidget {
                                         openEditPropertyDialog(
                                             context, property);
                                       },
-                                      icon: const Icon(Icons.edit))
+                                      icon: const Icon(Icons.edit)),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  IconButton(
+                                      onPressed: () {
+                                        property.deleteProperty();
+
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ClientPage(client)));
+                                      },
+                                      icon: const Icon(Icons.delete),
+                                      color: Colors.redAccent),
                                 ],
                               ),
                             ],

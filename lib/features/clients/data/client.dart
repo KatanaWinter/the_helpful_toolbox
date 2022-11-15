@@ -164,4 +164,32 @@ class Client {
     }
     return null;
   }
+
+  Future<Client> showClient() async {
+    Client model = Client();
+    try {
+      debugPrint("get Client: ${id}");
+
+      var body = toJson();
+
+      http.Response response = await http.get(
+        Uri.parse(ApiConstants.baseUrl +
+            ApiConstants.clientsEndpoint +
+            "/" +
+            id.toString()),
+      );
+
+      if (response.statusCode == 200) {
+        model = json.decode(response.body).map((x) => Client.fromJson(x));
+        debugPrint("Client received successful");
+      } else {
+        debugPrint(response.body);
+      }
+
+      return model;
+    } catch (e) {
+      debugPrint("Error in show :$e");
+    }
+    return model;
+  }
 }
