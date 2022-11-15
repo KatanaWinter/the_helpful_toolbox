@@ -22,7 +22,7 @@ class Client {
     this.email,
     this.rating = 5,
     this.active = 1,
-    this.billingAddressId = 1,
+    this.billingAddressId,
     this.properties,
     this.billingAddress,
   });
@@ -36,7 +36,7 @@ class Client {
   dynamic email;
   int rating;
   int active;
-  int billingAddressId;
+  int? billingAddressId;
   dynamic createdAt;
   dynamic updatedAt;
   List<Property>? properties;
@@ -210,7 +210,7 @@ class Client {
 
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
-        model = fromJson(json.decode(response.body));
+        model = fromJson(tmp);
 
         debugPrint("Client received successful");
       } else {

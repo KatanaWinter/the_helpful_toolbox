@@ -1,12 +1,10 @@
 import 'package:flutter/foundation.dart';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 import 'package:the_helpful_toolbox/helper/constants.dart';
 
 class Property {
   Property({
-    this.id = 1,
+    this.id,
     required this.clientId,
     required this.name,
     required this.street,
@@ -18,7 +16,7 @@ class Property {
     this.active = 1,
   });
 
-  int id;
+  int? id;
   int clientId;
   String name;
   String street;
@@ -43,9 +41,23 @@ class Property {
         country: json["country"] ?? "",
         active: json["active"],
       );
+  Property fromJson(Map<String, dynamic> json) {
+    return Property(
+      id: json["id"] ?? "",
+      clientId: json["client_id"],
+      name: json["name"] ?? "",
+      street: json["street"] ?? "",
+      street2: json["street2"] ?? "",
+      city: json["city"] ?? "",
+      state: json["state"] ?? "",
+      postalcode: json["postalcode"] ?? "",
+      country: json["country"] ?? "",
+      active: json["active"],
+    );
+  }
 
   Map<String, dynamic> toJson() => {
-        "id": id.toString(),
+        "id": "",
         "client_id": clientId.toString(),
         "name": name.toString(),
         "street": street.toString(),
