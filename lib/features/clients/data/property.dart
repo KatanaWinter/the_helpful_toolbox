@@ -113,7 +113,6 @@ class Property {
 }
 
 getSingleProperty(int clientId) {
-  debugPrint("ToDo: create connection to database");
   return Property(
       name: "Main Property",
       street: "Meta-Grube-Weg 29",

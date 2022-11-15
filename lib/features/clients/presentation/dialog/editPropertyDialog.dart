@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/features/clients/data/client.dart';
 import 'package:the_helpful_toolbox/features/clients/data/property.dart';
+import 'package:the_helpful_toolbox/features/clients/presentation/show/client_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
+import 'package:http/http.dart' as http;
 
 class EditPropertyDialog extends StatefulWidget {
   Property property;
@@ -54,6 +56,9 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
                                     border: OutlineInputBorder(),
                                     labelText: 'Name'),
                                 initialValue: _property.name,
+                                onChanged: (val) => setState(() {
+                                  _property.name = val;
+                                }),
                               ),
                             ),
                             Padding(
@@ -63,6 +68,9 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
                                     border: OutlineInputBorder(),
                                     labelText: 'Street'),
                                 initialValue: _property.street,
+                                onChanged: (val) => setState(() {
+                                  _property.street = val;
+                                }),
                               ),
                             ),
                             Padding(
@@ -72,6 +80,9 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
                                     border: OutlineInputBorder(),
                                     labelText: 'Street 2'),
                                 initialValue: _property.street2,
+                                onChanged: (val) => setState(() {
+                                  _property.street2 = val;
+                                }),
                               ),
                             ),
                             Padding(
@@ -81,6 +92,9 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
                                     border: OutlineInputBorder(),
                                     labelText: 'City'),
                                 initialValue: _property.city,
+                                onChanged: (val) => setState(() {
+                                  _property.city = val;
+                                }),
                               ),
                             ),
                             Padding(
@@ -90,6 +104,9 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
                                     border: OutlineInputBorder(),
                                     labelText: 'State'),
                                 initialValue: _property.state,
+                                onChanged: (val) => setState(() {
+                                  _property.state = val;
+                                }),
                               ),
                             ),
                             Padding(
@@ -99,6 +116,9 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
                                     border: OutlineInputBorder(),
                                     labelText: 'Postal Code'),
                                 initialValue: _property.postalcode,
+                                onChanged: (val) => setState(() {
+                                  _property.postalcode = val;
+                                }),
                               ),
                             ),
                           ],
@@ -130,7 +150,7 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
             child: Text('Save'),
           ),
           onPressed: () {
-            saveClientWithProperty(context);
+            savedEditProperty(context, _property);
             // Hier passiert etwas anderes
           },
         ),
@@ -138,8 +158,12 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
     );
   }
 
-  saveClientWithProperty(context) {
-    debugPrint("edit client to Database");
-    Navigator.of(context).pop();
+  savedEditProperty(context, property) async {
+    debugPrint("save property");
+
+    http.Response? _response = await property.updateProperty(property);
+
+    // Navigator.of(context)
+    //     .push(MaterialPageRoute(builder: (context) => ClientPage(_client)));
   }
 }

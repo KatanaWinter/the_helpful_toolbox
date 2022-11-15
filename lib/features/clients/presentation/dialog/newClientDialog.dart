@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/features/clients/data/client.dart';
 import 'package:the_helpful_toolbox/features/clients/data/property.dart';
@@ -147,129 +149,6 @@ class _NewClientDialogState extends State<NewClientDialog> {
                       )),
                 ),
               ),
-              // Card(
-              //   elevation: 10,
-              //   child: Padding(
-              //     padding: const EdgeInsets.all(8.0),
-              //     child: SizedBox(
-              //         width: isSmallScreen(context)
-              //             ? getScreenWidth(context)
-              //             : getScreenWidth(context) * 0.4,
-              //         height: getScreenHeight(context),
-              //         child: FocusScope(
-              //           child: Column(
-              //             crossAxisAlignment: CrossAxisAlignment.start,
-              //             children: [
-              //               const Text("Property:"),
-              //               const SizedBox(
-              //                 height: 10,
-              //               ),
-              //               Padding(
-              //                 padding: const EdgeInsets.all(8.0),
-              //                 child: TextFormField(
-              //                   decoration: const InputDecoration(
-              //                       border: OutlineInputBorder(),
-              //                       labelText: 'Name'),
-              //                   onChanged: (val) => setState(() {
-              //                     _billingAddress.name = val;
-              //                   }),
-              //                   validator: (value) {
-              //                     if (value!.isEmpty &&
-              //                         _billingAddress.name.isNotEmpty) {
-              //                       return 'Please enter a value';
-              //                     }
-              //                     return null;
-              //                   },
-              //                 ),
-              //               ),
-              //               Padding(
-              //                 padding: const EdgeInsets.all(8.0),
-              //                 child: TextFormField(
-              //                   decoration: const InputDecoration(
-              //                       border: OutlineInputBorder(),
-              //                       labelText: 'Street'),
-              //                   onChanged: (val) => setState(() {
-              //                     _billingAddress.street = val;
-              //                   }),
-              //                   validator: (value) {
-              //                     if (value!.isEmpty &&
-              //                         _billingAddress.name.isNotEmpty) {
-              //                       return 'Please enter a value';
-              //                     }
-              //                     return null;
-              //                   },
-              //                 ),
-              //               ),
-              //               Padding(
-              //                 padding: const EdgeInsets.all(8.0),
-              //                 child: TextFormField(
-              //                   decoration: const InputDecoration(
-              //                       border: OutlineInputBorder(),
-              //                       labelText: 'Street 2'),
-              //                   onChanged: (val) => setState(() {
-              //                     _billingAddress.street2 = val;
-              //                   }),
-              //                 ),
-              //               ),
-              //               Padding(
-              //                 padding: const EdgeInsets.all(8.0),
-              //                 child: TextFormField(
-              //                   decoration: const InputDecoration(
-              //                       border: OutlineInputBorder(),
-              //                       labelText: 'City'),
-              //                   onChanged: (val) => setState(() {
-              //                     _billingAddress.city = val;
-              //                   }),
-              //                   validator: (value) {
-              //                     if (value!.isEmpty &&
-              //                         _billingAddress.name.isNotEmpty) {
-              //                       return 'Please enter a value';
-              //                     }
-              //                     return null;
-              //                   },
-              //                 ),
-              //               ),
-              //               Padding(
-              //                 padding: const EdgeInsets.all(8.0),
-              //                 child: TextFormField(
-              //                   decoration: const InputDecoration(
-              //                       border: OutlineInputBorder(),
-              //                       labelText: 'State'),
-              //                   onChanged: (val) => setState(() {
-              //                     _billingAddress.state = val;
-              //                   }),
-              //                   validator: (value) {
-              //                     if (value!.isEmpty &&
-              //                         _billingAddress.name.isNotEmpty) {
-              //                       return 'Please enter a value';
-              //                     }
-              //                     return null;
-              //                   },
-              //                 ),
-              //               ),
-              //               Padding(
-              //                 padding: const EdgeInsets.all(8.0),
-              //                 child: TextFormField(
-              //                   decoration: const InputDecoration(
-              //                       border: OutlineInputBorder(),
-              //                       labelText: 'Postal Code'),
-              //                   onChanged: (val) => setState(() {
-              //                     _billingAddress.postalcode = val;
-              //                   }),
-              //                   validator: (value) {
-              //                     if (value!.isEmpty &&
-              //                         _billingAddress.name.isNotEmpty) {
-              //                       return 'Please enter a value';
-              //                     }
-              //                     return null;
-              //                   },
-              //                 ),
-              //               ),
-              //             ],
-              //           ),
-              //         )),
-              //   ),
-              // ),
             ],
           ),
         ),
@@ -315,6 +194,7 @@ class _NewClientDialogState extends State<NewClientDialog> {
     } else {
       await _client.saveClient(_client);
     }
+    sleep(Duration(seconds: 3));
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => ClientsPage()));
   }
