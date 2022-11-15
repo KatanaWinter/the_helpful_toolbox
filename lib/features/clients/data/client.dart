@@ -68,6 +68,35 @@ class Client {
                 country: ""),
       );
 
+  Client fromJson(Map<String, dynamic> json) {
+    Client client = Client(
+      id: json["id"],
+      title: json["title"],
+      firstname: json["firstname"],
+      lastname: json["lastname"],
+      mobilenumber: json["mobilenumber"] ?? "",
+      phonenumber: json["phonenumber"] ?? "",
+      email: json["email"] ?? "",
+      rating: json["rating"],
+      active: json["active"],
+      billingAddressId:
+          json["billingAddress_id"] != null ? json["billingAddress_id"] : -1,
+      properties: List<Property>.from(
+          json["properties"].map((x) => Property.fromJson(x))),
+      billingAddress: json["billing_address"] != null
+          ? Property.fromJson(json["billing_address"])
+          : Property(
+              clientId: -1,
+              name: "",
+              street: "",
+              city: "",
+              state: "",
+              postalcode: "",
+              country: ""),
+    );
+    return client;
+  }
+
   Map<String, dynamic> toJson() => {
         "id": id.toString(),
         "title": title.toString(),
@@ -180,7 +209,9 @@ class Client {
       );
 
       if (response.statusCode == 200) {
-        model = json.decode(response.body).map((x) => Client.fromJson(x));
+        var tmp = json.decode(response.body);
+        model = fromJson(json.decode(response.body));
+
         debugPrint("Client received successful");
       } else {
         debugPrint(response.body);
