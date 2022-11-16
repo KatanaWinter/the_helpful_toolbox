@@ -11,8 +11,7 @@ import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class PropertiesCard extends StatelessWidget {
   Client client;
-  List<Property> lProperties;
-  PropertiesCard(this.client, this.lProperties, {super.key});
+  PropertiesCard(this.client, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +54,9 @@ class PropertiesCard extends StatelessWidget {
                 child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     // shrinkWrap: true,
-                    itemCount: lProperties.length,
+                    itemCount: client.properties!.length,
                     itemBuilder: ((context, index) {
-                      Property property = lProperties[index];
+                      Property property = client.properties![index];
                       return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
