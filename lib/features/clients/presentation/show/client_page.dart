@@ -1,9 +1,7 @@
 import 'dart:io';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/features/clients/data/client.dart';
-import 'package:the_helpful_toolbox/features/clients/data/property.dart';
 import 'package:the_helpful_toolbox/features/clients/presentation/dialog/editClientDialog.dart';
 import 'package:the_helpful_toolbox/features/clients/presentation/dialog/newClientDialog.dart';
 import 'package:the_helpful_toolbox/features/clients/presentation/show/billingAddress_card.dart';
@@ -93,7 +91,7 @@ class _ClientPageState extends State<ClientPage> {
                                 backgroundColor: MaterialStateProperty.all(
                                     Colors.brown[700])),
                             onPressed: () {
-                              debugPrint("ToDo: implement set active");
+                              switchActiveInactive(context, client);
                             },
                             child: snapshot.data!.active >= 1
                                 ? const Padding(
@@ -177,5 +175,17 @@ class _ClientPageState extends State<ClientPage> {
         return EditClientDialog(client);
       },
     );
+  }
+
+  switchActiveInactive(context, Client client) async {
+    debugPrint("save client to Database");
+    if (client.active == 1) {
+      client.active = 0;
+    } else {
+      client.active = 1;
+    }
+    await client.updateClient(client);
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => ClientPage(client)));
   }
 }
