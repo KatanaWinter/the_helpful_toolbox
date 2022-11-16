@@ -57,7 +57,7 @@ class Property {
   }
 
   Map<String, dynamic> toJson() => {
-        "id": "",
+        "id": id != null ? id.toString() : "",
         "client_id": clientId.toString(),
         "name": name.toString(),
         "street": street.toString(),

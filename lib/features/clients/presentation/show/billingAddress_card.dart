@@ -47,16 +47,17 @@ class _BillingAddressCardState extends State<BillingAddressCard> {
                 ),
                 Row(
                   children: [
+                    Spacer(),
                     Column(
                       children: [
                         AutoSizeText(
                           "${widget.client.billingAddress!.street}",
-                          style: TextStyle(fontSize: 20),
+                          style: TextStyle(fontSize: 18),
                           maxLines: 3,
                         ),
                         AutoSizeText(
                           "${widget.client.billingAddress!.city} , ${widget.client.billingAddress!.state} ${widget.client.billingAddress!.postalcode}",
-                          style: TextStyle(fontSize: 20),
+                          style: TextStyle(fontSize: 18),
                           maxLines: 3,
                         ),
                       ],
