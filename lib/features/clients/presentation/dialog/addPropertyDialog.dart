@@ -201,7 +201,9 @@ class _AddPropertyDialogState extends State<AddPropertyDialog> {
     http.Response? _property = await property.saveProperty(property);
     // _client.billingAddressId = _property.id;
     // await _client.updateClient(_client);
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => ClientPage(_client)));
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => ClientPage(_client)),
+      (route) => false,
+    );
   }
 }

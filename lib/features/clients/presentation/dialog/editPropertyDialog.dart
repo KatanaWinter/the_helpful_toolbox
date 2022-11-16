@@ -7,7 +7,8 @@ import 'package:http/http.dart' as http;
 
 class EditPropertyDialog extends StatefulWidget {
   Property property;
-  EditPropertyDialog(this.property, {super.key});
+  Client client;
+  EditPropertyDialog(this.property, this.client, {super.key});
 
   @override
   State<EditPropertyDialog> createState() => _EditPropertyDialogState();
@@ -165,5 +166,9 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
 
     // Navigator.of(context)
     //     .push(MaterialPageRoute(builder: (context) => ClientPage(_client)));
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => ClientPage(widget.client)),
+      (route) => false,
+    );
   }
 }

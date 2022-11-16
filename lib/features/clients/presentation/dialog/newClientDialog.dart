@@ -136,12 +136,6 @@ class _NewClientDialogState extends State<NewClientDialog> {
                                 onChanged: (val) => setState(() {
                                   _client.email = val;
                                 }),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please enter a value';
-                                  }
-                                  return null;
-                                },
                               ),
                             ),
                           ],

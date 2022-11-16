@@ -53,8 +53,9 @@ class Client {
         email: json["email"] ?? "",
         rating: json["rating"],
         active: json["active"],
-        billingAddressId:
-            json["billingAddress_id"] != null ? json["billingAddress_id"] : -1,
+        billingAddressId: json["billingAddress_id"] != null
+            ? json["billingAddress_id"]
+            : null,
         properties: List<Property>.from(
             json["properties"].map((x) => Property.fromJson(x))),
         billingAddress: json["billing_address"] != null
@@ -108,9 +109,10 @@ class Client {
         "email": email,
         "rating": rating.toString(),
         "active": active.toString(),
-        "billingAddress_id": billingAddressId.toString(),
-        "created_at": createdAt.toString(),
-        "updated_at": updatedAt.toString(),
+        if (billingAddressId != null)
+          "billingAddress_id": billingAddressId.toString(),
+        // "created_at": createdAt.toString(),
+        // "updated_at": updatedAt.toString(),
         "properties":
             List<dynamic>.from(properties!.map((x) => x.toJson())).toString(),
         "billing_address":

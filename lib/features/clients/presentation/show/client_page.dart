@@ -39,7 +39,7 @@ class _ClientPageState extends State<ClientPage> {
 
   @override
   Widget build(BuildContext context) {
-    Client client = widget.client;
+    Client client = _client;
     double contentWidth = getContentWidth(context);
     return Scaffold(
       appBar: AppBar(
@@ -190,6 +190,7 @@ class _ClientPageState extends State<ClientPage> {
         future: dataLoaded,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            Client client = _client;
             return Column(
               children: [
                 Row(
