@@ -169,13 +169,11 @@ class _EditBillingAddressDialogState extends State<EditBillingAddressDialog> {
       context, Client _client, BillingAddress billingAddress) async {
     debugPrint("save billing address to Database");
     billingAddress.clientId = _client.id;
-    if (_client.billingAddressId == -1) {
+    if (_client.billingAddress == -1) {
       bool stored = await billingAddress.billingAddressStore(context);
     } else {
       bool stored = await billingAddress.billingAddressUpdate(context);
     }
-    // _client.billingAddressId = _property.id;
-    // await _client.updateClient(_client);
     setState(() {});
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => ClientPage(_client)));

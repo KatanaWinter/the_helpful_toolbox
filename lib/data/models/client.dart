@@ -24,7 +24,6 @@ class Client {
     this.email,
     this.rating = 5,
     this.active = 1,
-    this.billingAddressId,
     this.properties,
     this.billingAddress,
   });
@@ -38,7 +37,6 @@ class Client {
   String? email;
   int? rating;
   int? active;
-  int? billingAddressId;
   List<Property>? properties;
   BillingAddress? billingAddress;
 
@@ -52,10 +50,9 @@ class Client {
       email: json["email"] ?? "",
       rating: json["rating"],
       active: json["active"],
-      billingAddressId: json["billingAddress_id"],
       properties: List<Property>.from(
           json["properties"].map((x) => Property.fromJson(x))),
-      billingAddress: json["billing_address"]);
+      billingAddress: BillingAddress.fromJson(json["billing_address"]));
 
   Client fromJson(Map<String, dynamic> json) {
     Client client = Client(
@@ -68,10 +65,9 @@ class Client {
         email: json["email"] ?? "",
         rating: json["rating"],
         active: json["active"],
-        billingAddressId: json["billingAddress_id"],
         properties: List<Property>.from(
             json["properties"].map((x) => Property.fromJson(x))),
-        billingAddress: json["billing_address"]);
+        billingAddress: BillingAddress.fromJson(json["billing_address"]));
     return client;
   }
 
@@ -85,8 +81,6 @@ class Client {
         "email": email,
         "rating": rating.toString(),
         "active": active.toString(),
-        if (billingAddressId != null)
-          "billingAddress_id": billingAddressId.toString(),
         "properties":
             List<dynamic>.from(properties!.map((x) => x.toJson())).toString(),
         "billing_address":
