@@ -90,6 +90,13 @@ class _LoginPageState extends State<LoginPage> {
                             _password.text = value;
                             return null;
                           },
+                          onFieldSubmitted: (value) {
+                            if (_formKey.currentState!.validate()) {
+                              loginUser(_email.text, _password.text);
+                            } else {
+                              print("Formular ist nicht gültig");
+                            }
+                          },
                         ),
                       ),
                       const SizedBox(width: 25),
@@ -107,10 +114,8 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           ElevatedButton(
                             onPressed: () {
-                              // Wenn alle Validatoren der Felder des Formulars gültig sind.
                               if (_formKey.currentState!.validate()) {
                                 loginUser(_email.text, _password.text);
-                                // Hier können wir mit den geprüften Daten aus dem Formular etwas machen.
                               } else {
                                 print("Formular ist nicht gültig");
                               }
