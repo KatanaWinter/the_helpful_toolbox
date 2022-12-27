@@ -31,7 +31,6 @@ class UserModel {
 
   Future<http.Response?> loginUser(UserModel user) async {
     try {
-      // debugPrint("login Client: $email $password");
       var body = user.toJson();
       final prefs = await SharedPreferences.getInstance();
       var connectionBaseString = await prefs.getString('ConnectionString');
