@@ -40,6 +40,7 @@ class UserModel {
       if (response.statusCode == 200) {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('Bearer Token', response.body);
+        await prefs.setString('loginEmail', user.email!);
         debugPrint("User login successful");
         return response;
       } else {

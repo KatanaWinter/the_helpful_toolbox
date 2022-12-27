@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_helpful_toolbox/data/models/UserModel.dart';
+import 'package:the_helpful_toolbox/features/dashboard/presentation/dashboard.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class LoginPage extends StatefulWidget {
@@ -11,8 +13,21 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   TextEditingController _email = new TextEditingController();
   TextEditingController _password = new TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    _getEmail();
+  }
+
+  void _getEmail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final name = prefs.getString('loginEmail') ?? '';
+    _email.text = name;
+    print(name);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
+                          controller: _email,
                           keyboardType: TextInputType.emailAddress,
                           decoration: const InputDecoration(
                               border: OutlineInputBorder(),
@@ -61,6 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
+                          controller: _password,
                           obscureText: true,
                           decoration: const InputDecoration(
                               border: OutlineInputBorder(),
@@ -121,12 +138,19 @@ class _LoginPageState extends State<LoginPage> {
           final snackBar = SnackBar(
             content: const Text("Login Successful!"),
             backgroundColor: (Colors.green),
+            duration: Duration(seconds: 2),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const Dashboard()),
+            (route) => false,
+          );
         } else {
           final snackBar = SnackBar(
             content: const Text("Login Error!"),
             backgroundColor: (Colors.red),
+            duration: Duration(seconds: 2),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
