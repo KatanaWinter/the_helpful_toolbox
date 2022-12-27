@@ -33,8 +33,15 @@ class UserModel {
     try {
       // debugPrint("login Client: $email $password");
       var body = user.toJson();
+      final prefs = await SharedPreferences.getInstance();
+      var connectionBaseString = await prefs.getString('ConnectionString');
+      if (connectionBaseString != null) {
+        connectionBaseString = "$connectionBaseString/api";
+      } else {
+        connectionBaseString = Endpoints.baseUrl;
+      }
       http.Response response = await http.post(
-        Uri.parse(Endpoints.baseUrl + Endpoints.auth + "/login"),
+        Uri.parse(connectionBaseString + Endpoints.auth + "/login"),
         body: body,
       );
       if (response.statusCode == 200) {

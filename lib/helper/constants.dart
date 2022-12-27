@@ -1,17 +1,8 @@
-import 'package:shared_preferences/shared_preferences.dart';
-
 class ApiConstants {
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  String baseUrl = _getBaseUrl();
-  baseUrl = 'http://localhost:8000/api';
+  static String baseUrl = 'http://localhost:8000/api';
   static String clientsEndpoint = '/clients';
   static String propertiesEndpoint = '/properties';
   static String authEndpoint = '/auth';
-
-  Future<String> _getBaseUrl() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final name = prefs.getString('ConnectionString') ?? '';
-  }
 }
 
 class Endpoints {
