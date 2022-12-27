@@ -174,7 +174,7 @@ class Client {
     try {
       debugPrint("delete Client: ${this.firstname} ${this.lastname}");
 
-      var body = this.toJson();
+      var body = toJson();
 
       http.Response response = await http.delete(
         Uri.parse(ApiConstants.baseUrl +
