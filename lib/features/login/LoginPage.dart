@@ -13,9 +13,11 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  final _formKey2 = GlobalKey<FormState>();
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  TextEditingController _email = new TextEditingController();
-  TextEditingController _password = new TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
+  final TextEditingController _connectionString = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -26,6 +28,9 @@ class _LoginPageState extends State<LoginPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final name = prefs.getString('loginEmail') ?? '';
     _email.text = name;
+
+    final connString = prefs.getString('ConnectionString') ?? '';
+    _connectionString.text = connString;
     print(name);
   }
 
@@ -36,6 +41,25 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Login'),
+        actions: [
+          PopupMenuButton<String>(
+            onSelected: (val) {
+              switch (val) {
+                case 'Settings':
+                  _showSettingsDialog(_connectionString);
+                  break;
+              }
+            },
+            itemBuilder: (BuildContext context) {
+              return {'Settings'}.map((String choice) {
+                return PopupMenuItem<String>(
+                  value: choice,
+                  child: Text(choice),
+                );
+              }).toList();
+            },
+          ),
+        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -135,13 +159,64 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  void _showSettingsDialog(TextEditingController connectionString) {
+    final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Login Settings"),
+            content: Form(
+              key: _formKey2,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      controller: connectionString,
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Connection Url'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Invalid Password';
+                        }
+                        connectionString.text = value;
+                        return null;
+                      },
+                      onFieldSubmitted: (value) {
+                        if (_formKey2.currentState!.validate()) {
+                          setConnectionString(connectionString.text);
+                        } else {
+                          print("Connection String nicht gültig");
+                        }
+                      },
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_formKey2.currentState!.validate()) {
+                        setConnectionString(connectionString.text);
+                      } else {
+                        print("Connection String nicht gültig");
+                      }
+                    },
+                    child: Text('Save'),
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
   void loginUser(String email, String password) {
     UserModel user = UserModel(email: email, password: password);
     var response = user.loginUser(user).then(
       (value) {
         if (value!.statusCode == 200) {
-          final snackBar = SnackBar(
-            content: const Text("Login Successful!"),
+          const snackBar = SnackBar(
+            content: Text("Login Successful!"),
             backgroundColor: (Colors.green),
             duration: Duration(seconds: 2),
           );
@@ -152,8 +227,8 @@ class _LoginPageState extends State<LoginPage> {
             (route) => false,
           );
         } else {
-          final snackBar = SnackBar(
-            content: const Text("Login Error!"),
+          const snackBar = SnackBar(
+            content: Text("Login Error!"),
             backgroundColor: (Colors.red),
             duration: Duration(seconds: 2),
           );
@@ -161,5 +236,17 @@ class _LoginPageState extends State<LoginPage> {
         }
       },
     );
+  }
+
+  Future<void> setConnectionString(String text) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('ConnectionString', text);
+    Navigator.pop(context);
+    const snackBar = SnackBar(
+      content: Text("Connection saved!"),
+      backgroundColor: (Colors.green),
+      duration: Duration(seconds: 2),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
