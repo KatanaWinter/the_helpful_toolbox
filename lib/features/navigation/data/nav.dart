@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/features/cases/presentation/cases_page.dart';
-import 'package:the_helpful_toolbox/features/clients/presentation/clients_page.dart';
-import 'package:the_helpful_toolbox/features/company/presentation/company_page.dart';
-import 'package:the_helpful_toolbox/features/dashboard/presentation/dashboard.dart';
+import 'package:the_helpful_toolbox/features/clients/clients_page.dart';
+import 'package:the_helpful_toolbox/features/company/company_page.dart';
+import 'package:the_helpful_toolbox/features/dashboard/dashboard.dart';
 
 class NavigationItem {
   int id;

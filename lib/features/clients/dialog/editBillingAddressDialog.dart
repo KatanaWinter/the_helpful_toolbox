@@ -1,32 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:the_helpful_toolbox/features/clients/data/client.dart';
-import 'package:the_helpful_toolbox/features/clients/data/property.dart';
-import 'package:the_helpful_toolbox/features/clients/presentation/show/client_page.dart';
-import 'package:the_helpful_toolbox/helper/media_query.dart';
 import 'package:http/http.dart' as http;
+import 'package:the_helpful_toolbox/data/models/BillingAddressModel.dart';
+import 'package:the_helpful_toolbox/data/models/client.dart';
+import 'package:the_helpful_toolbox/data/models/property.dart';
+import 'package:the_helpful_toolbox/features/clients/clients_page.dart';
+import 'package:the_helpful_toolbox/features/clients/show/client_page.dart';
+import 'package:the_helpful_toolbox/helper/media_query.dart';
 
-class EditPropertyDialog extends StatefulWidget {
-  Property property;
+class EditBillingAddressDialog extends StatefulWidget {
   Client client;
-  EditPropertyDialog(this.property, this.client, {super.key});
+  EditBillingAddressDialog({required this.client, super.key});
 
   @override
-  State<EditPropertyDialog> createState() => _EditPropertyDialogState();
+  State<EditBillingAddressDialog> createState() =>
+      _EditBillingAddressDialogState();
 }
 
-class _EditPropertyDialogState extends State<EditPropertyDialog> {
+class _EditBillingAddressDialogState extends State<EditBillingAddressDialog> {
   final _formKey = GlobalKey<FormState>();
 
   @override
-  void initState() {
-    // TODO: implement initState
-
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    Property _property = widget.property;
+    BillingAddress _billingAddress = BillingAddress(
+        clientId: 1,
+        name: "",
+        street: "",
+        city: "",
+        state: "",
+        postalcode: "",
+        country: "");
+    _billingAddress = widget.client.billingAddress!;
+
+    _billingAddress.clientId = widget.client.id;
+    _billingAddress.active = 1;
+    _billingAddress.name = "Billing Address";
     return AlertDialog(
       title: const Text('Edit Property'),
       content: Form(
@@ -56,10 +63,8 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Name'),
-                                initialValue: _property.name,
-                                onChanged: (val) => setState(() {
-                                  _property.name = val;
-                                }),
+                                initialValue: _billingAddress.name,
+                                enabled: false,
                               ),
                             ),
                             Padding(
@@ -68,9 +73,9 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Street'),
-                                initialValue: _property.street,
+                                initialValue: _billingAddress.street,
                                 onChanged: (val) => setState(() {
-                                  _property.street = val;
+                                  _billingAddress.street = val;
                                 }),
                               ),
                             ),
@@ -80,9 +85,9 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Street 2'),
-                                initialValue: _property.street2,
+                                initialValue: _billingAddress.street2,
                                 onChanged: (val) => setState(() {
-                                  _property.street2 = val;
+                                  _billingAddress.street2 = val;
                                 }),
                               ),
                             ),
@@ -92,9 +97,9 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'City'),
-                                initialValue: _property.city,
+                                initialValue: _billingAddress.city,
                                 onChanged: (val) => setState(() {
-                                  _property.city = val;
+                                  _billingAddress.city = val;
                                 }),
                               ),
                             ),
@@ -104,9 +109,9 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'State'),
-                                initialValue: _property.state,
+                                initialValue: _billingAddress.state,
                                 onChanged: (val) => setState(() {
-                                  _property.state = val;
+                                  _billingAddress.state = val;
                                 }),
                               ),
                             ),
@@ -116,9 +121,9 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Postal Code'),
-                                initialValue: _property.postalcode,
+                                initialValue: _billingAddress.postalcode,
                                 onChanged: (val) => setState(() {
-                                  _property.postalcode = val;
+                                  _billingAddress.postalcode = val;
                                 }),
                               ),
                             ),
@@ -151,7 +156,8 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
             child: Text('Save'),
           ),
           onPressed: () {
-            savedEditProperty(context, _property);
+            saveBillingAddressForClient(
+                context, widget.client, _billingAddress);
             // Hier passiert etwas anderes
           },
         ),
@@ -159,16 +165,19 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
     );
   }
 
-  savedEditProperty(context, property) async {
-    debugPrint("save property");
-
-    http.Response? _response = await property.updateProperty(property);
-
-    // Navigator.of(context)
-    //     .push(MaterialPageRoute(builder: (context) => ClientPage(_client)));
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => ClientPage(widget.client)),
-      (route) => false,
-    );
+  saveBillingAddressForClient(
+      context, Client _client, BillingAddress billingAddress) async {
+    debugPrint("save billing address to Database");
+    billingAddress.clientId = _client.id;
+    if (_client.billingAddressId == -1) {
+      bool stored = await billingAddress.billingAddressStore(context);
+    } else {
+      bool stored = await billingAddress.billingAddressUpdate(context);
+    }
+    // _client.billingAddressId = _property.id;
+    // await _client.updateClient(_client);
+    setState(() {});
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => ClientPage(_client)));
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_helpful_toolbox/data/models/UserModel.dart';
-import 'package:the_helpful_toolbox/features/dashboard/presentation/dashboard.dart';
+import 'package:the_helpful_toolbox/features/dashboard/dashboard.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class LoginPage extends StatefulWidget {

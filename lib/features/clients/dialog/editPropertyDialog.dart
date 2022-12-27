@@ -1,53 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:the_helpful_toolbox/features/clients/data/client.dart';
-import 'package:the_helpful_toolbox/features/clients/data/property.dart';
-import 'package:the_helpful_toolbox/features/clients/presentation/clients_page.dart';
+import 'package:the_helpful_toolbox/data/models/client.dart';
+import 'package:the_helpful_toolbox/data/models/property.dart';
+import 'package:the_helpful_toolbox/features/clients/show/client_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
+import 'package:http/http.dart' as http;
 
-class EditClientDialog extends StatefulWidget {
+class EditPropertyDialog extends StatefulWidget {
+  Property property;
   Client client;
-  EditClientDialog(this.client, {super.key});
+  EditPropertyDialog(this.property, this.client, {super.key});
 
   @override
-  State<EditClientDialog> createState() => _EditClientDialogState();
+  State<EditPropertyDialog> createState() => _EditPropertyDialogState();
 }
 
-class _EditClientDialogState extends State<EditClientDialog> {
+class _EditPropertyDialogState extends State<EditPropertyDialog> {
   final _formKey = GlobalKey<FormState>();
-  Client _client = Client(
-    id: 1,
-    title: "",
-    firstname: "Kevin Winter",
-    lastname: "Winter",
-    mobilenumber: "",
-    phonenumber: "",
-    email: "kcgwinter@t-online.de",
-    rating: 5,
-    active: 1,
-    properties: [],
-  );
-  Property billingAddress = Property(
-    city: '',
-    clientId: 1,
-    country: '',
-    name: '',
-    postalcode: '',
-    state: '',
-    street: '',
-  );
 
   @override
   void initState() {
-    // billingAddress = _client.getBillingAddress(_client);
-    _client = widget.client;
-    // billingAddress = widget.client.billingAddress;
+    // TODO: implement initState
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    Property _property = widget.property;
     return AlertDialog(
-      title: const Text('Edit Client'),
+      title: const Text('Edit Property'),
       content: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -66,7 +47,6 @@ class _EditClientDialogState extends State<EditClientDialog> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text("Client:"),
                             const SizedBox(
                               height: 10,
                             ),
@@ -75,34 +55,10 @@ class _EditClientDialogState extends State<EditClientDialog> {
                               child: TextFormField(
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'First name'),
+                                    labelText: 'Name'),
+                                initialValue: _property.name,
                                 onChanged: (val) => setState(() {
-                                  _client.firstname = val;
-                                }),
-                                initialValue: widget.client.firstname,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Last name'),
-                                onChanged: (val) => setState(() {
-                                  _client.lastname = val;
-                                }),
-                                initialValue: widget.client.lastname,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Company name'),
-                                initialValue: "",
-                                onChanged: (val) => setState(() {
-                                  // _client.c = val;
+                                  _property.name = val;
                                 }),
                               ),
                             ),
@@ -111,22 +67,10 @@ class _EditClientDialogState extends State<EditClientDialog> {
                               child: TextFormField(
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'Phone number'),
+                                    labelText: 'Street'),
+                                initialValue: _property.street,
                                 onChanged: (val) => setState(() {
-                                  _client.phonenumber = val;
-                                }),
-                                initialValue: widget.client.phonenumber,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Mobile number'),
-                                initialValue: widget.client.mobilenumber,
-                                onChanged: (val) => setState(() {
-                                  _client.mobilenumber = val;
+                                  _property.street = val;
                                 }),
                               ),
                             ),
@@ -135,10 +79,46 @@ class _EditClientDialogState extends State<EditClientDialog> {
                               child: TextFormField(
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'Email'),
-                                initialValue: widget.client.email,
+                                    labelText: 'Street 2'),
+                                initialValue: _property.street2,
                                 onChanged: (val) => setState(() {
-                                  _client.email = val;
+                                  _property.street2 = val;
+                                }),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'City'),
+                                initialValue: _property.city,
+                                onChanged: (val) => setState(() {
+                                  _property.city = val;
+                                }),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'State'),
+                                initialValue: _property.state,
+                                onChanged: (val) => setState(() {
+                                  _property.state = val;
+                                }),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Postal Code'),
+                                initialValue: _property.postalcode,
+                                onChanged: (val) => setState(() {
+                                  _property.postalcode = val;
                                 }),
                               ),
                             ),
@@ -171,7 +151,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
             child: Text('Save'),
           ),
           onPressed: () {
-            saveClientWithProperty(context, _client);
+            savedEditProperty(context, _property);
             // Hier passiert etwas anderes
           },
         ),
@@ -179,11 +159,16 @@ class _EditClientDialogState extends State<EditClientDialog> {
     );
   }
 
-  saveClientWithProperty(context, Client client) async {
-    debugPrint("save client to Database");
-    client.billingAddress = billingAddress;
-    await client.updateClient(client, context);
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => ClientsPage()));
+  savedEditProperty(context, property) async {
+    debugPrint("save property");
+
+    http.Response? _response = await property.updateProperty(property);
+
+    // Navigator.of(context)
+    //     .push(MaterialPageRoute(builder: (context) => ClientPage(_client)));
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => ClientPage(widget.client)),
+      (route) => false,
+    );
   }
 }

@@ -15,7 +15,7 @@ class CasesPage extends StatefulWidget {
 
 class _CasesPageState extends State<CasesPage> {
   TextEditingController searchController = TextEditingController();
-  List<Case> lCases = getAllCases();
+  List<Case> lCases = List<Case>.empty(growable: true);
   late List<Case> lFilteredCases = List<Case>.empty(growable: true);
   List<CaseState> lCaseState = getAllStateFilter();
   CaseState _selectedState = CaseState(name: "All");

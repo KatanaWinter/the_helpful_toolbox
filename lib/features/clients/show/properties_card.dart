@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:the_helpful_toolbox/features/clients/data/client.dart';
-import 'package:the_helpful_toolbox/features/clients/data/property.dart';
-import 'package:the_helpful_toolbox/features/clients/presentation/dialog/addPropertyDialog.dart';
-import 'package:the_helpful_toolbox/features/clients/presentation/dialog/editPropertyDialog.dart';
-import 'package:the_helpful_toolbox/features/clients/presentation/show/client_page.dart';
+import 'package:the_helpful_toolbox/data/models/client.dart';
+import 'package:the_helpful_toolbox/data/models/property.dart';
+import 'package:the_helpful_toolbox/features/clients/dialog/addPropertyDialog.dart';
+import 'package:the_helpful_toolbox/features/clients/dialog/editPropertyDialog.dart';
+import 'package:the_helpful_toolbox/features/clients/show/client_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class PropertiesCard extends StatelessWidget {
@@ -64,7 +64,7 @@ class PropertiesCard extends StatelessWidget {
                             children: [
                               SizedBox(
                                   width: contentWidth * 0.1,
-                                  child: AutoSizeText(property.name)),
+                                  child: AutoSizeText(property.name!)),
                               SizedBox(
                                 width: contentWidth * 0.2,
                                 child: AutoSizeText(
@@ -84,7 +84,7 @@ class PropertiesCard extends StatelessWidget {
                                   ),
                                   IconButton(
                                       onPressed: () {
-                                        property.deleteProperty();
+                                        property.propertyDelete(context);
                                         Navigator.of(context).push(
                                             MaterialPageRoute(
                                                 builder: (context) =>

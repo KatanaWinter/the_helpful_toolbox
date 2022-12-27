@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:the_helpful_toolbox/features/clients/data/client.dart';
-import 'package:the_helpful_toolbox/features/clients/presentation/dialog/editClientDialog.dart';
-import 'package:the_helpful_toolbox/features/clients/presentation/dialog/newClientDialog.dart';
-import 'package:the_helpful_toolbox/features/clients/presentation/show/billingAddress_card.dart';
-import 'package:the_helpful_toolbox/features/clients/presentation/show/cases_card.dart';
-import 'package:the_helpful_toolbox/features/clients/presentation/show/contactdata_card.dart';
-import 'package:the_helpful_toolbox/features/clients/presentation/show/properties_card.dart';
+import 'package:the_helpful_toolbox/data/models/client.dart';
+import 'package:the_helpful_toolbox/features/clients/dialog/editClientDialog.dart';
+import 'package:the_helpful_toolbox/features/clients/dialog/newClientDialog.dart';
+import 'package:the_helpful_toolbox/features/clients/show/billingAddress_card.dart';
+import 'package:the_helpful_toolbox/features/clients/show/cases_card.dart';
+import 'package:the_helpful_toolbox/features/clients/show/contactdata_card.dart';
+import 'package:the_helpful_toolbox/features/clients/show/properties_card.dart';
 import 'package:the_helpful_toolbox/features/navigation/presentation/sidebarnav.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
@@ -93,7 +93,7 @@ class _ClientPageState extends State<ClientPage> {
                             onPressed: () {
                               switchActiveInactive(context, client);
                             },
-                            child: snapshot.data!.active >= 1
+                            child: snapshot.data!.active! >= 1
                                 ? const Padding(
                                     padding: EdgeInsets.all(8.0),
                                     child: Text("Set Inactive"),
@@ -118,13 +118,13 @@ class _ClientPageState extends State<ClientPage> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                            color: snapshot.data!.active >= 1
+                            color: snapshot.data!.active! >= 1
                                 ? Colors.green
                                 : Colors.red,
                             borderRadius: BorderRadius.circular(5)),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text(snapshot.data!.active >= 1
+                          child: Text(snapshot.data!.active! >= 1
                               ? "Active"
                               : "Inactive"),
                         ),

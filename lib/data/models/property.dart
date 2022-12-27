@@ -1,30 +1,39 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:the_helpful_toolbox/helper/api_service.dart';
 import 'package:the_helpful_toolbox/helper/constants.dart';
+
+List<Property> propertiesFromJson(String str) =>
+    List<Property>.from(json.decode(str).map((x) => Property.fromJson(x)));
+
+String propertiesToJson(List<Property> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Property {
   Property({
     this.id,
-    required this.clientId,
-    required this.name,
-    required this.street,
+    this.clientId,
+    this.name,
+    this.street,
     this.street2 = "",
-    required this.city,
-    required this.state,
-    required this.postalcode,
-    required this.country,
+    this.city,
+    this.state,
+    this.postalcode,
+    this.country,
     this.active = 1,
   });
 
   int? id;
-  int clientId;
-  String name;
-  String street;
-  String street2;
-  String city;
-  String state;
-  String postalcode;
-  String country;
+  int? clientId;
+  String? name;
+  String? street;
+  String? street2;
+  String? city;
+  String? state;
+  String? postalcode;
+  String? country;
   int active;
   dynamic createdAt;
   dynamic updatedAt;
@@ -68,16 +77,14 @@ class Property {
         "country": country.toString(),
       };
 
-  Future<http.Response?> saveProperty(Property property) async {
+  Future<http.Response?> propertyStore(context) async {
     try {
       debugPrint("save new Property: $name");
 
-      var body = property.toJson();
-
-      http.Response response = await http.post(
-        Uri.parse(ApiConstants.baseUrl + ApiConstants.propertiesEndpoint),
-        body: body,
-      );
+      var body = toJson();
+      ApiService apiService = ApiService();
+      http.Response response = await apiService.post(
+          url: '/properties', body: body, context: context);
 
       if (response.statusCode == 200) {
         debugPrint("Save success");
@@ -92,26 +99,21 @@ class Property {
     return null;
   }
 
-  Future<http.Response?> updateProperty(Property property) async {
+  Future<http.Response?> propertyUpdate(context) async {
     try {
       debugPrint("update new Property: $name");
 
-      var body = property.toJson();
-      String url = ApiConstants.baseUrl +
-          ApiConstants.propertiesEndpoint +
-          "/" +
-          property.id.toString();
-      http.Response response = await http.put(
-        Uri.parse(url),
-        body: body,
-      );
+      var body = toJson();
+      String sId = id.toString();
+      ApiService apiService = new ApiService();
+      http.Response response = await apiService.put(
+          url: '/properties/$sId', body: body, context: context);
 
       if (response.statusCode == 200) {
         debugPrint("Update success");
       } else {
         debugPrint(response.body);
       }
-
       return response;
     } catch (e) {
       debugPrint("Error in update :$e");
@@ -119,45 +121,13 @@ class Property {
     return null;
   }
 
-  Future<http.Response?> deleteProperty() async {
+  Future<http.Response?> propertyShow(context) async {
     try {
-      debugPrint("delete Property: ${name}");
-
       var body = toJson();
-
-      http.Response response = await http.delete(
-        Uri.parse(ApiConstants.baseUrl +
-            ApiConstants.propertiesEndpoint +
-            "/" +
-            id.toString()),
-        body: id.toString(),
-      );
-
-      if (response.statusCode == 200) {
-        debugPrint("Delete success");
-      } else {
-        debugPrint(response.body);
-      }
-
-      return response;
-    } catch (e) {
-      debugPrint("Error in update :$e");
-    }
-    return null;
-  }
-
-  Future<http.Response?> getProperty() async {
-    try {
-      debugPrint("get Property: ${id}");
-
-      var body = toJson();
-
-      http.Response response = await http.get(
-        Uri.parse(ApiConstants.baseUrl +
-            ApiConstants.propertiesEndpoint +
-            "/" +
-            id.toString()),
-      );
+      ApiService apiService = ApiService();
+      String sId = id.toString();
+      var response =
+          await apiService.get(url: "/properties/$sId", context: context);
 
       if (response.statusCode == 200) {
         debugPrint("Property received successful");
@@ -172,39 +142,40 @@ class Property {
     return null;
   }
 
-  delete() {
-    debugPrint("delete new Client: $name street: $street");
+  Future<http.Response?> propertyDelete(context) async {
+    try {
+      ApiService apiService = ApiService();
+      String sId = id.toString();
+      var response =
+          await apiService.delete(url: "/properties/$sId", context: context);
+
+      if (response.statusCode == 200) {
+        debugPrint("Delete success");
+      } else {
+        debugPrint(response.body);
+      }
+
+      return response;
+    } catch (e) {
+      debugPrint("Error in update :$e");
+    }
+    return null;
   }
 }
 
-getSingleProperty(int clientId) {
-  return Property(
-      name: "Main Property",
-      street: "Meta-Grube-Weg 29",
-      city: "Cuxhaven",
-      postalcode: "27474",
-      state: "NI",
-      clientId: 1,
-      country: 'Test');
-}
-
-getAllProperties() {
-  return [
-    Property(
-        name: "Main Property",
-        street: "Meta-Grube-Weg 29",
-        city: "Cuxhaven",
-        postalcode: "27474",
-        state: "NI",
-        clientId: 1,
-        country: 'Test'),
-    Property(
-        name: "Second Property",
-        street: "Meta-Grube-Weg 29",
-        city: "Cuxhaven",
-        postalcode: "27474",
-        state: "NI",
-        clientId: 1,
-        country: 'Test'),
-  ];
+Future<List<Property>> propertyIndex(context) async {
+  List<Property> model = [];
+  try {
+    ApiService apiService = ApiService();
+    var response =
+        await apiService.get(url: "/billingAddresses", context: context);
+    if (response.statusCode == 200) {
+      model = propertiesFromJson(response.body);
+      // debugPrint("test");
+      return model;
+    }
+  } catch (e) {
+    rethrow;
+  }
+  return model;
 }

@@ -4,8 +4,8 @@ import 'package:the_helpful_toolbox/features/cases/data/case_status.dart';
 import 'package:the_helpful_toolbox/features/cases/data/job.dart';
 import 'package:the_helpful_toolbox/features/cases/data/quote.dart';
 import 'package:the_helpful_toolbox/features/cases/data/request.dart';
-import 'package:the_helpful_toolbox/features/clients/data/client.dart';
-import 'package:the_helpful_toolbox/features/clients/data/property.dart';
+import 'package:the_helpful_toolbox/data/models/client.dart';
+import 'package:the_helpful_toolbox/data/models/property.dart';
 
 class Case {
   int id;
@@ -37,53 +37,4 @@ class Case {
   delete() {
     debugPrint("delete new Case: $name");
   }
-}
-
-getSingleCase(int caseId) {
-  debugPrint("ToDo: create connection to database");
-  return Case(
-      name: "Our first Case",
-      state: CaseState(name: "Request"),
-      status: CaseStatus(name: "New"),
-      property: getSingleProperty(1));
-}
-
-getAllCases() {
-  return [
-    Case(
-        name: "Our first Case",
-        state: CaseState(name: "Request"),
-        status: CaseStatus(name: "New"),
-        property: getSingleProperty(1)),
-    Case(
-        name: "Wuhuu second Case",
-        state: CaseState(name: "Request"),
-        status: CaseStatus(name: "Decline"),
-        property: getSingleProperty(1)),
-    Case(
-        name: "i need more cases",
-        state: CaseState(name: "Request"),
-        status: CaseStatus(name: "Converted to Quote"),
-        property: getSingleProperty(1)),
-  ];
-}
-
-getCasesOfClient(Client client) {
-  return [
-    Case(
-        name: "Our first Case",
-        state: CaseState(name: "Request"),
-        status: CaseStatus(name: "New"),
-        property: getSingleProperty(1)),
-    Case(
-        name: "Wuhuu second Case",
-        state: CaseState(name: "Request"),
-        status: CaseStatus(name: "Decline"),
-        property: getSingleProperty(1)),
-    Case(
-        name: "i need more cases",
-        state: CaseState(name: "Request"),
-        status: CaseStatus(name: "Converted to Quote"),
-        property: getSingleProperty(1)),
-  ];
 }

@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:the_helpful_toolbox/features/clients/data/client.dart';
+import 'package:the_helpful_toolbox/data/models/client.dart';
 import 'package:the_helpful_toolbox/features/login/LoginPage.dart';
 import 'package:the_helpful_toolbox/helper/constants.dart';
 

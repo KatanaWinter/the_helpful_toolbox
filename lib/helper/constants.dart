@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:the_helpful_toolbox/features/dashboard/presentation/dashboard.dart';
+import 'package:the_helpful_toolbox/features/dashboard/dashboard.dart';
 
 class ApiConstants {
   static String baseUrl = 'http://localhost:8000/api';

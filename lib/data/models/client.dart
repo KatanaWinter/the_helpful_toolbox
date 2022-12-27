@@ -1,16 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:the_helpful_toolbox/features/clients/data/property.dart';
+import 'package:the_helpful_toolbox/data/models/BillingAddressModel.dart';
+import 'package:the_helpful_toolbox/data/models/property.dart';
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:the_helpful_toolbox/helper/api_service.dart';
-import 'package:the_helpful_toolbox/helper/constants.dart';
 
-List<Client> clientFromJson(String str) =>
+List<Client> clientsFromJson(String str) =>
     List<Client>.from(json.decode(str).map((x) => Client.fromJson(x)));
 
-String clientToJson(List<Client> data) =>
+String clientsToJson(List<Client> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Client {
@@ -30,49 +30,19 @@ class Client {
   });
 
   int id;
-  dynamic title;
-  String firstname;
-  String lastname;
-  dynamic mobilenumber;
-  dynamic phonenumber;
-  dynamic email;
-  int rating;
-  int active;
+  String? title;
+  String? firstname;
+  String? lastname;
+  String? mobilenumber;
+  String? phonenumber;
+  String? email;
+  int? rating;
+  int? active;
   int? billingAddressId;
-  dynamic createdAt;
-  dynamic updatedAt;
   List<Property>? properties;
-  Property? billingAddress;
+  BillingAddress? billingAddress;
 
   factory Client.fromJson(Map<String, dynamic> json) => Client(
-        id: json["id"],
-        title: json["title"],
-        firstname: json["firstname"],
-        lastname: json["lastname"],
-        mobilenumber: json["mobilenumber"] ?? "",
-        phonenumber: json["phonenumber"] ?? "",
-        email: json["email"] ?? "",
-        rating: json["rating"],
-        active: json["active"],
-        billingAddressId: json["billingAddress_id"] != null
-            ? json["billingAddress_id"]
-            : null,
-        properties: List<Property>.from(
-            json["properties"].map((x) => Property.fromJson(x))),
-        billingAddress: json["billing_address"] != null
-            ? Property.fromJson(json["billing_address"])
-            : Property(
-                clientId: -1,
-                name: "",
-                street: "",
-                city: "",
-                state: "",
-                postalcode: "",
-                country: ""),
-      );
-
-  Client fromJson(Map<String, dynamic> json) {
-    Client client = Client(
       id: json["id"],
       title: json["title"],
       firstname: json["firstname"],
@@ -82,21 +52,26 @@ class Client {
       email: json["email"] ?? "",
       rating: json["rating"],
       active: json["active"],
-      billingAddressId:
-          json["billingAddress_id"] != null ? json["billingAddress_id"] : -1,
+      billingAddressId: json["billingAddress_id"],
       properties: List<Property>.from(
           json["properties"].map((x) => Property.fromJson(x))),
-      billingAddress: json["billing_address"] != null
-          ? Property.fromJson(json["billing_address"])
-          : Property(
-              clientId: -1,
-              name: "",
-              street: "",
-              city: "",
-              state: "",
-              postalcode: "",
-              country: ""),
-    );
+      billingAddress: json["billing_address"]);
+
+  Client fromJson(Map<String, dynamic> json) {
+    Client client = Client(
+        id: json["id"],
+        title: json["title"],
+        firstname: json["firstname"],
+        lastname: json["lastname"],
+        mobilenumber: json["mobilenumber"] ?? "",
+        phonenumber: json["phonenumber"] ?? "",
+        email: json["email"] ?? "",
+        rating: json["rating"],
+        active: json["active"],
+        billingAddressId: json["billingAddress_id"],
+        properties: List<Property>.from(
+            json["properties"].map((x) => Property.fromJson(x))),
+        billingAddress: json["billing_address"]);
     return client;
   }
 
@@ -112,8 +87,6 @@ class Client {
         "active": active.toString(),
         if (billingAddressId != null)
           "billingAddress_id": billingAddressId.toString(),
-        // "created_at": createdAt.toString(),
-        // "updated_at": updatedAt.toString(),
         "properties":
             List<dynamic>.from(properties!.map((x) => x.toJson())).toString(),
         "billing_address":
@@ -125,7 +98,7 @@ class Client {
       debugPrint("save new Client: $firstname $lastname");
 
       var body = client.toJson();
-      ApiService apiService = new ApiService();
+      ApiService apiService = ApiService();
       http.Response response =
           await apiService.post(url: '/clients', body: body, context: context);
 
@@ -218,7 +191,7 @@ Future<List<Client>> getClients(context) async {
     ApiService apiService = ApiService();
     var response = await apiService.get(url: "/clients", context: context);
     if (response.statusCode == 200) {
-      model = clientFromJson(response.body);
+      model = clientsFromJson(response.body);
       // debugPrint("test");
       return model;
     }

@@ -1,40 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:the_helpful_toolbox/features/clients/data/client.dart';
-import 'package:the_helpful_toolbox/features/clients/data/property.dart';
-import 'package:the_helpful_toolbox/features/clients/presentation/clients_page.dart';
-import 'package:the_helpful_toolbox/features/clients/presentation/show/client_page.dart';
+import 'package:the_helpful_toolbox/data/models/BillingAddressModel.dart';
+import 'package:the_helpful_toolbox/data/models/client.dart';
+import 'package:the_helpful_toolbox/data/models/property.dart';
+import 'package:the_helpful_toolbox/features/clients/clients_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
-class EditBillingAddressDialog extends StatefulWidget {
+class EditClientDialog extends StatefulWidget {
   Client client;
-  EditBillingAddressDialog({required this.client, super.key});
+  EditClientDialog(this.client, {super.key});
 
   @override
-  State<EditBillingAddressDialog> createState() =>
-      _EditBillingAddressDialogState();
+  State<EditClientDialog> createState() => _EditClientDialogState();
 }
 
-class _EditBillingAddressDialogState extends State<EditBillingAddressDialog> {
+class _EditClientDialogState extends State<EditClientDialog> {
   final _formKey = GlobalKey<FormState>();
+  Client _client = Client(
+    id: 1,
+    title: "",
+    firstname: "Kevin Winter",
+    lastname: "Winter",
+    mobilenumber: "",
+    phonenumber: "",
+    email: "kcgwinter@t-online.de",
+    rating: 5,
+    active: 1,
+    properties: [],
+  );
+  BillingAddress billingAddress = BillingAddress(
+    city: '',
+    clientId: 1,
+    country: '',
+    name: '',
+    postalcode: '',
+    state: '',
+    street: '',
+  );
+
+  @override
+  void initState() {
+    // billingAddress = _client.getBillingAddress(_client);
+    _client = widget.client;
+    // billingAddress = widget.client.billingAddress;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    Property _billingAddress = Property(
-        clientId: 1,
-        name: "",
-        street: "",
-        city: "",
-        state: "",
-        postalcode: "",
-        country: "");
-    _billingAddress = widget.client.billingAddress!;
-
-    _billingAddress.clientId = widget.client.id;
-    _billingAddress.active = 1;
-    _billingAddress.name = "Billing Address";
     return AlertDialog(
-      title: const Text('Edit Property'),
+      title: const Text('Edit Client'),
       content: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -53,6 +67,7 @@ class _EditBillingAddressDialogState extends State<EditBillingAddressDialog> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            const Text("Client:"),
                             const SizedBox(
                               height: 10,
                             ),
@@ -61,9 +76,11 @@ class _EditBillingAddressDialogState extends State<EditBillingAddressDialog> {
                               child: TextFormField(
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'Name'),
-                                initialValue: _billingAddress.name,
-                                enabled: false,
+                                    labelText: 'First name'),
+                                onChanged: (val) => setState(() {
+                                  _client.firstname = val;
+                                }),
+                                initialValue: widget.client.firstname,
                               ),
                             ),
                             Padding(
@@ -71,10 +88,22 @@ class _EditBillingAddressDialogState extends State<EditBillingAddressDialog> {
                               child: TextFormField(
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'Street'),
-                                initialValue: _billingAddress.street,
+                                    labelText: 'Last name'),
                                 onChanged: (val) => setState(() {
-                                  _billingAddress.street = val;
+                                  _client.lastname = val;
+                                }),
+                                initialValue: widget.client.lastname,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Company name'),
+                                initialValue: "",
+                                onChanged: (val) => setState(() {
+                                  // _client.c = val;
                                 }),
                               ),
                             ),
@@ -83,10 +112,22 @@ class _EditBillingAddressDialogState extends State<EditBillingAddressDialog> {
                               child: TextFormField(
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'Street 2'),
-                                initialValue: _billingAddress.street2,
+                                    labelText: 'Phone number'),
                                 onChanged: (val) => setState(() {
-                                  _billingAddress.street2 = val;
+                                  _client.phonenumber = val;
+                                }),
+                                initialValue: widget.client.phonenumber,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Mobile number'),
+                                initialValue: widget.client.mobilenumber,
+                                onChanged: (val) => setState(() {
+                                  _client.mobilenumber = val;
                                 }),
                               ),
                             ),
@@ -95,34 +136,10 @@ class _EditBillingAddressDialogState extends State<EditBillingAddressDialog> {
                               child: TextFormField(
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'City'),
-                                initialValue: _billingAddress.city,
+                                    labelText: 'Email'),
+                                initialValue: widget.client.email,
                                 onChanged: (val) => setState(() {
-                                  _billingAddress.city = val;
-                                }),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: 'State'),
-                                initialValue: _billingAddress.state,
-                                onChanged: (val) => setState(() {
-                                  _billingAddress.state = val;
-                                }),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Postal Code'),
-                                initialValue: _billingAddress.postalcode,
-                                onChanged: (val) => setState(() {
-                                  _billingAddress.postalcode = val;
+                                  _client.email = val;
                                 }),
                               ),
                             ),
@@ -155,8 +172,7 @@ class _EditBillingAddressDialogState extends State<EditBillingAddressDialog> {
             child: Text('Save'),
           ),
           onPressed: () {
-            saveBillingAddressForClient(
-                context, widget.client, _billingAddress);
+            saveClientWithProperty(context, _client);
             // Hier passiert etwas anderes
           },
         ),
@@ -164,21 +180,11 @@ class _EditBillingAddressDialogState extends State<EditBillingAddressDialog> {
     );
   }
 
-  saveBillingAddressForClient(
-      context, Client _client, Property billingAddress) async {
-    debugPrint("save billing address to Database");
-    billingAddress.clientId = _client.id;
-    if (_client.billingAddressId == -1) {
-      http.Response? _property =
-          await billingAddress.saveProperty(billingAddress);
-    } else {
-      http.Response? _property =
-          await billingAddress.updateProperty(billingAddress);
-    }
-    // _client.billingAddressId = _property.id;
-    // await _client.updateClient(_client);
-    setState(() {});
+  saveClientWithProperty(context, Client client) async {
+    debugPrint("save client to Database");
+    client.billingAddress = billingAddress;
+    await client.updateClient(client, context);
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => ClientPage(_client)));
+        .push(MaterialPageRoute(builder: (context) => ClientsPage()));
   }
 }

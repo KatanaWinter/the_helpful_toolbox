@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/features/cases/data/case.dart';
-import 'package:the_helpful_toolbox/features/clients/data/client.dart';
+import 'package:the_helpful_toolbox/data/models/client.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class CasesCard extends StatefulWidget {
@@ -26,7 +26,7 @@ class _CasesCardState extends State<CasesCard> {
       invoices = false;
   @override
   void initState() {
-    lCases = getCasesOfClient(widget.client);
+    lCases = List<Case>.empty(growable: true);
     lFilteredCases = lCases;
     super.initState();
   }
@@ -90,13 +90,13 @@ class _CasesCardState extends State<CasesCard> {
                                     e.state.name
                                         .toLowerCase()
                                         .contains(searchVal) ||
-                                    e.property.street
+                                    e.property.street!
                                         .toLowerCase()
                                         .contains(searchVal) ||
-                                    e.property.city
+                                    e.property.city!
                                         .toLowerCase()
                                         .contains(searchVal) ||
-                                    e.property.postalcode
+                                    e.property.postalcode!
                                         .toLowerCase()
                                         .contains(searchVal))
                                 .toList();
@@ -307,7 +307,7 @@ class _CasesCardState extends State<CasesCard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           AutoSizeText(
-                            sCase.property.street,
+                            sCase.property.street!,
                             style: const TextStyle(fontSize: 15),
                             maxLines: 2,
                           ),
