@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:the_helpful_toolbox/features/dashboard/presentation/dashboard.dart';
 
 class ApiConstants {
   static String baseUrl = 'http://localhost:8000/api';
@@ -33,4 +35,18 @@ getBaseUrl() async {
   }
 
   return connectionBaseString;
+}
+
+getBearerToken(context) async {
+  final prefs = await SharedPreferences.getInstance();
+  var bearerToken = await prefs.getString('Bearer Token');
+
+  if (bearerToken != null) {
+    return bearerToken;
+  } else {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => const Dashboard()),
+      (route) => false,
+    );
+  }
 }

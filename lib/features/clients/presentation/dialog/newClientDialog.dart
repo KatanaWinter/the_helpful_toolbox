@@ -184,9 +184,9 @@ class _NewClientDialogState extends State<NewClientDialog> {
     debugPrint("save client to Database");
     if (_billingAddress.name.isNotEmpty) {
       _client.billingAddress = _billingAddress;
-      await _client.saveClient(_client);
+      await _client.saveClient(_client, context);
     } else {
-      await _client.saveClient(_client);
+      await _client.saveClient(_client, context);
     }
     sleep(Duration(seconds: 3));
     Navigator.of(context)

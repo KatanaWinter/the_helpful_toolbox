@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:the_helpful_toolbox/helper/api_service.dart';
 import 'package:the_helpful_toolbox/helper/constants.dart';
 import 'package:http/http.dart' as http;
 
@@ -39,7 +40,8 @@ class UserModel {
       );
       if (response.statusCode == 200) {
         final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('Bearer Token', response.body);
+        await prefs.setString(
+            'Bearer Token', response.body.replaceAll('"', ''));
         await prefs.setString('loginEmail', user.email!);
         debugPrint("User login successful");
         return response;
@@ -47,11 +49,24 @@ class UserModel {
         debugPrint(response.body);
         return response;
       }
-
-      return response;
     } catch (e) {
       debugPrint("Error in save :$e");
     }
     return null;
+  }
+}
+
+Future<List<UserModel>> getUsers(context) async {
+  try {
+    ApiService apiService = new ApiService();
+
+    List<UserModel> lUsers = <UserModel>[];
+    http.Response response =
+        await apiService.get(url: "/users", context: context);
+    if (response.statusCode == 200) {}
+
+    return lUsers;
+  } catch (e) {
+    rethrow;
   }
 }

@@ -182,7 +182,7 @@ class _EditClientDialogState extends State<EditClientDialog> {
   saveClientWithProperty(context, Client client) async {
     debugPrint("save client to Database");
     client.billingAddress = billingAddress;
-    await client.updateClient(client);
+    await client.updateClient(client, context);
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => ClientsPage()));
   }

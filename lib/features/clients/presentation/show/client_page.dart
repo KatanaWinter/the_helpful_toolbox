@@ -31,7 +31,7 @@ class _ClientPageState extends State<ClientPage> {
   }
 
   Future<Client> _getData() async {
-    Client client = await _client.showClient();
+    Client client = await _client.showClient(context);
     return client;
   }
 
@@ -184,7 +184,7 @@ class _ClientPageState extends State<ClientPage> {
     } else {
       client.active = 1;
     }
-    await client.updateClient(client);
+    await client.updateClient(client, context);
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => ClientPage(client)));
   }

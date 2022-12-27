@@ -33,7 +33,7 @@ class _ClientsPageState extends State<ClientsPage> {
   }
 
   Future<List<Client>> _getData() async {
-    lClients = (await ApiService().getClients());
+    lClients = (await getClients(context));
     Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {
           lFilteredClients = lClients;
         }));
@@ -289,7 +289,7 @@ class _ClientsPageState extends State<ClientsPage> {
                                 icon: const Icon(Icons.edit)),
                             IconButton(
                                 onPressed: () {
-                                  client.deleteClient();
+                                  client.deleteClient(context);
 
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => ClientsPage()));

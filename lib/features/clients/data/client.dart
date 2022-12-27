@@ -4,6 +4,7 @@ import 'package:the_helpful_toolbox/features/clients/data/property.dart';
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:the_helpful_toolbox/helper/api_service.dart';
 import 'package:the_helpful_toolbox/helper/constants.dart';
 
 List<Client> clientFromJson(String str) =>
@@ -119,16 +120,14 @@ class Client {
             billingAddress != null ? billingAddress!.toJson().toString() : "",
       };
 
-  Future<http.Response?> saveClient(Client client) async {
+  Future<http.Response?> saveClient(Client client, context) async {
     try {
       debugPrint("save new Client: $firstname $lastname");
 
       var body = client.toJson();
-
-      http.Response response = await http.post(
-        Uri.parse(ApiConstants.baseUrl + ApiConstants.clientsEndpoint),
-        body: body,
-      );
+      ApiService apiService = new ApiService();
+      http.Response response =
+          await apiService.post(url: '/clients', body: body, context: context);
 
       if (response.statusCode == 200) {
         debugPrint("Save Client success");
@@ -143,19 +142,16 @@ class Client {
     return null;
   }
 
-  Future<http.Response?> updateClient(Client client) async {
+  Future<http.Response?> updateClient(Client client, context) async {
     try {
       debugPrint("save new Client: $firstname $lastname");
 
       var body = client.toJson();
 
-      http.Response response = await http.put(
-        Uri.parse(ApiConstants.baseUrl +
-            ApiConstants.clientsEndpoint +
-            "/" +
-            client.id.toString()),
-        body: body,
-      );
+      ApiService apiService = ApiService();
+      String sId = id.toString();
+      var response = await apiService.put(
+          url: "/clients/$sId", context: context, body: body);
 
       if (response.statusCode == 200) {
         debugPrint("Update success");
@@ -170,19 +166,13 @@ class Client {
     return null;
   }
 
-  Future<http.Response?> deleteClient() async {
+  Future<http.Response?> deleteClient(context) async {
     try {
-      debugPrint("delete Client: ${this.firstname} ${this.lastname}");
-
       var body = toJson();
-
-      http.Response response = await http.delete(
-        Uri.parse(ApiConstants.baseUrl +
-            ApiConstants.clientsEndpoint +
-            "/" +
-            this.id.toString()),
-        body: body,
-      );
+      ApiService apiService = ApiService();
+      String sId = id.toString();
+      var response =
+          await apiService.delete(url: "/clients/$sId", context: context);
 
       if (response.statusCode == 200) {
         debugPrint("Delete success");
@@ -197,19 +187,14 @@ class Client {
     return null;
   }
 
-  Future<Client> showClient() async {
+  Future<Client> showClient(context) async {
     Client model = Client();
     try {
-      debugPrint("get Client: ${id}");
-
       var body = toJson();
-
-      http.Response response = await http.get(
-        Uri.parse(ApiConstants.baseUrl +
-            ApiConstants.clientsEndpoint +
-            "/" +
-            id.toString()),
-      );
+      ApiService apiService = ApiService();
+      String sId = id.toString();
+      var response =
+          await apiService.get(url: "/clients/$sId", context: context);
 
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
@@ -219,11 +204,26 @@ class Client {
       } else {
         debugPrint(response.body);
       }
-
       return model;
     } catch (e) {
       debugPrint("Error in show :$e");
     }
     return model;
   }
+}
+
+Future<List<Client>> getClients(context) async {
+  List<Client> model = [];
+  try {
+    ApiService apiService = ApiService();
+    var response = await apiService.get(url: "/clients", context: context);
+    if (response.statusCode == 200) {
+      model = clientFromJson(response.body);
+      // debugPrint("test");
+      return model;
+    }
+  } catch (e) {
+    rethrow;
+  }
+  return model;
 }
