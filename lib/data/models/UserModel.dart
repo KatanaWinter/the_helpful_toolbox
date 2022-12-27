@@ -32,15 +32,9 @@ class UserModel {
   Future<http.Response?> loginUser(UserModel user) async {
     try {
       var body = user.toJson();
-      final prefs = await SharedPreferences.getInstance();
-      var connectionBaseString = await prefs.getString('ConnectionString');
-      if (connectionBaseString != null) {
-        connectionBaseString = "$connectionBaseString/api";
-      } else {
-        connectionBaseString = Endpoints.baseUrl;
-      }
+      String connString = await getBaseUrl();
       http.Response response = await http.post(
-        Uri.parse(connectionBaseString + Endpoints.auth + "/login"),
+        Uri.parse(connString + Endpoints.auth + "/login"),
         body: body,
       );
       if (response.statusCode == 200) {
