@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/data/models/client.dart';
-import 'package:the_helpful_toolbox/features/clients/dialog/editClientDialog.dart';
+import 'package:the_helpful_toolbox/features/clients/clients_page.dart';
+import 'package:the_helpful_toolbox/features/clients/dialog/editClientDialogInClients.dart';
 import 'package:the_helpful_toolbox/features/clients/dialog/newClientDialog.dart';
 import 'package:the_helpful_toolbox/features/clients/show/billingAddress_card.dart';
 import 'package:the_helpful_toolbox/features/clients/show/cases_card.dart';
@@ -78,7 +79,8 @@ class _ClientPageState extends State<ClientPage> {
                     children: [
                       ElevatedButton(
                           onPressed: () {
-                            Navigator.pop(context);
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ClientsPage()));
                           },
                           child: const Padding(
                             padding: EdgeInsets.all(8.0),
@@ -172,7 +174,7 @@ class _ClientPageState extends State<ClientPage> {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return EditClientDialog(client);
+        return EditClientInClientsDialog(client);
       },
     );
   }

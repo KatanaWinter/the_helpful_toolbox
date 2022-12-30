@@ -22,6 +22,7 @@ class _EditBillingAddressDialogState extends State<EditBillingAddressDialog> {
       clientId: 1,
       name: "",
       street: "",
+      street2: "",
       city: "",
       state: "",
       postalcode: "",

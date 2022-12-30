@@ -1,40 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:the_helpful_toolbox/data/models/BillingAddressModel.dart';
 import 'package:the_helpful_toolbox/data/models/client.dart';
 import 'package:the_helpful_toolbox/data/models/property.dart';
+import 'package:the_helpful_toolbox/features/clients/clients_page.dart';
 import 'package:the_helpful_toolbox/features/clients/show/client_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
-import 'package:http/http.dart' as http;
 
-class AddPropertyDialog extends StatefulWidget {
+class EditClientInClientsDialog extends StatefulWidget {
   Client client;
-  AddPropertyDialog(this.client, {super.key});
+  EditClientInClientsDialog(this.client, {super.key});
 
   @override
-  State<AddPropertyDialog> createState() => _AddPropertyDialogState();
+  State<EditClientInClientsDialog> createState() =>
+      _EditClientInClientsDialogState();
 }
 
-class _AddPropertyDialogState extends State<AddPropertyDialog> {
+class _EditClientInClientsDialogState extends State<EditClientInClientsDialog> {
   final _formKey = GlobalKey<FormState>();
-  Property _property = Property(
-      clientId: -1,
-      name: "",
-      street: "",
-      city: "",
-      state: "",
-      postalcode: "",
-      country: "");
+  Client _client = Client(
+    id: 1,
+    title: "",
+    firstname: "Kevin Winter",
+    lastname: "Winter",
+    mobilenumber: "",
+    phonenumber: "",
+    email: "kcgwinter@t-online.de",
+    rating: 5,
+    active: 1,
+    properties: [],
+  );
+  BillingAddress billingAddress = BillingAddress(
+    city: '',
+    clientId: 1,
+    country: '',
+    name: '',
+    postalcode: '',
+    state: '',
+    street: '',
+  );
 
   @override
   void initState() {
-    // TODO: implement initState
-
+    // billingAddress = _client.getBillingAddress(_client);
+    _client = widget.client;
+    // billingAddress = widget.client.billingAddress;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('New Property'),
+      title: const Text('Edit Client'),
       content: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -53,6 +69,7 @@ class _AddPropertyDialogState extends State<AddPropertyDialog> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            const Text("Client:"),
                             const SizedBox(
                               height: 10,
                             ),
@@ -61,16 +78,11 @@ class _AddPropertyDialogState extends State<AddPropertyDialog> {
                               child: TextFormField(
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'Name'),
+                                    labelText: 'First name'),
                                 onChanged: (val) => setState(() {
-                                  _property.name = val;
+                                  _client.firstname = val;
                                 }),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please enter a value';
-                                  }
-                                  return null;
-                                },
+                                initialValue: widget.client.firstname,
                               ),
                             ),
                             Padding(
@@ -78,16 +90,11 @@ class _AddPropertyDialogState extends State<AddPropertyDialog> {
                               child: TextFormField(
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'Street'),
+                                    labelText: 'Last name'),
                                 onChanged: (val) => setState(() {
-                                  _property.street = val;
+                                  _client.lastname = val;
                                 }),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please enter a value';
-                                  }
-                                  return null;
-                                },
+                                initialValue: widget.client.lastname,
                               ),
                             ),
                             Padding(
@@ -95,9 +102,10 @@ class _AddPropertyDialogState extends State<AddPropertyDialog> {
                               child: TextFormField(
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'Street 2'),
+                                    labelText: 'Company name'),
+                                initialValue: "",
                                 onChanged: (val) => setState(() {
-                                  _property.street2 = val;
+                                  // _client.c = val;
                                 }),
                               ),
                             ),
@@ -106,16 +114,11 @@ class _AddPropertyDialogState extends State<AddPropertyDialog> {
                               child: TextFormField(
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'City'),
+                                    labelText: 'Phone number'),
                                 onChanged: (val) => setState(() {
-                                  _property.city = val;
+                                  _client.phonenumber = val;
                                 }),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please enter a value';
-                                  }
-                                  return null;
-                                },
+                                initialValue: widget.client.phonenumber,
                               ),
                             ),
                             Padding(
@@ -123,16 +126,11 @@ class _AddPropertyDialogState extends State<AddPropertyDialog> {
                               child: TextFormField(
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'State'),
+                                    labelText: 'Mobile number'),
+                                initialValue: widget.client.mobilenumber,
                                 onChanged: (val) => setState(() {
-                                  _property.state = val;
+                                  _client.mobilenumber = val;
                                 }),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please enter a value';
-                                  }
-                                  return null;
-                                },
                               ),
                             ),
                             Padding(
@@ -140,16 +138,11 @@ class _AddPropertyDialogState extends State<AddPropertyDialog> {
                               child: TextFormField(
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'Postal Code'),
+                                    labelText: 'Email'),
+                                initialValue: widget.client.email,
                                 onChanged: (val) => setState(() {
-                                  _property.postalcode = val;
+                                  _client.email = val;
                                 }),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please enter a value';
-                                  }
-                                  return null;
-                                },
                               ),
                             ),
                           ],
@@ -181,12 +174,7 @@ class _AddPropertyDialogState extends State<AddPropertyDialog> {
             child: Text('Save'),
           ),
           onPressed: () {
-            if (_formKey.currentState!.validate()) {
-              _property.clientId = widget.client.id;
-              SaveProperty(context, widget.client, _property);
-            } else {
-              print('Error');
-            }
+            saveClientWithProperty(context, _client);
             // Hier passiert etwas anderes
           },
         ),
@@ -194,16 +182,11 @@ class _AddPropertyDialogState extends State<AddPropertyDialog> {
     );
   }
 
-  SaveProperty(context, _client, Property property) async {
-    debugPrint("save property");
-    property.clientId = _client.id;
-
-    http.Response? _property = await property.propertyStore(context);
-    // _client.billingAddressId = _property.id;
-    // await _client.updateClient(_client);
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => ClientPage(_client)),
-      (route) => false,
-    );
+  saveClientWithProperty(context, Client client) async {
+    debugPrint("save client to Database");
+    client.billingAddress = billingAddress;
+    await client.updateClient(client, context);
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => ClientPage(client)));
   }
 }
