@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:the_helpful_toolbox/features/clients/dialog/newClientDialog.dart';
 
 class ActionButton extends StatefulWidget {
   const ActionButton({super.key});
@@ -31,7 +32,9 @@ class _ActionButtonState extends State<ActionButton> {
             child: Column(
               children: [
                 ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    openNewClientDialog(context);
+                  },
                   icon: const Icon(Icons.people),
                   label: const Text("New Client"),
                 ),
@@ -56,6 +59,15 @@ class _ActionButtonState extends State<ActionButton> {
             ),
           ],
         );
+      },
+    );
+  }
+
+  openNewClientDialog(context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const NewClientDialog();
       },
     );
   }
