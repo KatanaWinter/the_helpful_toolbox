@@ -51,12 +51,12 @@ class _BillingAddressCardState extends State<BillingAddressCard> {
                     Column(
                       children: [
                         AutoSizeText(
-                          "${widget.client.billingAddress!.street}",
+                          "${widget.client.billingAddress?.street ?? ""}",
                           style: TextStyle(fontSize: 18),
                           maxLines: 3,
                         ),
                         AutoSizeText(
-                          "${widget.client.billingAddress!.city} , ${widget.client.billingAddress!.state} ${widget.client.billingAddress!.postalcode}",
+                          "${widget.client.billingAddress?.city ?? ""} , ${widget.client.billingAddress?.state ?? ""} ${widget.client.billingAddress?.postalcode ?? ""}",
                           style: TextStyle(fontSize: 18),
                           maxLines: 3,
                         ),

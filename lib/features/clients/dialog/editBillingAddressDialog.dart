@@ -18,19 +18,26 @@ class EditBillingAddressDialog extends StatefulWidget {
 
 class _EditBillingAddressDialogState extends State<EditBillingAddressDialog> {
   final _formKey = GlobalKey<FormState>();
+  BillingAddress _billingAddress = BillingAddress(
+      clientId: 1,
+      name: "",
+      street: "",
+      city: "",
+      state: "",
+      postalcode: "",
+      country: "");
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    widget.client.billingAddress != null
+        ? _billingAddress = widget.client.billingAddress!
+        : "";
+  }
 
   @override
   Widget build(BuildContext context) {
-    BillingAddress _billingAddress = BillingAddress(
-        clientId: 1,
-        name: "",
-        street: "",
-        city: "",
-        state: "",
-        postalcode: "",
-        country: "");
-    _billingAddress = widget.client.billingAddress!;
-
     _billingAddress.clientId = widget.client.id;
     _billingAddress.active = 1;
     _billingAddress.name = "Billing Address";
@@ -65,6 +72,12 @@ class _EditBillingAddressDialogState extends State<EditBillingAddressDialog> {
                                     labelText: 'Name'),
                                 initialValue: _billingAddress.name,
                                 enabled: false,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter a value';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                             Padding(
@@ -77,6 +90,12 @@ class _EditBillingAddressDialogState extends State<EditBillingAddressDialog> {
                                 onChanged: (val) => setState(() {
                                   _billingAddress.street = val;
                                 }),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter a value';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                             Padding(
@@ -101,6 +120,12 @@ class _EditBillingAddressDialogState extends State<EditBillingAddressDialog> {
                                 onChanged: (val) => setState(() {
                                   _billingAddress.city = val;
                                 }),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter a value';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                             Padding(
@@ -113,6 +138,12 @@ class _EditBillingAddressDialogState extends State<EditBillingAddressDialog> {
                                 onChanged: (val) => setState(() {
                                   _billingAddress.state = val;
                                 }),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter a value';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                             Padding(
@@ -125,8 +156,49 @@ class _EditBillingAddressDialogState extends State<EditBillingAddressDialog> {
                                 onChanged: (val) => setState(() {
                                   _billingAddress.postalcode = val;
                                 }),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter a value';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ElevatedButton(
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text('Cancel'),
+                                    ),
+                                    onPressed: () {
+                                      // Hier passiert etwas
+                                      Navigator.of(context).pop();
+                                    }),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                ElevatedButton(
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text('Save'),
+                                  ),
+                                  onPressed: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      saveBillingAddressForClient(context,
+                                          widget.client, _billingAddress);
+                                    } else {
+                                      print('Error');
+                                    }
+                                    // Hier passiert etwas anderes
+                                  },
+                                ),
+                              ],
+                            )
                           ],
                         ),
                       )),
@@ -136,43 +208,23 @@ class _EditBillingAddressDialogState extends State<EditBillingAddressDialog> {
           ),
         ),
       ),
-      actionsAlignment: MainAxisAlignment.center,
-      actions: <Widget>[
-        ElevatedButton(
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text('Cancel'),
-            ),
-            onPressed: () {
-              // Hier passiert etwas
-              Navigator.of(context).pop();
-            }),
-        const SizedBox(
-          width: 10,
-        ),
-        ElevatedButton(
-          child: const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text('Save'),
-          ),
-          onPressed: () {
-            saveBillingAddressForClient(
-                context, widget.client, _billingAddress);
-            // Hier passiert etwas anderes
-          },
-        ),
-      ],
     );
   }
 
   saveBillingAddressForClient(
       context, Client _client, BillingAddress billingAddress) async {
-    debugPrint("save billing address to Database");
+    debugPrint("save billing address to Database start");
     billingAddress.clientId = _client.id;
-    if (_client.billingAddress == -1) {
+    if (_client.billingAddress == null) {
       bool stored = await billingAddress.billingAddressStore(context);
+      stored == true
+          ? debugPrint("save billing address to Database success")
+          : debugPrint("save billing address to Database failed");
     } else {
       bool stored = await billingAddress.billingAddressUpdate(context);
+      stored == true
+          ? debugPrint("save billing address to Database success")
+          : debugPrint("save billing address to Database failed");
     }
     setState(() {});
     Navigator.of(context)

@@ -54,7 +54,7 @@ class PropertiesCard extends StatelessWidget {
                 child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     // shrinkWrap: true,
-                    itemCount: client.properties!.length,
+                    itemCount: client.properties?.length ?? 0,
                     itemBuilder: ((context, index) {
                       Property property = client.properties![index];
                       return Padding(

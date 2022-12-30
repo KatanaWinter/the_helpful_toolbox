@@ -261,12 +261,12 @@ class _ClientsPageState extends State<ClientsPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   AutoSizeText(
-                                    client.billingAddress!.street!,
+                                    client.billingAddress?.street ?? "",
                                     style: const TextStyle(fontSize: 15),
                                     maxLines: 2,
                                   ),
                                   AutoSizeText(
-                                    "${client.billingAddress!.city}, ${client.billingAddress!.state} ${client.billingAddress!.postalcode}",
+                                    "${client.billingAddress?.city ?? ""} ${client.billingAddress?.state ?? ""} ${client.billingAddress?.postalcode ?? ""}",
                                     style: const TextStyle(fontSize: 15),
                                     maxLines: 2,
                                   ),

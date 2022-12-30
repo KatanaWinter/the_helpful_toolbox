@@ -20,7 +20,7 @@ class ClientPage extends StatefulWidget {
 }
 
 class _ClientPageState extends State<ClientPage> {
-  Future<Client>? dataLoaded;
+  Future<Client>? dataLoaded = null;
   Client _client = Client();
   @override
   void initState() {

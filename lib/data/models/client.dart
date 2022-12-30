@@ -52,7 +52,9 @@ class Client {
       active: json["active"],
       properties: List<Property>.from(
           json["properties"].map((x) => Property.fromJson(x))),
-      billingAddress: BillingAddress.fromJson(json["billing_address"]));
+      billingAddress: json["billing_address"] == null
+          ? null
+          : BillingAddress.fromJson(json["billing_address"]));
 
   Client fromJson(Map<String, dynamic> json) {
     Client client = Client(
@@ -67,7 +69,9 @@ class Client {
         active: json["active"],
         properties: List<Property>.from(
             json["properties"].map((x) => Property.fromJson(x))),
-        billingAddress: BillingAddress.fromJson(json["billing_address"]));
+        billingAddress: json["billing_address"] == null
+            ? null
+            : BillingAddress.fromJson(json["billing_address"]));
     return client;
   }
 
@@ -155,27 +159,17 @@ class Client {
   }
 
   Future<Client> showClient(context) async {
-    Client model = Client();
-    try {
-      var body = toJson();
-      ApiService apiService = ApiService();
-      String sId = id.toString();
-      var response =
-          await apiService.get(url: "/clients/$sId", context: context);
+    var body = toJson();
+    ApiService apiService = ApiService();
+    String sId = id.toString();
+    var response = await apiService.get(url: "/clients/$sId", context: context);
 
-      if (response.statusCode == 200) {
-        var tmp = json.decode(response.body);
-        model = fromJson(tmp);
-
-        debugPrint("Client received successful");
-      } else {
-        debugPrint(response.body);
-      }
-      return model;
-    } catch (e) {
-      debugPrint("Error in show :$e");
+    if (response.statusCode == 200) {
+      var tmp = json.decode(response.body);
+      return fromJson(tmp);
+    } else {
+      throw Exception('Faild to load client');
     }
-    return model;
   }
 }
 
