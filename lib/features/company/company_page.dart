@@ -2,8 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/features/navigation/presentation/sidebarnav.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
-class CompanyPage extends StatelessWidget {
+class CompanyPage extends StatefulWidget {
   const CompanyPage({super.key});
+
+  @override
+  State<CompanyPage> createState() => _CompanyPageState();
+}
+
+class _CompanyPageState extends State<CompanyPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
