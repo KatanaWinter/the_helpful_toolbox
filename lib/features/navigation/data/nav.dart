@@ -41,6 +41,16 @@ getMainNavigationItems() {
         name: "Company",
         icon: const Icon(Icons.business_outlined),
         Screen: const CompanyPage()),
+    NavigationItem(
+        id: 4,
+        name: "Inventory",
+        icon: const Icon(Icons.inventory),
+        Screen: const CompanyPage()),
+    NavigationItem(
+        id: 4,
+        name: "Offerlists",
+        icon: const Icon(Icons.list),
+        Screen: const CompanyPage()),
   ];
   return lNavItems;
 }

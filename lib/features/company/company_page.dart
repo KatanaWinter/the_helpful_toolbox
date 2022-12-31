@@ -7,6 +7,7 @@ class CompanyPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double contentWidth = getContentWidth(context);
     double screenWidth = getScreenWidth(context);
     return Scaffold(
       appBar: AppBar(
@@ -16,7 +17,165 @@ class CompanyPage extends StatelessWidget {
       body: Row(
         children: [
           SidebarNavigation(screenWidth),
-          const Text("Content"),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Wrap(children: [
+                Card(
+                    elevation: 10,
+                    color: ThemeData.dark().cardColor,
+                    child: SizedBox(
+                      width: isSmallScreen(context)
+                          ? contentWidth
+                          : contentWidth * 0.3,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Text(
+                                  'Company Logo',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 100,
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: const []),
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [],
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    )),
+                Card(
+                    elevation: 10,
+                    color: ThemeData.dark().cardColor,
+                    child: SizedBox(
+                      width: isSmallScreen(context)
+                          ? contentWidth
+                          : contentWidth * 0.4,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Text(
+                                  'Company Data',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 100,
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: const []),
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [],
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    )),
+              ]),
+              Wrap(
+                children: [
+                  Card(
+                      elevation: 10,
+                      color: ThemeData.dark().cardColor,
+                      child: SizedBox(
+                        width: isSmallScreen(context)
+                            ? contentWidth
+                            : contentWidth - 10,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Text(
+                                    'Employees',
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: 100,
+                                    child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: const []),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [],
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      )),
+                ],
+              )
+            ],
+          )
         ],
       ),
     );
