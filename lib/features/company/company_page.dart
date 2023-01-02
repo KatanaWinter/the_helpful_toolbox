@@ -3,6 +3,7 @@ import 'package:the_helpful_toolbox/data/models/CompanyModel.dart';
 import 'package:the_helpful_toolbox/data/models/property.dart';
 import 'package:the_helpful_toolbox/features/company/dialog/editCompanyaddressDialog.dart';
 import 'package:the_helpful_toolbox/features/company/dialog/editCompanydataDialog.dart';
+import 'package:the_helpful_toolbox/features/company/employees_table.dart';
 import 'package:the_helpful_toolbox/features/navigation/presentation/sidebarnav.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
@@ -327,18 +328,8 @@ class _CompanyPageState extends State<CompanyPage> {
                                     ),
                                     Row(
                                       children: [
-                                        SizedBox(
-                                          width: 100,
-                                          child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: const []),
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [],
-                                        )
+                                        EmployeesTable(
+                                            snapshot.data!.employees!),
                                       ],
                                     ),
                                   ],
