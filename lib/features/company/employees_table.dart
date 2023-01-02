@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/data/models/EmployeeModel.dart';
+import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class EmployeesTable extends StatefulWidget {
   late List<Employee> lEmployee;
@@ -12,8 +13,22 @@ class EmployeesTable extends StatefulWidget {
 
 class _EmployeesTableState extends State<EmployeesTable> {
   TextEditingController searchController = TextEditingController();
+  List<Employee> lEmployee = [];
+  List<Employee> lFilteredEmployee = [];
+  String _searchResult = '';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    lEmployee = widget.lEmployee;
+    lFilteredEmployee = lEmployee;
+  }
+
   @override
   Widget build(BuildContext context) {
+    double screenWidth = getScreenWidth(context);
+
     return Column(
       children: [
         Row(
@@ -31,6 +46,18 @@ class _EmployeesTableState extends State<EmployeesTable> {
                   ),
                   hintText: 'Search for ...',
                 ),
+                onChanged: (val) {
+                  _searchResult = val;
+                  setState(() {
+                    String _searchVal = val.toLowerCase();
+                    lFilteredEmployee = lEmployee
+                        .where((e) =>
+                            e.firstname!.toLowerCase().contains(_searchVal) ||
+                            e.lastname!.toLowerCase().contains(_searchVal) ||
+                            e.email!.toLowerCase().contains(_searchVal))
+                        .toList();
+                  });
+                },
               ),
             ),
             const SizedBox(
@@ -50,18 +77,49 @@ class _EmployeesTableState extends State<EmployeesTable> {
                 ))
           ],
         ),
-        Container(
-          height: 200,
-          width: 500,
-          child: ListView.builder(
-              itemCount: widget.lEmployee.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(widget.lEmployee[index].firstname ?? ""),
-                );
-              }),
-        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              // buildList(context, lFilteredEmployee)
+            ],
+          ),
+        )
       ],
     );
+  }
+
+  buildList(BuildContext context, List<Employee> lFilteredEmployee) {
+    double tableWidth = getScreenWidth(context);
+    isSmallScreen(context)
+        ? tableWidth = tableWidth - 100
+        : tableWidth = tableWidth - 250;
+
+    return lEmployee.length <= 0
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
+        : ListView.builder(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: lFilteredEmployee.length,
+            itemBuilder: ((context, index) {
+              Employee employee = lFilteredEmployee[index];
+              return Column(
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        width: tableWidth * 0.2,
+                        height: 20,
+                        child: Text(
+                            "${employee.firstname!} ${employee.lastname!}"),
+                      )
+                    ],
+                  )
+                ],
+              );
+            }),
+          );
   }
 }

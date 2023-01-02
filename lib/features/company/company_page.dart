@@ -44,264 +44,21 @@ class _CompanyPageState extends State<CompanyPage> {
         builder: ((context, snapshot) {
           if (snapshot.hasData) {
             return Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SidebarNavigation(screenWidth),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Wrap(children: [
-                      Card(
-                          elevation: 10,
-                          color: ThemeData.dark().cardColor,
-                          child: SizedBox(
-                            width: isSmallScreen(context)
-                                ? contentWidth
-                                : contentWidth * 0.3,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: const [
-                                      Text(
-                                        'Company Logo',
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 100,
-                                        child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: const []),
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [],
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )),
-                      Card(
-                          elevation: 10,
-                          color: ThemeData.dark().cardColor,
-                          child: SizedBox(
-                            width: isSmallScreen(context)
-                                ? contentWidth
-                                : contentWidth * 0.3,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Company Data',
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      IconButton(
-                                          onPressed: () {
-                                            openEditDataDialog(
-                                                context, snapshot.data!);
-                                          },
-                                          icon: Icon(Icons.edit))
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 100,
-                                        child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: const [
-                                              Text("Name:"),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Text("Phone:"),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Text("Mobile:"),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                            ]),
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(snapshot.data!.name ?? ""),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          SelectableText(
-                                              snapshot.data!.phone ?? ""),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          SelectableText(
-                                              snapshot.data!.mobile ?? ""),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )),
-                      Card(
-                          elevation: 10,
-                          color: ThemeData.dark().cardColor,
-                          child: SizedBox(
-                            width: isSmallScreen(context)
-                                ? contentWidth
-                                : contentWidth * 0.3,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Company Address',
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      IconButton(
-                                          onPressed: () {
-                                            openEditPropertyDialog(
-                                                context, snapshot.data!);
-                                          },
-                                          icon: Icon(Icons.edit))
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 100,
-                                        child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: const [
-                                              Text("Street:"),
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                              Text("Street 2:"),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Text("City:"),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Text("State:"),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Text("Zip:"),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                            ]),
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          SelectableText(snapshot
-                                                  .data!.propertie?.street ??
-                                              ""),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          SelectableText(snapshot
-                                                  .data!.propertie?.street2 ??
-                                              ""),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          SelectableText(
-                                              snapshot.data!.propertie?.city ??
-                                                  ""),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          SelectableText(
-                                              snapshot.data!.propertie?.state ??
-                                                  ""),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          SelectableText(snapshot.data!
-                                                  .propertie?.postalcode ??
-                                              ""),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )),
-                    ]),
-                    Wrap(
-                      children: [
+                SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Wrap(children: [
                         Card(
                             elevation: 10,
                             color: ThemeData.dark().cardColor,
                             child: SizedBox(
                               width: isSmallScreen(context)
                                   ? contentWidth
-                                  : contentWidth - 10,
+                                  : contentWidth * 0.3,
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(
@@ -315,7 +72,7 @@ class _CompanyPageState extends State<CompanyPage> {
                                           MainAxisAlignment.center,
                                       children: const [
                                         Text(
-                                          'Employees',
+                                          'Company Logo',
                                           style: TextStyle(fontSize: 20),
                                         ),
                                         SizedBox(
@@ -328,17 +85,267 @@ class _CompanyPageState extends State<CompanyPage> {
                                     ),
                                     Row(
                                       children: [
-                                        EmployeesTable(
-                                            snapshot.data!.employees!),
+                                        SizedBox(
+                                          width: 100,
+                                          child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: const []),
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [],
+                                        )
                                       ],
                                     ),
                                   ],
                                 ),
                               ),
                             )),
-                      ],
-                    )
-                  ],
+                        Card(
+                            elevation: 10,
+                            color: ThemeData.dark().cardColor,
+                            child: SizedBox(
+                              width: isSmallScreen(context)
+                                  ? contentWidth
+                                  : contentWidth * 0.3,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Company Data',
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        IconButton(
+                                            onPressed: () {
+                                              openEditDataDialog(
+                                                  context, snapshot.data!);
+                                            },
+                                            icon: Icon(Icons.edit))
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 100,
+                                          child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: const [
+                                                Text("Name:"),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text("Phone:"),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text("Mobile:"),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                              ]),
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(snapshot.data!.name ?? ""),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            SelectableText(
+                                                snapshot.data!.phone ?? ""),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            SelectableText(
+                                                snapshot.data!.mobile ?? ""),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )),
+                        Card(
+                            elevation: 10,
+                            color: ThemeData.dark().cardColor,
+                            child: SizedBox(
+                              width: isSmallScreen(context)
+                                  ? contentWidth
+                                  : contentWidth * 0.3,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Company Address',
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        IconButton(
+                                            onPressed: () {
+                                              openEditPropertyDialog(
+                                                  context, snapshot.data!);
+                                            },
+                                            icon: Icon(Icons.edit))
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 100,
+                                          child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: const [
+                                                Text("Street:"),
+                                                SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Text("Street 2:"),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text("City:"),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text("State:"),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Text("Zip:"),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                              ]),
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SelectableText(snapshot
+                                                    .data!.propertie?.street ??
+                                                ""),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            SelectableText(snapshot
+                                                    .data!.propertie?.street2 ??
+                                                ""),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            SelectableText(snapshot
+                                                    .data!.propertie?.city ??
+                                                ""),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            SelectableText(snapshot
+                                                    .data!.propertie?.state ??
+                                                ""),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            SelectableText(snapshot.data!
+                                                    .propertie?.postalcode ??
+                                                ""),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )),
+                      ]),
+                      Wrap(
+                        children: [
+                          Card(
+                              elevation: 10,
+                              color: ThemeData.dark().cardColor,
+                              child: SizedBox(
+                                width: isSmallScreen(context)
+                                    ? contentWidth
+                                    : contentWidth - 10,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: const [
+                                          Text(
+                                            'Employees',
+                                            style: TextStyle(fontSize: 20),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        children: [
+                                          EmployeesTable(
+                                              snapshot.data!.employees!),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )),
+                        ],
+                      )
+                    ],
+                  ),
                 )
               ],
             );
