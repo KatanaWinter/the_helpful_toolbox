@@ -39,7 +39,7 @@ class Property {
   dynamic updatedAt;
 
   factory Property.fromJson(Map<String, dynamic> json) => Property(
-        id: json["id"] ?? "",
+        id: json["id"],
         clientId: json["client_id"],
         name: json["name"] ?? "",
         street: json["street"] ?? "",
@@ -53,7 +53,7 @@ class Property {
   Property fromJson(Map<String, dynamic> json) {
     return Property(
       id: json["id"] ?? "",
-      clientId: json["client_id"],
+      clientId: json["client_id"] ?? "",
       name: json["name"] ?? "",
       street: json["street"] ?? "",
       street2: json["street2"] ?? "",
@@ -66,8 +66,8 @@ class Property {
   }
 
   Map<String, dynamic> toJson() => {
-        "id": id != null ? id.toString() : "",
-        "client_id": clientId.toString(),
+        "id": id == null ? "" : id.toString(),
+        "client_id": clientId == null ? "" : clientId.toString(),
         "name": name.toString(),
         "street": street.toString(),
         "street2": street2.toString(),
@@ -77,7 +77,8 @@ class Property {
         "country": country.toString(),
       };
 
-  Future<http.Response?> propertyStore(context) async {
+  Future<Property> propertyStore(context) async {
+    Property property = Property();
     try {
       debugPrint("save new Property: $name");
 
@@ -87,19 +88,20 @@ class Property {
           url: '/properties', body: body, context: context);
 
       if (response.statusCode == 200) {
-        debugPrint("Save success");
+        var tmp = json.decode(response.body);
+        property = Property.fromJson(tmp["data"]);
+        return property;
       } else {
         debugPrint(response.body);
+        return property;
       }
-
-      return response;
     } catch (e) {
       debugPrint("Error in update :$e");
     }
-    return null;
+    return property;
   }
 
-  Future<http.Response?> propertyUpdate(context) async {
+  Future<bool> propertyUpdate(context) async {
     try {
       debugPrint("update new Property: $name");
 
@@ -111,14 +113,14 @@ class Property {
 
       if (response.statusCode == 200) {
         debugPrint("Update success");
+        return true;
       } else {
         debugPrint(response.body);
       }
-      return response;
     } catch (e) {
       debugPrint("Error in update :$e");
     }
-    return null;
+    return false;
   }
 
   Future<http.Response?> propertyShow(context) async {

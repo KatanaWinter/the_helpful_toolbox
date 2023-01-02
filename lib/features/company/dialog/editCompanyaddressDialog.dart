@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:the_helpful_toolbox/data/models/client.dart';
-import 'package:the_helpful_toolbox/data/models/property.dart';
-import 'package:the_helpful_toolbox/features/clients/show/client_page.dart';
-import 'package:the_helpful_toolbox/helper/media_query.dart';
 import 'package:http/http.dart' as http;
+import 'package:the_helpful_toolbox/data/models/BillingAddressModel.dart';
+import 'package:the_helpful_toolbox/data/models/CompanyModel.dart';
+import 'package:the_helpful_toolbox/data/models/property.dart';
+import 'package:the_helpful_toolbox/features/company/company_page.dart';
+import 'package:the_helpful_toolbox/helper/media_query.dart';
 
-class AddPropertyDialog extends StatefulWidget {
-  Client client;
-  AddPropertyDialog(this.client, {super.key});
+class EditCompanyAddressDialog extends StatefulWidget {
+  Company company;
+  EditCompanyAddressDialog({required this.company, super.key});
 
   @override
-  State<AddPropertyDialog> createState() => _AddPropertyDialogState();
+  State<EditCompanyAddressDialog> createState() =>
+      _EditCompanyAddressDialogState();
 }
 
-class _AddPropertyDialogState extends State<AddPropertyDialog> {
+class _EditCompanyAddressDialogState extends State<EditCompanyAddressDialog> {
   final _formKey = GlobalKey<FormState>();
-  Property _property = Property(
-      clientId: -1,
+  Property _companyAddress = Property(
       name: "",
       street: "",
+      street2: "",
       city: "",
       state: "",
       postalcode: "",
@@ -28,13 +30,17 @@ class _AddPropertyDialogState extends State<AddPropertyDialog> {
   void initState() {
     // TODO: implement initState
 
-    super.initState();
+    widget.company.propertie != null
+        ? _companyAddress = widget.company.propertie!
+        : "";
   }
 
   @override
   Widget build(BuildContext context) {
+    _companyAddress.active = 1;
+    _companyAddress.name = "Company Address";
     return AlertDialog(
-      title: const Text('New Property'),
+      title: const Text('Edit Company Address'),
       content: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -62,9 +68,8 @@ class _AddPropertyDialogState extends State<AddPropertyDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Name'),
-                                onChanged: (val) => setState(() {
-                                  _property.name = val;
-                                }),
+                                initialValue: _companyAddress.name,
+                                enabled: false,
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'Please enter a value';
@@ -79,8 +84,9 @@ class _AddPropertyDialogState extends State<AddPropertyDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Street'),
+                                initialValue: _companyAddress.street,
                                 onChanged: (val) => setState(() {
-                                  _property.street = val;
+                                  _companyAddress.street = val;
                                 }),
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -96,8 +102,9 @@ class _AddPropertyDialogState extends State<AddPropertyDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Street 2'),
+                                initialValue: _companyAddress.street2,
                                 onChanged: (val) => setState(() {
-                                  _property.street2 = val;
+                                  _companyAddress.street2 = val;
                                 }),
                               ),
                             ),
@@ -107,8 +114,9 @@ class _AddPropertyDialogState extends State<AddPropertyDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'City'),
+                                initialValue: _companyAddress.city,
                                 onChanged: (val) => setState(() {
-                                  _property.city = val;
+                                  _companyAddress.city = val;
                                 }),
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -124,8 +132,9 @@ class _AddPropertyDialogState extends State<AddPropertyDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'State'),
+                                initialValue: _companyAddress.state,
                                 onChanged: (val) => setState(() {
-                                  _property.state = val;
+                                  _companyAddress.state = val;
                                 }),
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -141,8 +150,9 @@ class _AddPropertyDialogState extends State<AddPropertyDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Postal Code'),
+                                initialValue: _companyAddress.postalcode,
                                 onChanged: (val) => setState(() {
-                                  _property.postalcode = val;
+                                  _companyAddress.postalcode = val;
                                 }),
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -152,6 +162,41 @@ class _AddPropertyDialogState extends State<AddPropertyDialog> {
                                 },
                               ),
                             ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ElevatedButton(
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text('Cancel'),
+                                    ),
+                                    onPressed: () {
+                                      // Hier passiert etwas
+                                      Navigator.of(context).pop();
+                                    }),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                ElevatedButton(
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text('Save'),
+                                  ),
+                                  onPressed: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      saveCompanyAddressDialog(context,
+                                          widget.company, _companyAddress);
+                                    } else {
+                                      print('Error');
+                                    }
+                                    // Hier passiert etwas anderes
+                                  },
+                                ),
+                              ],
+                            )
                           ],
                         ),
                       )),
@@ -161,49 +206,25 @@ class _AddPropertyDialogState extends State<AddPropertyDialog> {
           ),
         ),
       ),
-      actionsAlignment: MainAxisAlignment.center,
-      actions: <Widget>[
-        ElevatedButton(
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text('Cancel'),
-            ),
-            onPressed: () {
-              // Hier passiert etwas
-              Navigator.of(context).pop();
-            }),
-        const SizedBox(
-          width: 10,
-        ),
-        ElevatedButton(
-          child: const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text('Save'),
-          ),
-          onPressed: () {
-            if (_formKey.currentState!.validate()) {
-              _property.clientId = widget.client.id;
-              SaveProperty(context, widget.client, _property);
-            } else {
-              print('Error');
-            }
-            // Hier passiert etwas anderes
-          },
-        ),
-      ],
     );
   }
 
-  SaveProperty(context, _client, Property property) async {
-    debugPrint("save property");
-    property.clientId = _client.id;
-
-    Property _property = await property.propertyStore(context);
-    // _client.billingAddressId = _property.id;
-    // await _client.updateClient(_client);
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (context) => ClientPage(_client)),
-      (route) => false,
-    );
+  saveCompanyAddressDialog(
+      context, Company _company, Property propertie) async {
+    debugPrint("save company address to Database start");
+    if (_company.propertie == null) {
+      Property stored = await propertie.propertyStore(context);
+      stored == true
+          ? debugPrint("save company address to Database success")
+          : debugPrint("save company address to Database failed");
+    } else {
+      bool stored = await propertie.propertyUpdate(context);
+      stored == true
+          ? debugPrint("save company address to Database success")
+          : debugPrint("save company address to Database failed");
+    }
+    setState(() {});
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => CompanyPage()));
   }
 }

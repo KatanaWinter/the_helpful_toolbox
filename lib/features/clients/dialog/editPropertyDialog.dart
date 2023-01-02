@@ -162,7 +162,7 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
   savedEditProperty(context, Property property) async {
     debugPrint("save property");
 
-    http.Response? _response = await property.propertyUpdate(context);
+    bool _response = await property.propertyUpdate(context);
 
     // Navigator.of(context)
     //     .push(MaterialPageRoute(builder: (context) => ClientPage(_client)));
