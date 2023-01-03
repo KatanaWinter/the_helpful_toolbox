@@ -48,7 +48,7 @@ class _CompanyPageState extends State<CompanyPage> {
             return Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SidebarNavigation(screenWidth),
+                SidebarNavigation(),
                 SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,

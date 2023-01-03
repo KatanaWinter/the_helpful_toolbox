@@ -15,7 +15,7 @@ class Dashboard extends StatelessWidget {
       ),
       body: Row(
         children: [
-          SidebarNavigation(screenWidth),
+          SidebarNavigation(),
           const Text("Content"),
         ],
       ),

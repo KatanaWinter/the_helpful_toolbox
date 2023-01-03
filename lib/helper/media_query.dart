@@ -9,7 +9,7 @@ getScreenHeight(context) {
 }
 
 isSmallScreen(context) {
-  if (MediaQuery.of(context).size.width < 768) {
+  if (getScreenWidth(context) < 786) {
     return true;
   } else {
     return false;

@@ -95,102 +95,105 @@ class _EmployeesTableState extends State<EmployeesTable> {
         ? const Center(
             child: CircularProgressIndicator(),
           )
-        : ListView.builder(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemCount: lFilteredEmployee.length,
-            itemBuilder: ((context, index) {
-              Employee employee = lFilteredEmployee[index];
-              return Container(
-                width: tableWidth,
-                child: Column(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          width: tableWidth * 0.1,
-                          height: 50,
-                          child: AutoSizeText(
-                              textAlign: TextAlign.start,
-                              "#${formatter.format(employee.id!)}"),
-                        ),
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          width: tableWidth * 0.15,
-                          height: 50,
-                          child: AutoSizeText(
-                              "${employee.firstname ?? ""} ${employee.lastname ?? ""}"),
-                        ),
-                        Container(
-                          alignment: Alignment.center,
-                          width: tableWidth * 0.3,
-                          height: 60,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              AutoSizeText("Phone: ${employee.phone ?? ""} "),
-                              AutoSizeText("Mobile: ${employee.mobile ?? ""}"),
-                              AutoSizeText(
-                                  maxLines: 2,
-                                  "Email: ${employee.email ?? ""}"),
-                            ],
+        : Container(
+            height: 400,
+            child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount: lFilteredEmployee.length,
+              itemBuilder: ((context, index) {
+                Employee employee = lFilteredEmployee[index];
+                return Container(
+                  width: tableWidth,
+                  child: Column(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            width: tableWidth * 0.1,
+                            height: 50,
+                            child: AutoSizeText(
+                                textAlign: TextAlign.start,
+                                "#${formatter.format(employee.id!)}"),
                           ),
-                        ),
-                        Container(
-                          alignment: Alignment.center,
-                          width: tableWidth * 0.3,
-                          height: 60,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              AutoSizeText(employee.propertie?.street ?? ""),
-                              AutoSizeText(
-                                  "${employee.propertie?.city ?? ""} ${employee.propertie?.state ?? ""}"),
-                              AutoSizeText(
-                                  maxLines: 2,
-                                  employee.propertie?.postalcode ?? ""),
-                            ],
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            width: tableWidth * 0.15,
+                            height: 50,
+                            child: AutoSizeText(
+                                "${employee.firstname ?? ""} ${employee.lastname ?? ""}"),
                           ),
-                        ),
-                        Expanded(
-                          child: ButtonBar(
-                            children: [
-                              IconButton(
-                                  onPressed: () {
-                                    showEmployee(context, employee);
-                                  },
-                                  icon: const Icon(Icons.open_in_new)),
-                              IconButton(
-                                  onPressed: () {
-                                    openEditEmployeeDialog(
-                                        context, widget.company, employee);
-                                  },
-                                  icon: const Icon(Icons.edit)),
-                              IconButton(
-                                  onPressed: () {
-                                    employee.employeeDelete(context);
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                CompanyPage()));
-                                  },
-                                  icon: const Icon(Icons.delete)),
-                            ],
+                          Container(
+                            alignment: Alignment.center,
+                            width: tableWidth * 0.3,
+                            height: 60,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                AutoSizeText("Phone: ${employee.phone ?? ""} "),
+                                AutoSizeText(
+                                    "Mobile: ${employee.mobile ?? ""}"),
+                                AutoSizeText(
+                                    maxLines: 2,
+                                    "Email: ${employee.email ?? ""}"),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    Divider(
-                      height: 10,
-                    )
-                  ],
-                ),
-              );
-            }),
+                          Container(
+                            alignment: Alignment.center,
+                            width: tableWidth * 0.3,
+                            height: 60,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                AutoSizeText(employee.propertie?.street ?? ""),
+                                AutoSizeText(
+                                    "${employee.propertie?.city ?? ""} ${employee.propertie?.state ?? ""}"),
+                                AutoSizeText(
+                                    maxLines: 2,
+                                    employee.propertie?.postalcode ?? ""),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: ButtonBar(
+                              children: [
+                                IconButton(
+                                    onPressed: () {
+                                      showEmployee(context, employee);
+                                    },
+                                    icon: const Icon(Icons.open_in_new)),
+                                IconButton(
+                                    onPressed: () {
+                                      openEditEmployeeDialog(
+                                          context, widget.company, employee);
+                                    },
+                                    icon: const Icon(Icons.edit)),
+                                IconButton(
+                                    onPressed: () {
+                                      employee.employeeDelete(context);
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CompanyPage()));
+                                    },
+                                    icon: const Icon(Icons.delete)),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Divider(
+                        height: 10,
+                      )
+                    ],
+                  ),
+                );
+              }),
+            ),
           );
   }
 

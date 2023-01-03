@@ -40,7 +40,7 @@ class _CasesPageState extends State<CasesPage> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SidebarNavigation(screenWidth),
+            SidebarNavigation(),
             SingleChildScrollView(
               child: Padding(
                   padding: const EdgeInsets.all(20),

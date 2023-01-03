@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/data/models/client.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
@@ -39,52 +40,55 @@ class ContactDataCard extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    SizedBox(
-                      width: 100,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text("Customer:"),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text("Company:"),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text("Phone:"),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text("Mobile:"),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text("Email:"),
-                          ]),
-                    ),
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SelectableText(
-                            "${client.firstname} ${client.lastname}"),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const SelectableText(""),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SelectableText(client.phonenumber ?? ""),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SelectableText(client.mobilenumber ?? ""),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SelectableText(client.email ?? ""),
-                      ],
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text("Customer:"),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text("Company:"),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text("Phone:"),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text("Mobile:"),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text("Email:"),
+                        ]),
+                    Expanded(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AutoSizeText(
+                              "${client.firstname} ${client.lastname}"),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const AutoSizeText(""),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          AutoSizeText(client.phonenumber ?? ""),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          AutoSizeText(client.mobilenumber ?? ""),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          AutoSizeText(
+                            client.email ?? "",
+                            maxLines: 3,
+                          ),
+                        ],
+                      ),
                     )
                   ],
                 ),

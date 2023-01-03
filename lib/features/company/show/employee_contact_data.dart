@@ -15,7 +15,7 @@ class EmployeeContactDataCard extends StatelessWidget {
         elevation: 10,
         color: ThemeData.dark().cardColor,
         child: SizedBox(
-          width: isSmallScreen(context) ? contentWidth : contentWidth * 0.3,
+          width: isSmallScreen(context) ? contentWidth : contentWidth * 0.4,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -42,7 +42,7 @@ class EmployeeContactDataCard extends StatelessWidget {
                 Row(
                   children: [
                     SizedBox(
-                      width: 100,
+                      width: 80,
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: const [

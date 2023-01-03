@@ -49,7 +49,7 @@ class _ClientPageState extends State<ClientPage> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SidebarNavigation(contentWidth),
+            SidebarNavigation(),
             SingleChildScrollView(
               child: SizedBox(
                 width: contentWidth,

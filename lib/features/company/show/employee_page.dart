@@ -14,6 +14,7 @@ import 'package:the_helpful_toolbox/features/company/company_page.dart';
 import 'package:the_helpful_toolbox/features/company/dialog/EmployeeEditDialog.dart';
 import 'package:the_helpful_toolbox/features/company/show/employee_address_card.dart';
 import 'package:the_helpful_toolbox/features/company/show/employee_contact_data.dart';
+import 'package:the_helpful_toolbox/features/media/dialog/displayMediaList.dart';
 import 'package:the_helpful_toolbox/features/navigation/presentation/sidebarnav.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
@@ -54,7 +55,7 @@ class _EmployeePageState extends State<EmployeePage> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SidebarNavigation(contentWidth),
+            SidebarNavigation(),
             SingleChildScrollView(
               child: SizedBox(
                 width: contentWidth,
@@ -115,7 +116,14 @@ class _EmployeePageState extends State<EmployeePage> {
                     ],
                   ),
                   Wrap(
-                    children: [],
+                    children: [
+                      snapshot.data!.media == null
+                          ? Text("")
+                          : SizedBox(
+                              width: 600,
+                              child: DisplayMediaList(
+                                  lMedia: snapshot.data!.media!))
+                    ],
                   ),
                 ],
               );

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:the_helpful_toolbox/data/models/MediaModel.dart';
 import 'package:the_helpful_toolbox/data/models/property.dart';
 import 'package:the_helpful_toolbox/helper/api_service.dart';
 import 'package:http/http.dart' as http;
@@ -21,7 +22,8 @@ class Employee {
       this.email,
       this.propertieId,
       this.birthdate,
-      this.propertie});
+      this.propertie,
+      this.media});
 
   int? id;
   int? companyId;
@@ -33,6 +35,7 @@ class Employee {
   int? propertieId;
   DateTime? birthdate;
   Property? propertie;
+  List<Media>? media;
 
   factory Employee.fromJson(Map<String, dynamic> json) => Employee(
         id: json["id"],
@@ -49,6 +52,9 @@ class Employee {
         propertie: json["propertie"] == null
             ? null
             : Property.fromJson(json["propertie"]),
+        media: json["media"] == null
+            ? null
+            : List<Media>.from(json["media"].map((x) => Media.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -62,6 +68,7 @@ class Employee {
         "propertie_id": propertieId == null ? "" : propertieId.toString(),
         "birthdate": birthdate == null ? "" : birthdate.toString(),
         // "propertie": propertie == null ? null : propertie!.toJson(),
+        // "media": List<dynamic>.from(media.map((x) => x.toJson())),
       };
 
   Future<bool> employeeStore(context) async {

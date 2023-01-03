@@ -16,64 +16,64 @@ class _BillingAddressCardState extends State<BillingAddressCard> {
   @override
   Widget build(BuildContext context) {
     double contentWidth = getContentWidth(context);
-    return Card(
-        elevation: 10,
-        color: ThemeData.dark().cardColor,
-        child: SizedBox(
-          width: isSmallScreen(context) ? contentWidth : contentWidth * 0.3,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    AutoSizeText(
-                      'Billing Address',
-                      style: TextStyle(fontSize: 20),
-                      maxLines: 3,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    Spacer(),
-                    Column(
-                      children: [
-                        AutoSizeText(
-                          "${widget.client.billingAddress?.street ?? ""}",
-                          style: TextStyle(fontSize: 18),
-                          maxLines: 3,
-                        ),
-                        AutoSizeText(
-                          "${widget.client.billingAddress?.city ?? ""} , ${widget.client.billingAddress?.state ?? ""} ${widget.client.billingAddress?.postalcode ?? ""}",
-                          style: TextStyle(fontSize: 18),
-                          maxLines: 3,
-                        ),
-                      ],
-                    ),
-                    Spacer(),
-                    IconButton(
-                        onPressed: () {
-                          openEditPropertyDialog(context, widget.client);
-                        },
-                        icon: Icon(Icons.edit))
-                  ],
-                )
-              ],
+    return SizedBox(
+      child: Card(
+          elevation: 10,
+          color: ThemeData.dark().cardColor,
+          child: SizedBox(
+            width: isSmallScreen(context) ? contentWidth : contentWidth * 0.3,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      AutoSizeText(
+                        'Billing Address',
+                        style: TextStyle(fontSize: 20),
+                        maxLines: 3,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Spacer(),
+                      Column(
+                        children: [
+                          AutoSizeText(
+                            "${widget.client.billingAddress?.street ?? ""}",
+                            maxLines: 3,
+                          ),
+                          AutoSizeText(
+                            "${widget.client.billingAddress?.city ?? ""} , ${widget.client.billingAddress?.state ?? ""} ${widget.client.billingAddress?.postalcode ?? ""}",
+                            maxLines: 3,
+                          ),
+                        ],
+                      ),
+                      Spacer(),
+                      IconButton(
+                          onPressed: () {
+                            openEditPropertyDialog(context, widget.client);
+                          },
+                          icon: Icon(Icons.edit))
+                    ],
+                  )
+                ],
+              ),
             ),
-          ),
-        ));
+          )),
+    );
   }
 
   openEditPropertyDialog(context, Client _client) {
