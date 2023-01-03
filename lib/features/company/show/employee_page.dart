@@ -80,6 +80,7 @@ class _EmployeePageState extends State<EmployeePage> {
             if (snapshot.hasData) {
               Employee employee = snapshot.data!;
               return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
@@ -116,6 +117,7 @@ class _EmployeePageState extends State<EmployeePage> {
                     ],
                   ),
                   Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.start,
                     children: [
                       snapshot.data!.media == null
                           ? Text("")

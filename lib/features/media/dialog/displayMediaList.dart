@@ -62,19 +62,6 @@ class _DisplayMediaListState extends State<DisplayMediaList> {
                 ),
                 Row(
                   children: [
-                    Spacer(),
-                    ElevatedButton(
-                        onPressed: () {
-                          // openNewEmployeeDialog(context, snapshot.data!);
-                        },
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.green[800])),
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 15.0, horizontal: 8.0),
-                          child: Text("New Media"),
-                        )),
                     SizedBox(
                       width: 50,
                     )
@@ -88,7 +75,7 @@ class _DisplayMediaListState extends State<DisplayMediaList> {
                           Row(
                             children: [
                               SizedBox(
-                                width: 200,
+                                width: isSmallScreen(context) ? 100 : 200,
                                 child: TextField(
                                   controller: searchController,
                                   decoration: const InputDecoration(
@@ -115,9 +102,20 @@ class _DisplayMediaListState extends State<DisplayMediaList> {
                                   },
                                 ),
                               ),
-                              const SizedBox(
-                                width: 10,
-                              ),
+                              Spacer(),
+                              ElevatedButton(
+                                  onPressed: () {
+                                    // openNewEmployeeDialog(context, snapshot.data!);
+                                  },
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.green[800])),
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 15.0, horizontal: 8.0),
+                                    child: Text("New Media"),
+                                  )),
                             ],
                           ),
                           Padding(
@@ -170,13 +168,7 @@ class _DisplayMediaListState extends State<DisplayMediaList> {
                                     onPressed: () {
                                       // showEmployee(context, employee);
                                     },
-                                    icon: const Icon(Icons.open_in_new)),
-                                IconButton(
-                                    onPressed: () {
-                                      // openEditEmployeeDialog(
-                                      //     context, widget.company, employee);
-                                    },
-                                    icon: const Icon(Icons.edit)),
+                                    icon: const Icon(Icons.download)),
                                 IconButton(
                                     onPressed: () {
                                       // employee.employeeDelete(context);

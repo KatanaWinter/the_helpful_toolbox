@@ -15,7 +15,7 @@ class EmployeeContactDataCard extends StatelessWidget {
         elevation: 10,
         color: ThemeData.dark().cardColor,
         child: SizedBox(
-          width: isSmallScreen(context) ? contentWidth : contentWidth * 0.4,
+          width: isSmallScreen(context) ? contentWidth : contentWidth * 0.45,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -65,29 +65,31 @@ class EmployeeContactDataCard extends StatelessWidget {
                             Text("Birthdate:"),
                           ]),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SelectableText(
-                            "${employee.firstname} ${employee.lastname}"),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SelectableText(employee.phone ?? ""),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SelectableText(employee.mobile ?? ""),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SelectableText(employee.email ?? ""),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        SelectableText(
-                            DateFormat.yMMMd().format(employee.birthdate!)),
-                      ],
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SelectableText(
+                              "${employee.firstname} ${employee.lastname}"),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          SelectableText(employee.phone ?? ""),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          SelectableText(employee.mobile ?? ""),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          SelectableText(employee.email ?? ""),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          SelectableText(
+                              DateFormat.yMMMd().format(employee.birthdate!)),
+                        ],
+                      ),
                     )
                   ],
                 ),

@@ -21,7 +21,7 @@ class _EmployeeAddressCardState extends State<EmployeeAddressCard> {
         elevation: 10,
         color: ThemeData.dark().cardColor,
         child: SizedBox(
-          width: isSmallScreen(context) ? contentWidth : contentWidth * 0.3,
+          width: isSmallScreen(context) ? contentWidth : contentWidth * 0.45,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
