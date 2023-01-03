@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/data/models/MediaModel.dart';
+import 'package:the_helpful_toolbox/features/media/dialog/uploadMediaDialog.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class DisplayMediaList extends StatefulWidget {
@@ -105,7 +106,7 @@ class _DisplayMediaListState extends State<DisplayMediaList> {
                               Spacer(),
                               ElevatedButton(
                                   onPressed: () {
-                                    // openNewEmployeeDialog(context, snapshot.data!);
+                                    openDialogNewMedia(context);
                                   },
                                   style: ButtonStyle(
                                       backgroundColor:
@@ -166,7 +167,7 @@ class _DisplayMediaListState extends State<DisplayMediaList> {
                               children: [
                                 IconButton(
                                     onPressed: () {
-                                      // showEmployee(context, employee);
+                                      // openDialogNewMedia(context);
                                     },
                                     icon: const Icon(Icons.download)),
                                 IconButton(
@@ -192,5 +193,14 @@ class _DisplayMediaListState extends State<DisplayMediaList> {
               }),
             ),
           );
+  }
+
+  openDialogNewMedia(context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return UploadMediaDialog(context);
+      },
+    );
   }
 }

@@ -14,7 +14,7 @@ import 'package:the_helpful_toolbox/features/company/company_page.dart';
 import 'package:the_helpful_toolbox/features/company/dialog/EmployeeEditDialog.dart';
 import 'package:the_helpful_toolbox/features/company/show/employee_address_card.dart';
 import 'package:the_helpful_toolbox/features/company/show/employee_contact_data.dart';
-import 'package:the_helpful_toolbox/features/media/dialog/displayMediaList.dart';
+import 'package:the_helpful_toolbox/features/media/displayMediaList.dart';
 import 'package:the_helpful_toolbox/features/navigation/presentation/sidebarnav.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
