@@ -34,9 +34,7 @@ class Property {
   String? state;
   String? postalcode;
   String? country;
-  int active;
-  dynamic createdAt;
-  dynamic updatedAt;
+  int? active;
 
   factory Property.fromJson(Map<String, dynamic> json) => Property(
         id: json["id"],

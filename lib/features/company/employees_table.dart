@@ -1,11 +1,18 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:the_helpful_toolbox/data/models/CompanyModel.dart';
 import 'package:the_helpful_toolbox/data/models/EmployeeModel.dart';
+import 'package:the_helpful_toolbox/features/company/company_page.dart';
+import 'package:the_helpful_toolbox/features/company/dialog/EmployeeCreateDialog.dart';
+import 'package:the_helpful_toolbox/features/company/dialog/EmployeeEditDialog.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class EmployeesTable extends StatefulWidget {
   late List<Employee> lEmployee;
-  EmployeesTable(this.lEmployee, {super.key});
+  Company company;
+  EmployeesTable(this.lEmployee, this.company, {super.key});
 
   @override
   State<EmployeesTable> createState() => _EmployeesTableState();
@@ -29,68 +36,56 @@ class _EmployeesTableState extends State<EmployeesTable> {
   Widget build(BuildContext context) {
     double screenWidth = getScreenWidth(context);
 
-    return Column(
-      children: [
-        Row(
-          children: [
-            SizedBox(
-              width: 500,
-              child: TextField(
-                controller: searchController,
-                decoration: const InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue, width: 1.0),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                  ),
-                  hintText: 'Search for ...',
-                ),
-                onChanged: (val) {
-                  _searchResult = val;
-                  setState(() {
-                    String _searchVal = val.toLowerCase();
-                    lFilteredEmployee = lEmployee
-                        .where((e) =>
-                            e.firstname!.toLowerCase().contains(_searchVal) ||
-                            e.lastname!.toLowerCase().contains(_searchVal) ||
-                            e.email!.toLowerCase().contains(_searchVal))
-                        .toList();
-                  });
-                },
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  // openNewClientDialog(context);
-                },
-                style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Colors.green[800])),
-                child: const Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 15.0, horizontal: 8.0),
-                  child: Text("New Employee"),
-                ))
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
+    return Expanded(
+      child: Column(
+        children: [
+          Row(
             children: [
-              // buildList(context, lFilteredEmployee)
+              SizedBox(
+                width: 500,
+                child: TextField(
+                  controller: searchController,
+                  decoration: const InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue, width: 1.0),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                    ),
+                    hintText: 'Search for ...',
+                  ),
+                  onChanged: (val) {
+                    _searchResult = val;
+                    setState(() {
+                      String _searchVal = val.toLowerCase();
+                      lFilteredEmployee = lEmployee
+                          .where((e) =>
+                              e.firstname!.toLowerCase().contains(_searchVal) ||
+                              e.lastname!.toLowerCase().contains(_searchVal))
+                          .toList();
+                    });
+                  },
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
             ],
           ),
-        )
-      ],
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [buildList(context, lFilteredEmployee)],
+            ),
+          )
+        ],
+      ),
     );
   }
 
   buildList(BuildContext context, List<Employee> lFilteredEmployee) {
     double tableWidth = getScreenWidth(context);
+    NumberFormat formatter = new NumberFormat("000000");
     isSmallScreen(context)
         ? tableWidth = tableWidth - 100
         : tableWidth = tableWidth - 250;
@@ -105,21 +100,108 @@ class _EmployeesTableState extends State<EmployeesTable> {
             itemCount: lFilteredEmployee.length,
             itemBuilder: ((context, index) {
               Employee employee = lFilteredEmployee[index];
-              return Column(
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: tableWidth * 0.2,
-                        height: 20,
-                        child: Text(
-                            "${employee.firstname!} ${employee.lastname!}"),
-                      )
-                    ],
-                  )
-                ],
+              return Container(
+                width: tableWidth,
+                child: Column(
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          width: tableWidth * 0.1,
+                          height: 30,
+                          child: AutoSizeText(
+                              textAlign: TextAlign.start,
+                              "#${formatter.format(employee.id!)}"),
+                        ),
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          width: tableWidth * 0.15,
+                          height: 30,
+                          child: AutoSizeText(
+                              "${employee.firstname ?? ""} ${employee.lastname ?? ""}"),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          width: tableWidth * 0.3,
+                          height: 60,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              AutoSizeText("Phone: ${employee.phone ?? ""} "),
+                              AutoSizeText("Mobile: ${employee.mobile ?? ""}"),
+                              AutoSizeText(
+                                  maxLines: 2,
+                                  "Email: ${employee.email ?? ""}"),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          width: tableWidth * 0.3,
+                          height: 60,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              AutoSizeText(employee.propertie?.street ?? ""),
+                              AutoSizeText(
+                                  "${employee.propertie?.city ?? ""} ${employee.propertie?.state ?? ""}"),
+                              AutoSizeText(
+                                  maxLines: 2,
+                                  employee.propertie?.postalcode ?? ""),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: ButtonBar(
+                            children: [
+                              IconButton(
+                                  onPressed: () {
+                                    // showClient(context, client);
+                                  },
+                                  icon: const Icon(Icons.open_in_new)),
+                              IconButton(
+                                  onPressed: () {
+                                    openEditEmployeeDialog(
+                                        context, widget.company, employee);
+                                  },
+                                  icon: const Icon(Icons.edit)),
+                              IconButton(
+                                  onPressed: () {
+                                    employee.employeeDelete(context);
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                CompanyPage()));
+                                  },
+                                  icon: const Icon(Icons.delete)),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Divider(
+                      height: 10,
+                    )
+                  ],
+                ),
               );
             }),
           );
+  }
+
+  openEditEmployeeDialog(context, Company company, Employee employee) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return EmployeeEditDialog(
+          company: company,
+          employee: employee,
+        );
+      },
+    );
   }
 }

@@ -1,6 +1,8 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/data/models/CompanyModel.dart';
 import 'package:the_helpful_toolbox/data/models/property.dart';
+import 'package:the_helpful_toolbox/features/company/dialog/EmployeeCreateDialog.dart';
 import 'package:the_helpful_toolbox/features/company/dialog/editCompanyaddressDialog.dart';
 import 'package:the_helpful_toolbox/features/company/dialog/editCompanydataDialog.dart';
 import 'package:the_helpful_toolbox/features/company/employees_table.dart';
@@ -166,16 +168,17 @@ class _CompanyPageState extends State<CompanyPage> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(snapshot.data!.name ?? ""),
+                                            AutoSizeText(
+                                                snapshot.data!.name ?? ""),
                                             SizedBox(
                                               height: 10,
                                             ),
-                                            SelectableText(
+                                            AutoSizeText(
                                                 snapshot.data!.phone ?? ""),
                                             SizedBox(
                                               height: 10,
                                             ),
-                                            SelectableText(
+                                            AutoSizeText(
                                                 snapshot.data!.mobile ?? ""),
                                             SizedBox(
                                               height: 10,
@@ -259,31 +262,31 @@ class _CompanyPageState extends State<CompanyPage> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            SelectableText(snapshot
+                                            AutoSizeText(snapshot
                                                     .data!.propertie?.street ??
                                                 ""),
                                             SizedBox(
                                               height: 5,
                                             ),
-                                            SelectableText(snapshot
+                                            AutoSizeText(snapshot
                                                     .data!.propertie?.street2 ??
                                                 ""),
                                             SizedBox(
                                               height: 10,
                                             ),
-                                            SelectableText(snapshot
+                                            AutoSizeText(snapshot
                                                     .data!.propertie?.city ??
                                                 ""),
                                             SizedBox(
                                               height: 10,
                                             ),
-                                            SelectableText(snapshot
+                                            AutoSizeText(snapshot
                                                     .data!.propertie?.state ??
                                                 ""),
                                             SizedBox(
                                               height: 10,
                                             ),
-                                            SelectableText(snapshot.data!
+                                            AutoSizeText(snapshot.data!
                                                     .propertie?.postalcode ??
                                                 ""),
                                             SizedBox(
@@ -334,8 +337,34 @@ class _CompanyPageState extends State<CompanyPage> {
                                       ),
                                       Row(
                                         children: [
-                                          EmployeesTable(
-                                              snapshot.data!.employees!),
+                                          Spacer(),
+                                          ElevatedButton(
+                                              onPressed: () {
+                                                openNewEmployeeDialog(
+                                                    context, snapshot.data!);
+                                              },
+                                              style: ButtonStyle(
+                                                  backgroundColor:
+                                                      MaterialStateProperty.all(
+                                                          Colors.green[800])),
+                                              child: const Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 15.0,
+                                                    horizontal: 8.0),
+                                                child: Text("New Employee"),
+                                              )),
+                                          SizedBox(
+                                            width: 50,
+                                          )
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          snapshot.data!.employees == null
+                                              ? Text("no employees yet")
+                                              : EmployeesTable(
+                                                  snapshot.data!.employees!,
+                                                  snapshot.data!)
                                         ],
                                       ),
                                     ],
@@ -372,6 +401,17 @@ class _CompanyPageState extends State<CompanyPage> {
       context: context,
       builder: (BuildContext context) {
         return EditCompanyAddressDialog(company: comp);
+      },
+    );
+  }
+
+  openNewEmployeeDialog(context, Company company) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return EmployeeCreateDialog(
+          company: company,
+        );
       },
     );
   }

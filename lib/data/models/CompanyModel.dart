@@ -62,9 +62,9 @@ class Company {
         "phone": phone ?? "",
         "mobile": mobile ?? "",
         "email": email.toString(),
-        // "employees": employees == null
-        //     ? null
-        //     : List<dynamic>.from(employees!.map((x) => x.toJson())),
+        "employees": employees == null
+            ? null
+            : List<dynamic>.from(employees!.map((x) => x.toJson())),
         // "offerlists": offerlists == null
         //     ? null
         //     : List<dynamic>.from(offerlists!.map((x) => x.toJson())),

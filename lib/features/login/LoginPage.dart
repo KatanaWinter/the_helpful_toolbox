@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_helpful_toolbox/data/models/UserModel.dart';
@@ -212,7 +214,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void loginUser(String email, String password) {
     UserModel user = UserModel(email: email, password: password);
-    var response = user.loginUser(user).then(
+    var response = user.loginUser(user, context).then(
       (value) {
         if (value!.statusCode == 200) {
           const snackBar = SnackBar(
@@ -227,10 +229,15 @@ class _LoginPageState extends State<LoginPage> {
             (route) => false,
           );
         } else {
-          const snackBar = SnackBar(
-            content: Text("Login Error!"),
+          Map<String, dynamic> temp = json.decode(value.body);
+          String message = temp["message"];
+          var snackBar = SnackBar(
+            content: Text(
+              "Login Error! $message",
+              style: TextStyle(color: Colors.white),
+            ),
             backgroundColor: (Colors.red),
-            duration: Duration(seconds: 2),
+            duration: Duration(seconds: 4),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }

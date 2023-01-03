@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:the_helpful_toolbox/data/models/client.dart';
 import 'package:the_helpful_toolbox/data/models/property.dart';
 import 'package:the_helpful_toolbox/features/clients/dialog/editClientDialog.dart';
@@ -183,6 +184,8 @@ class _ClientsPageState extends State<ClientsPage> {
 
   buildList(context, List<Client> lFiltered) {
     double tableWidth = getScreenWidth(context);
+
+    NumberFormat formatter = new NumberFormat("000000");
     isSmallScreen(context)
         ? tableWidth = tableWidth - 100
         : tableWidth = tableWidth - 250;
@@ -212,7 +215,7 @@ class _ClientsPageState extends State<ClientsPage> {
                           ? const SizedBox()
                           : SizedBox(
                               width: tableWidth * 0.1,
-                              child: Text(client.id.toString())),
+                              child: Text("#${formatter.format(client.id)}")),
                       const SizedBox(
                         width: 5,
                       ),

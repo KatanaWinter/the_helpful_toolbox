@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,7 +31,7 @@ class UserModel {
     return data;
   }
 
-  Future<http.Response?> loginUser(UserModel user) async {
+  Future<http.Response?> loginUser(UserModel user, BuildContext context) async {
     try {
       var body = user.toJson();
       String connString = await getBaseUrl();
@@ -51,6 +52,14 @@ class UserModel {
       }
     } catch (e) {
       debugPrint("Error in save :$e");
+      String eMessage = e.toString();
+      var snackBar = SnackBar(
+        content: Text("Login Error! $eMessage",
+            style: TextStyle(color: Colors.white)),
+        backgroundColor: (Colors.red),
+        duration: Duration(seconds: 4),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
     return null;
   }

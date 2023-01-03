@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:the_helpful_toolbox/data/models/property.dart';
 import 'package:the_helpful_toolbox/helper/api_service.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,17 +11,17 @@ String employeeToJson(List<Employee> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Employee {
-  Employee({
-    this.id,
-    this.companyId,
-    this.firstname,
-    this.lastname,
-    this.phone,
-    this.mobile,
-    this.email,
-    this.propertieId,
-    this.birthdate,
-  });
+  Employee(
+      {this.id,
+      this.companyId,
+      this.firstname,
+      this.lastname,
+      this.phone,
+      this.mobile,
+      this.email,
+      this.propertieId,
+      this.birthdate,
+      this.propertie});
 
   int? id;
   int? companyId;
@@ -29,8 +30,9 @@ class Employee {
   String? phone;
   String? mobile;
   String? email;
-  String? propertieId;
+  int? propertieId;
   DateTime? birthdate;
+  Property? propertie;
 
   factory Employee.fromJson(Map<String, dynamic> json) => Employee(
         id: json["id"],
@@ -41,19 +43,25 @@ class Employee {
         mobile: json["mobile"],
         email: json["email"],
         propertieId: json["propertie_id"],
-        birthdate: DateTime.parse(json["birthdate"]),
+        birthdate: json["birthdate"] == null
+            ? null
+            : DateTime.parse(json["birthdate"]),
+        propertie: json["propertie"] == null
+            ? null
+            : Property.fromJson(json["propertie"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id.toString(),
-        "company_id": companyId.toString(),
-        "firstname": firstname.toString(),
-        "lastname": lastname.toString(),
-        "phone": phone.toString(),
-        "mobile": mobile.toString(),
-        "email": email.toString(),
-        "propertie_id": propertieId,
-        "birthdate": birthdate.toString(),
+        // "id": id == null ? null : id.toString(),
+        "company_id": companyId == null ? "" : companyId.toString(),
+        "firstname": firstname ?? "",
+        "lastname": lastname ?? "",
+        "phone": phone ?? "",
+        "mobile": mobile ?? "",
+        "email": email ?? "",
+        "propertie_id": propertieId == null ? "" : propertieId.toString(),
+        "birthdate": birthdate == null ? "" : birthdate.toString(),
+        // "propertie": propertie == null ? null : propertie!.toJson(),
       };
 
   Future<bool> employeeStore(context) async {
