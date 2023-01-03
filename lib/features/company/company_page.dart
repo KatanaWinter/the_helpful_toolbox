@@ -53,7 +53,7 @@ class _CompanyPageState extends State<CompanyPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Wrap(children: [
+                      Wrap(spacing: 5, runSpacing: 5, children: [
                         Card(
                             elevation: 10,
                             color: ThemeData.dark().cardColor,
@@ -124,7 +124,7 @@ class _CompanyPageState extends State<CompanyPage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Text(
+                                        AutoSizeText(
                                           'Company Data',
                                           style: TextStyle(fontSize: 20),
                                         ),
@@ -164,26 +164,28 @@ class _CompanyPageState extends State<CompanyPage> {
                                                 ),
                                               ]),
                                         ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            AutoSizeText(
-                                                snapshot.data!.name ?? ""),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            AutoSizeText(
-                                                snapshot.data!.phone ?? ""),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            AutoSizeText(
-                                                snapshot.data!.mobile ?? ""),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                          ],
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              AutoSizeText(
+                                                  snapshot.data!.name ?? ""),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              AutoSizeText(
+                                                  snapshot.data!.phone ?? ""),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              AutoSizeText(
+                                                  snapshot.data!.mobile ?? ""),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                            ],
+                                          ),
                                         )
                                       ],
                                     ),
@@ -210,12 +212,9 @@ class _CompanyPageState extends State<CompanyPage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Text(
+                                        AutoSizeText(
                                           'Company Address',
                                           style: TextStyle(fontSize: 20),
-                                        ),
-                                        SizedBox(
-                                          width: 10,
                                         ),
                                         IconButton(
                                             onPressed: () {
@@ -258,41 +257,43 @@ class _CompanyPageState extends State<CompanyPage> {
                                                 ),
                                               ]),
                                         ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            AutoSizeText(snapshot
-                                                    .data!.propertie?.street ??
-                                                ""),
-                                            SizedBox(
-                                              height: 5,
-                                            ),
-                                            AutoSizeText(snapshot
-                                                    .data!.propertie?.street2 ??
-                                                ""),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            AutoSizeText(snapshot
-                                                    .data!.propertie?.city ??
-                                                ""),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            AutoSizeText(snapshot
-                                                    .data!.propertie?.state ??
-                                                ""),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            AutoSizeText(snapshot.data!
-                                                    .propertie?.postalcode ??
-                                                ""),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                          ],
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              AutoSizeText(snapshot.data!
+                                                      .propertie?.street ??
+                                                  ""),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
+                                              AutoSizeText(snapshot.data!
+                                                      .propertie?.street2 ??
+                                                  ""),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              AutoSizeText(snapshot
+                                                      .data!.propertie?.city ??
+                                                  ""),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              AutoSizeText(snapshot
+                                                      .data!.propertie?.state ??
+                                                  ""),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              AutoSizeText(snapshot.data!
+                                                      .propertie?.postalcode ??
+                                                  ""),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                            ],
+                                          ),
                                         )
                                       ],
                                     ),
@@ -301,7 +302,7 @@ class _CompanyPageState extends State<CompanyPage> {
                               ),
                             )),
                       ]),
-                      Wrap(
+                      Row(
                         children: [
                           Card(
                               elevation: 10,

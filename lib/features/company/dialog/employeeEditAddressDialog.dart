@@ -1,32 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
-import 'package:the_helpful_toolbox/data/models/CompanyModel.dart';
 import 'package:the_helpful_toolbox/data/models/EmployeeModel.dart';
-import 'package:the_helpful_toolbox/features/company/company_page.dart';
+import 'package:the_helpful_toolbox/data/models/property.dart';
+import 'package:the_helpful_toolbox/features/company/show/employee_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
-class EmployeeCreateDialog extends StatefulWidget {
-  Company company;
-  EmployeeCreateDialog({required this.company, super.key});
+class EmployeeEditAddressDialog extends StatefulWidget {
+  Employee employee;
+  EmployeeEditAddressDialog({required this.employee, super.key});
 
   @override
-  State<EmployeeCreateDialog> createState() => _EmployeeCreateDialogState();
+  State<EmployeeEditAddressDialog> createState() =>
+      _EmployeeEditAddressDialogState();
 }
 
-class _EmployeeCreateDialogState extends State<EmployeeCreateDialog> {
+class _EmployeeEditAddressDialogState extends State<EmployeeEditAddressDialog> {
   final _formKey = GlobalKey<FormState>();
-  Employee _employee = Employee();
+  Property _propertie = Property(
+      name: "",
+      street: "",
+      street2: "",
+      city: "",
+      state: "",
+      postalcode: "",
+      country: "");
 
   @override
   void initState() {
-    _employee.companyId = widget.company.id;
+    // TODO: implement initState
+
+    widget.employee.propertieId != null
+        ? _propertie.id = widget.employee.propertieId!
+        : "";
+    if (widget.employee.propertie != null) {
+      _propertie = widget.employee.propertie!;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    _propertie.active = 1;
+    _propertie.name =
+        "${widget.employee.firstname} ${widget.employee.lastname} - Property";
     return AlertDialog(
-      title: const Text('Create Employee Data'),
+      title: const Text('Edit Property'),
       content: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -53,18 +70,15 @@ class _EmployeeCreateDialogState extends State<EmployeeCreateDialog> {
                               child: TextFormField(
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'Firstname'),
+                                    labelText: 'Name'),
+                                initialValue: _propertie.name,
+                                enabled: false,
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'Please enter a value';
                                   }
                                   return null;
                                 },
-                                onChanged: (value) {
-                                  setState(() {
-                                    _employee.firstname = value;
-                                  });
-                                },
                               ),
                             ),
                             Padding(
@@ -72,85 +86,87 @@ class _EmployeeCreateDialogState extends State<EmployeeCreateDialog> {
                               child: TextFormField(
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'Lastname'),
+                                    labelText: 'Street'),
+                                initialValue: _propertie.street,
+                                onChanged: (val) => setState(() {
+                                  _propertie.street = val;
+                                }),
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'Please enter a value';
                                   }
                                   return null;
                                 },
-                                onChanged: (value) {
-                                  setState(() {
-                                    _employee.lastname = value;
-                                  });
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Street 2'),
+                                initialValue: _propertie.street2,
+                                onChanged: (val) => setState(() {
+                                  _propertie.street2 = val;
+                                }),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'City'),
+                                initialValue: _propertie.city,
+                                onChanged: (val) => setState(() {
+                                  _propertie.city = val;
+                                }),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter a value';
+                                  }
+                                  return null;
                                 },
                               ),
                             ),
-                            const SizedBox(
-                              height: 10,
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'State'),
+                                initialValue: _propertie.state,
+                                onChanged: (val) => setState(() {
+                                  _propertie.state = val;
+                                }),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter a value';
+                                  }
+                                  return null;
+                                },
+                              ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'Phone'),
-                                initialValue: _employee.phone,
+                                    labelText: 'Postal Code'),
+                                initialValue: _propertie.postalcode,
                                 onChanged: (val) => setState(() {
-                                  _employee.phone = val;
+                                  _propertie.postalcode = val;
                                 }),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter a value';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Mobile'),
-                                initialValue: _employee.mobile,
-                                onChanged: (val) => setState(() {
-                                  _employee.mobile = val;
-                                }),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Email'),
-                                initialValue: _employee.email,
-                                onChanged: (val) => setState(() {
-                                  _employee.email = val;
-                                }),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: [
-                                    Text("Birthdate:"),
-                                    Text(_employee.birthdate == null
-                                        ? ""
-                                        : DateFormat.yMMMEd()
-                                            .format(_employee.birthdate!)),
-                                    Spacer(),
-                                    ElevatedButton(
-                                        child: Text('Pick Birthdate'),
-                                        onPressed: _pickDateDialog)
-                                  ],
-                                )),
-                            const SizedBox(
-                              height: 10,
+                            SizedBox(
+                              height: 20,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -161,6 +177,7 @@ class _EmployeeCreateDialogState extends State<EmployeeCreateDialog> {
                                       child: Text('Cancel'),
                                     ),
                                     onPressed: () {
+                                      // Hier passiert etwas
                                       Navigator.of(context).pop();
                                     }),
                                 const SizedBox(
@@ -173,8 +190,8 @@ class _EmployeeCreateDialogState extends State<EmployeeCreateDialog> {
                                   ),
                                   onPressed: () {
                                     if (_formKey.currentState!.validate()) {
-                                      saveEmployeeDataDialog(
-                                          context, _employee);
+                                      savePropertyForEmployee(
+                                          context, widget.employee, _propertie);
                                     } else {
                                       print('Error');
                                     }
@@ -195,37 +212,26 @@ class _EmployeeCreateDialogState extends State<EmployeeCreateDialog> {
     );
   }
 
-  //Method for showing the date picker
-  void _pickDateDialog() {
-    showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            //which date will display when user open the picker
-            firstDate: DateTime(1950),
-            //what will be the previous supported year in picker
-            lastDate: DateTime(
-                2100)) //what will be the up to supported date in picker
-        .then((pickedDate) {
-      //then usually do the future job
-      if (pickedDate == null) {
-        //if user tap cancel then this function will stop
-        return;
+  savePropertyForEmployee(
+      context, Employee _employee, Property _property) async {
+    debugPrint("save billing address to Database start");
+    if (_employee.propertie == null) {
+      Property stored = await _property.propertyStore(context);
+      if (stored != null) {
+        ("save billing address to Database success");
+        _employee.propertieId = stored.id;
+        _employee.employeeUpdate(context);
+      } else {
+        debugPrint("save billing address to Database failed");
       }
-      setState(() {
-        //for rebuilding the ui
-        _employee.birthdate = pickedDate;
-      });
-    });
-  }
-
-  saveEmployeeDataDialog(context, Employee _employee) async {
-    bool stored = await _employee.employeeStore(context);
-    stored == true
-        ? debugPrint("save employee to Database success")
-        : debugPrint("save employee to Database failed");
-
+    } else {
+      bool stored = await _property.propertyUpdate(context);
+      stored == true
+          ? debugPrint("save billing address to Database success")
+          : debugPrint("save billing address to Database failed");
+    }
     setState(() {});
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => CompanyPage()));
+        .push(MaterialPageRoute(builder: (context) => EmployeePage(_employee)));
   }
 }

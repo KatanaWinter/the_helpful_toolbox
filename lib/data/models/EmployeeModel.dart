@@ -103,7 +103,7 @@ class Employee {
     }
   }
 
-  Future<Employee> companyShow(context) async {
+  Future<Employee> employeeShow(context) async {
     Employee model = Employee();
     try {
       ApiService apiService = ApiService();

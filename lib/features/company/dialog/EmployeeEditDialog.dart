@@ -7,10 +7,10 @@ import 'package:the_helpful_toolbox/features/company/company_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class EmployeeEditDialog extends StatefulWidget {
-  Company company;
   Employee employee;
+  Widget backPage;
   EmployeeEditDialog(
-      {required this.company, required this.employee, super.key});
+      {required this.employee, super.key, required this.backPage});
 
   @override
   State<EmployeeEditDialog> createState() => _EmployeeEditDialogState();
@@ -22,14 +22,13 @@ class _EmployeeEditDialogState extends State<EmployeeEditDialog> {
 
   @override
   void initState() {
-    _employee.companyId = widget.company.id;
     _employee = widget.employee;
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Edit Company Data'),
+      title: const Text('Edit Employee Data'),
       content: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -231,6 +230,6 @@ class _EmployeeEditDialogState extends State<EmployeeEditDialog> {
 
     setState(() {});
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => CompanyPage()));
+        .push(MaterialPageRoute(builder: (context) => widget.backPage));
   }
 }

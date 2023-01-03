@@ -7,6 +7,7 @@ import 'package:the_helpful_toolbox/data/models/EmployeeModel.dart';
 import 'package:the_helpful_toolbox/features/company/company_page.dart';
 import 'package:the_helpful_toolbox/features/company/dialog/EmployeeCreateDialog.dart';
 import 'package:the_helpful_toolbox/features/company/dialog/EmployeeEditDialog.dart';
+import 'package:the_helpful_toolbox/features/company/show/employee_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class EmployeesTable extends StatefulWidget {
@@ -110,7 +111,7 @@ class _EmployeesTableState extends State<EmployeesTable> {
                         Container(
                           alignment: Alignment.centerLeft,
                           width: tableWidth * 0.1,
-                          height: 30,
+                          height: 50,
                           child: AutoSizeText(
                               textAlign: TextAlign.start,
                               "#${formatter.format(employee.id!)}"),
@@ -118,7 +119,7 @@ class _EmployeesTableState extends State<EmployeesTable> {
                         Container(
                           alignment: Alignment.centerLeft,
                           width: tableWidth * 0.15,
-                          height: 30,
+                          height: 50,
                           child: AutoSizeText(
                               "${employee.firstname ?? ""} ${employee.lastname ?? ""}"),
                         ),
@@ -160,7 +161,7 @@ class _EmployeesTableState extends State<EmployeesTable> {
                             children: [
                               IconButton(
                                   onPressed: () {
-                                    // showClient(context, client);
+                                    showEmployee(context, employee);
                                   },
                                   icon: const Icon(Icons.open_in_new)),
                               IconButton(
@@ -197,11 +198,13 @@ class _EmployeesTableState extends State<EmployeesTable> {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return EmployeeEditDialog(
-          company: company,
-          employee: employee,
-        );
+        return EmployeeEditDialog(employee: employee, backPage: CompanyPage());
       },
     );
+  }
+
+  showEmployee(context, Employee employee) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => EmployeePage(employee)));
   }
 }
