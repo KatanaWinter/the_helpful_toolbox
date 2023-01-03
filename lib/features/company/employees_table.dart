@@ -36,40 +36,43 @@ class _EmployeesTableState extends State<EmployeesTable> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = getScreenWidth(context);
+    double contentWidth = getContentWidth(context);
 
     return Expanded(
       child: Column(
         children: [
           Row(
             children: [
-              SizedBox(
-                width: 500,
-                child: TextField(
-                  controller: searchController,
-                  decoration: const InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue, width: 1.0),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: contentWidth - 40,
+                  child: TextField(
+                    controller: searchController,
+                    decoration: const InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue, width: 1.0),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                      ),
+                      hintText: 'Search for ...',
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                    ),
-                    hintText: 'Search for ...',
+                    onChanged: (val) {
+                      _searchResult = val;
+                      setState(() {
+                        String _searchVal = val.toLowerCase();
+                        lFilteredEmployee = lEmployee
+                            .where((e) =>
+                                e.firstname!
+                                    .toLowerCase()
+                                    .contains(_searchVal) ||
+                                e.lastname!.toLowerCase().contains(_searchVal))
+                            .toList();
+                      });
+                    },
                   ),
-                  onChanged: (val) {
-                    _searchResult = val;
-                    setState(() {
-                      String _searchVal = val.toLowerCase();
-                      lFilteredEmployee = lEmployee
-                          .where((e) =>
-                              e.firstname!.toLowerCase().contains(_searchVal) ||
-                              e.lastname!.toLowerCase().contains(_searchVal))
-                          .toList();
-                    });
-                  },
                 ),
-              ),
-              const SizedBox(
-                width: 10,
               ),
             ],
           ),

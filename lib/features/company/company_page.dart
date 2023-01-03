@@ -53,264 +53,16 @@ class _CompanyPageState extends State<CompanyPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Wrap(spacing: 5, runSpacing: 5, children: [
-                        Card(
-                            elevation: 10,
-                            color: ThemeData.dark().cardColor,
-                            child: SizedBox(
-                              width: isSmallScreen(context)
-                                  ? contentWidth
-                                  : contentWidth * 0.3,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: const [
-                                        Text(
-                                          'Company Logo',
-                                          style: TextStyle(fontSize: 20),
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        SizedBox(
-                                          width: 100,
-                                          child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: const []),
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [],
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )),
-                        Card(
-                            elevation: 10,
-                            color: ThemeData.dark().cardColor,
-                            child: SizedBox(
-                              width: isSmallScreen(context)
-                                  ? contentWidth
-                                  : contentWidth * 0.3,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        AutoSizeText(
-                                          'Company Data',
-                                          style: TextStyle(fontSize: 20),
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        IconButton(
-                                            onPressed: () {
-                                              openEditDataDialog(
-                                                  context, snapshot.data!);
-                                            },
-                                            icon: Icon(Icons.edit))
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        SizedBox(
-                                          width: 100,
-                                          child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: const [
-                                                Text("Name:"),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text("Phone:"),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text("Mobile:"),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                              ]),
-                                        ),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              AutoSizeText(
-                                                  snapshot.data!.name ?? ""),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              AutoSizeText(
-                                                  snapshot.data!.phone ?? ""),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              AutoSizeText(
-                                                  snapshot.data!.mobile ?? ""),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )),
-                        Card(
-                            elevation: 10,
-                            color: ThemeData.dark().cardColor,
-                            child: SizedBox(
-                              width: isSmallScreen(context)
-                                  ? contentWidth
-                                  : contentWidth * 0.3,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        AutoSizeText(
-                                          'Company Address',
-                                          style: TextStyle(fontSize: 20),
-                                        ),
-                                        IconButton(
-                                            onPressed: () {
-                                              openEditPropertyDialog(
-                                                  context, snapshot.data!);
-                                            },
-                                            icon: Icon(Icons.edit))
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        SizedBox(
-                                          width: 100,
-                                          child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: const [
-                                                Text("Street:"),
-                                                SizedBox(
-                                                  height: 5,
-                                                ),
-                                                Text("Street 2:"),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text("City:"),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text("State:"),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Text("Zip:"),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                              ]),
-                                        ),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              AutoSizeText(snapshot.data!
-                                                      .propertie?.street ??
-                                                  ""),
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                              AutoSizeText(snapshot.data!
-                                                      .propertie?.street2 ??
-                                                  ""),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              AutoSizeText(snapshot
-                                                      .data!.propertie?.city ??
-                                                  ""),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              AutoSizeText(snapshot
-                                                      .data!.propertie?.state ??
-                                                  ""),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              AutoSizeText(snapshot.data!
-                                                      .propertie?.postalcode ??
-                                                  ""),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )),
-                      ]),
-                      Row(
-                        children: [
+                      SizedBox(
+                        width: contentWidth,
+                        child: Wrap(children: [
                           Card(
                               elevation: 10,
                               color: ThemeData.dark().cardColor,
                               child: SizedBox(
                                 width: isSmallScreen(context)
                                     ? contentWidth
-                                    : contentWidth - 10,
+                                    : contentWidth * 0.3,
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
@@ -325,7 +77,7 @@ class _CompanyPageState extends State<CompanyPage> {
                                             MainAxisAlignment.center,
                                         children: const [
                                           Text(
-                                            'Employees',
+                                            'Company Logo',
                                             style: TextStyle(fontSize: 20),
                                           ),
                                           SizedBox(
@@ -338,41 +90,297 @@ class _CompanyPageState extends State<CompanyPage> {
                                       ),
                                       Row(
                                         children: [
-                                          Spacer(),
-                                          ElevatedButton(
-                                              onPressed: () {
-                                                openNewEmployeeDialog(
-                                                    context, snapshot.data!);
-                                              },
-                                              style: ButtonStyle(
-                                                  backgroundColor:
-                                                      MaterialStateProperty.all(
-                                                          Colors.green[800])),
-                                              child: const Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 15.0,
-                                                    horizontal: 8.0),
-                                                child: Text("New Employee"),
-                                              )),
                                           SizedBox(
-                                            width: 50,
+                                            width: 100,
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: const []),
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [],
                                           )
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          snapshot.data!.employees == null
-                                              ? Text("no employees yet")
-                                              : EmployeesTable(
-                                                  snapshot.data!.employees!,
-                                                  snapshot.data!)
                                         ],
                                       ),
                                     ],
                                   ),
                                 ),
                               )),
-                        ],
+                          Card(
+                              elevation: 10,
+                              color: ThemeData.dark().cardColor,
+                              child: SizedBox(
+                                width: isSmallScreen(context)
+                                    ? contentWidth
+                                    : contentWidth * 0.3,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          AutoSizeText(
+                                            'Company Data',
+                                            style: TextStyle(fontSize: 20),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          IconButton(
+                                              onPressed: () {
+                                                openEditDataDialog(
+                                                    context, snapshot.data!);
+                                              },
+                                              icon: Icon(Icons.edit))
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 100,
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: const [
+                                                  Text("Name:"),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text("Phone:"),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text("Mobile:"),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                ]),
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                AutoSizeText(
+                                                    snapshot.data!.name ?? ""),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                AutoSizeText(
+                                                    snapshot.data!.phone ?? ""),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                AutoSizeText(
+                                                    snapshot.data!.mobile ??
+                                                        ""),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )),
+                          Card(
+                              elevation: 10,
+                              color: ThemeData.dark().cardColor,
+                              child: SizedBox(
+                                width: isSmallScreen(context)
+                                    ? contentWidth
+                                    : contentWidth * 0.3,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          AutoSizeText(
+                                            'Company Address',
+                                            style: TextStyle(fontSize: 20),
+                                          ),
+                                          IconButton(
+                                              onPressed: () {
+                                                openEditPropertyDialog(
+                                                    context, snapshot.data!);
+                                              },
+                                              icon: Icon(Icons.edit))
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 100,
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: const [
+                                                  Text("Street:"),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Text("Street 2:"),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text("City:"),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text("State:"),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Text("Zip:"),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                ]),
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                AutoSizeText(snapshot.data!
+                                                        .propertie?.street ??
+                                                    ""),
+                                                SizedBox(
+                                                  height: 5,
+                                                ),
+                                                AutoSizeText(snapshot.data!
+                                                        .propertie?.street2 ??
+                                                    ""),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                AutoSizeText(snapshot.data!
+                                                        .propertie?.city ??
+                                                    ""),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                AutoSizeText(snapshot.data!
+                                                        .propertie?.state ??
+                                                    ""),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                AutoSizeText(snapshot
+                                                        .data!
+                                                        .propertie
+                                                        ?.postalcode ??
+                                                    ""),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )),
+                        ]),
+                      ),
+                      SizedBox(
+                        width: contentWidth,
+                        child: Row(
+                          children: [
+                            Card(
+                                elevation: 10,
+                                color: ThemeData.dark().cardColor,
+                                child: SizedBox(
+                                  width: contentWidth - 8,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: const [
+                                            Text(
+                                              'Employees',
+                                              style: TextStyle(fontSize: 20),
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Spacer(),
+                                            ElevatedButton(
+                                                onPressed: () {
+                                                  openNewEmployeeDialog(
+                                                      context, snapshot.data!);
+                                                },
+                                                style: ButtonStyle(
+                                                    backgroundColor:
+                                                        MaterialStateProperty
+                                                            .all(Colors
+                                                                .green[800])),
+                                                child: const Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 15.0,
+                                                      horizontal: 8.0),
+                                                  child: Text("New Employee"),
+                                                )),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            snapshot.data!.employees == null
+                                                ? Text("no employees yet")
+                                                : EmployeesTable(
+                                                    snapshot.data!.employees!,
+                                                    snapshot.data!)
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )),
+                          ],
+                        ),
                       )
                     ],
                   ),
