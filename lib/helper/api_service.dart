@@ -165,8 +165,11 @@ class ApiService {
     return true;
   }
 
-  static Future<Response> uploadFile(String? url, List<int> file,
-      String fileName, BuildContext? context) async {
+  void uploadFile(
+      {String? url,
+      FormData? formData,
+      BuildContext? context,
+      required Map<String, dynamic> body}) async {
     var dio = Dio();
     final prefs = await SharedPreferences.getInstance();
     var bearerToken = await prefs.getString('Bearer Token');
@@ -181,15 +184,18 @@ class ApiService {
     };
     String connString = await getBaseUrl();
     url = "$connString$url";
-    FormData formData = FormData.fromMap({
-      "file": MultipartFile.fromBytes(
-        file,
-        filename: fileName,
-        contentType: MediaType("image", "png"),
-      )
-    });
-    final response = await dio.post(url, data: formData);
+    try {
+      dio.options.headers['Authorization'] = 'Bearer $bearerToken';
+      final response = await dio.post(url, data: formData);
 
-    return response;
+      if (response.statusCode == 200) {
+        print("upload success");
+      } else {
+        print("error in upload");
+      }
+      // return response;
+    } catch (e) {
+      print(e);
+    }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:the_helpful_toolbox/data/models/MediaModel.dart';
@@ -14,7 +15,9 @@ class UploadMediaDialog extends StatefulWidget {
 class _UploadMediaDialogState extends State<UploadMediaDialog> {
   final _formKey = GlobalKey<FormState>();
   Media _media = Media();
+  late PlatformFile lFile;
   FilePickerResult? result;
+  TextEditingController _mediaName = TextEditingController();
 
   @override
   void initState() {}
@@ -47,6 +50,7 @@ class _UploadMediaDialogState extends State<UploadMediaDialog> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
+                                controller: _mediaName,
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'File to Upload'),
@@ -69,13 +73,25 @@ class _UploadMediaDialogState extends State<UploadMediaDialog> {
                             ),
                             ElevatedButton(
                                 onPressed: () async {
-                                  result = await FilePicker.platform
-                                      .pickFiles(allowMultiple: true);
+                                  result = await FilePicker.platform.pickFiles(
+                                      allowMultiple: false,
+                                      allowedExtensions: [
+                                        'pdf',
+                                        'docx',
+                                        'jpg',
+                                        'jpeg',
+                                        'png'
+                                      ],
+                                      withData: true,
+                                      type: FileType.custom);
                                   if (result == null) {
                                     print("No file selected");
                                   } else {
                                     setState(() {});
                                     result?.files.forEach((element) {
+                                      _media.name = element.name;
+                                      _mediaName.text = element.name;
+                                      lFile = element;
                                       print(element.name);
                                     });
                                   }
@@ -105,8 +121,7 @@ class _UploadMediaDialogState extends State<UploadMediaDialog> {
                                   ),
                                   onPressed: () {
                                     if (_formKey.currentState!.validate()) {
-                                      // saveEmployeeDataDialog(
-                                      //     context, _employee);
+                                      saveMediaDialog(context, _media, lFile);
                                     } else {
                                       print('Error');
                                     }
@@ -127,14 +142,13 @@ class _UploadMediaDialogState extends State<UploadMediaDialog> {
     );
   }
 
-  // saveEmployeeDataDialog(context, Employee _employee) async {
-  //   bool stored = await _employee.employeeStore(context);
-  //   stored == true
-  //       ? debugPrint("save employee to Database success")
-  //       : debugPrint("save employee to Database failed");
+  saveMediaDialog(context, Media media, PlatformFile lFile) async {
+    Media stored = await media.mediaStore(context, lFile);
+    // stored == true
+    //     ? debugPrint("save employee to Database success")
+    //     : debugPrint("save employee to Database failed");
 
-  //   setState(() {});
-  //   Navigator.of(context)
-  //       .push(MaterialPageRoute(builder: (context) => CompanyPage()));
-  // }
+    setState(() {});
+    Navigator.of(context).pop();
+  }
 }

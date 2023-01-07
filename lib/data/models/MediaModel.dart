@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+import 'package:file_picker/src/platform_file.dart';
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/helper/api_service.dart';
 import 'package:http/http.dart' as http;
@@ -49,24 +51,40 @@ class Media {
         "size": size,
       };
 
-  Future<Media> mediaStore(context) async {
+  Future<Media> mediaStore(context, PlatformFile lFile) async {
     Media _media = Media();
-    try {
-      var body = toJson();
-      ApiService apiService = ApiService();
-      http.Response response =
-          await apiService.post(url: '/media', body: body, context: context);
 
-      if (response.statusCode == 200) {
-        debugPrint("Save Media success");
-      } else {
-        debugPrint(response.body);
-        return _media;
-      }
+    try {
+      List<int> fileBytes = lFile.bytes!;
+      String name = lFile.name;
+
+      FormData formData = FormData.fromMap(
+          {"file": MultipartFile.fromBytes(fileBytes, filename: name)});
+      ApiService apiService = ApiService();
+      var body = toJson();
+      apiService.uploadFile(
+        url: '/media',
+        formData: formData,
+        context: context,
+        body: {},
+      );
+      // Response response = await ApiService.uploadFile(
+      //   url: '/media',
+      //   formData: formData,
+      //   context: context,
+      //   body: {},
+      // );
+
+      // if (response.statusCode == 200) {
+      //   debugPrint("Save Media success");
+      // } else {
+      //   return _media;
+      // }
       return _media;
     } catch (e) {
       debugPrint("Error in Media save :$e");
       return _media;
     }
+    return _media;
   }
 }
