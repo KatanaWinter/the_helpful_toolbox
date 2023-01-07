@@ -1,10 +1,12 @@
 import 'dart:developer';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_helpful_toolbox/data/models/client.dart';
 import 'package:the_helpful_toolbox/features/login/LoginPage.dart';
 import 'package:the_helpful_toolbox/helper/constants.dart';
+import 'package:http_parser/http_parser.dart';
 
 class ApiService {
   Future<http.Response> get(
@@ -161,5 +163,33 @@ class ApiService {
       return true;
     }
     return true;
+  }
+
+  static Future<Response> uploadFile(String? url, List<int> file,
+      String fileName, BuildContext? context) async {
+    var dio = Dio();
+    final prefs = await SharedPreferences.getInstance();
+    var bearerToken = await prefs.getString('Bearer Token');
+    if (bearerToken == null) {
+      Navigator.of(context!).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+        (route) => false,
+      );
+    }
+    var headers = {
+      'Authorization': 'Bearer $bearerToken',
+    };
+    String connString = await getBaseUrl();
+    url = "$connString$url";
+    FormData formData = FormData.fromMap({
+      "file": MultipartFile.fromBytes(
+        file,
+        filename: fileName,
+        contentType: MediaType("image", "png"),
+      )
+    });
+    final response = await dio.post(url, data: formData);
+
+    return response;
   }
 }
