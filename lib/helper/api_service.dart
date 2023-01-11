@@ -165,7 +165,7 @@ class ApiService {
     return true;
   }
 
-  void uploadFile(
+  Future<bool> uploadFile(
       {String? url,
       FormData? formData,
       BuildContext? context,
@@ -190,12 +190,15 @@ class ApiService {
 
       if (response.statusCode == 200) {
         print("upload success");
+        return true;
       } else {
         print("error in upload");
+        return false;
       }
       // return response;
     } catch (e) {
       print(e);
     }
+    return false;
   }
 }

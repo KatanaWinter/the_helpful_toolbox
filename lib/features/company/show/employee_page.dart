@@ -124,7 +124,10 @@ class _EmployeePageState extends State<EmployeePage> {
                           : SizedBox(
                               width: 600,
                               child: DisplayMediaList(
-                                  lMedia: snapshot.data!.media!))
+                                lMedia: snapshot.data!.media!,
+                                whereToUpload:
+                                    "uploadToEmployee/${snapshot.data!.id}",
+                              ))
                     ],
                   ),
                 ],

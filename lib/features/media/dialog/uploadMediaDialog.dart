@@ -6,7 +6,8 @@ import 'package:the_helpful_toolbox/data/models/MediaModel.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class UploadMediaDialog extends StatefulWidget {
-  UploadMediaDialog(BuildContext context, {super.key});
+  String sUploadTo;
+  UploadMediaDialog(BuildContext context, {super.key, required this.sUploadTo});
 
   @override
   State<UploadMediaDialog> createState() => _UploadMediaDialogState();
@@ -143,7 +144,7 @@ class _UploadMediaDialogState extends State<UploadMediaDialog> {
   }
 
   saveMediaDialog(context, Media media, PlatformFile lFile) async {
-    Media stored = await media.mediaStore(context, lFile);
+    Media stored = await media.mediaStore(context, lFile, widget.sUploadTo);
     // stored == true
     //     ? debugPrint("save employee to Database success")
     //     : debugPrint("save employee to Database failed");

@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_helpful_toolbox/data/models/UserModel.dart';
 import 'package:the_helpful_toolbox/features/dashboard/dashboard.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
+import 'package:the_helpful_toolbox/helper/snackbarDisplay.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -231,15 +232,16 @@ class _LoginPageState extends State<LoginPage> {
         } else {
           Map<String, dynamic> temp = json.decode(value.body);
           String message = temp["message"];
-          var snackBar = SnackBar(
-            content: Text(
-              "Login Error! $message",
-              style: TextStyle(color: Colors.white),
-            ),
-            backgroundColor: (Colors.red),
-            duration: Duration(seconds: 4),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          snackbarwithMessage("Login Error! $message", context, 2);
+          //   var snackBar = SnackBar(
+          //     content: Text(
+          //       "Login Error! $message",
+          //       style: TextStyle(color: Colors.white),
+          //     ),
+          //     backgroundColor: (Colors.red),
+          //     duration: Duration(seconds: 4),
+          //   );
+          //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       },
     );
@@ -249,11 +251,12 @@ class _LoginPageState extends State<LoginPage> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('ConnectionString', text);
     Navigator.pop(context);
-    const snackBar = SnackBar(
-      content: Text("Connection saved!"),
-      backgroundColor: (Colors.green),
-      duration: Duration(seconds: 2),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    // const snackBar = SnackBar(
+    //   content: Text("Connection saved!"),
+    //   backgroundColor: (Colors.green),
+    //   duration: Duration(seconds: 2),
+    // );
+    // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    snackbarwithMessage("Connection saved!", context, 1);
   }
 }

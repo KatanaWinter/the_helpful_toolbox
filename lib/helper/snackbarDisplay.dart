@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 
-class SnackbarDisplay {
-  void snackbarwithMessage(String message, BuildContext context) {
-    var snackBar = SnackBar(
-      content: Text(
-        "Login Error! $message",
-        style: TextStyle(color: Colors.white),
-      ),
-      backgroundColor: (Colors.red),
-      duration: Duration(seconds: 4),
-    );
+void snackbarwithMessage(String message, BuildContext context, int type) {
+  var snackBar = SnackBar(
+    content: SelectableText(
+      "$message",
+      style: TextStyle(color: Colors.white),
+    ),
+    backgroundColor: type == 1 ? (Colors.green[600]) : (Colors.red),
+    duration: Duration(seconds: 5),
+  );
 
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }

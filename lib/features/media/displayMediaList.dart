@@ -6,7 +6,9 @@ import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class DisplayMediaList extends StatefulWidget {
   List<Media> lMedia;
-  DisplayMediaList({required this.lMedia, super.key});
+  String whereToUpload;
+  DisplayMediaList(
+      {required this.lMedia, required this.whereToUpload, super.key});
 
   @override
   State<DisplayMediaList> createState() => _DisplayMediaListState();
@@ -167,7 +169,7 @@ class _DisplayMediaListState extends State<DisplayMediaList> {
                               children: [
                                 IconButton(
                                     onPressed: () {
-                                      // openDialogNewMedia(context);
+                                      downloadMedia(context, _media);
                                     },
                                     icon: const Icon(Icons.download)),
                                 IconButton(
@@ -199,8 +201,13 @@ class _DisplayMediaListState extends State<DisplayMediaList> {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return UploadMediaDialog(context);
+        return UploadMediaDialog(context, sUploadTo: widget.whereToUpload);
       },
     );
+  }
+
+  downloadMedia(context, Media media) {
+    media.mediaDownload(context);
+    print("media download ready");
   }
 }
