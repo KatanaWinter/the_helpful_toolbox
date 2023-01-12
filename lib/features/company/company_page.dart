@@ -6,6 +6,7 @@ import 'package:the_helpful_toolbox/features/company/dialog/EmployeeCreateDialog
 import 'package:the_helpful_toolbox/features/company/dialog/editCompanyaddressDialog.dart';
 import 'package:the_helpful_toolbox/features/company/dialog/editCompanydataDialog.dart';
 import 'package:the_helpful_toolbox/features/company/employees_table.dart';
+import 'package:the_helpful_toolbox/features/media/displayMediaList.dart';
 import 'package:the_helpful_toolbox/features/navigation/presentation/sidebarnav.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
@@ -45,6 +46,7 @@ class _CompanyPageState extends State<CompanyPage> {
         future: _fCompany,
         builder: ((context, snapshot) {
           if (snapshot.hasData) {
+            Company _company = snapshot.data!;
             return Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -312,73 +314,83 @@ class _CompanyPageState extends State<CompanyPage> {
                         ]),
                       ),
                       SizedBox(
-                        width: contentWidth,
-                        child: Row(
+                        width: isSmallScreen(context)
+                            ? contentWidth - 20
+                            : contentWidth,
+                        child: Wrap(
                           children: [
                             Card(
                                 elevation: 10,
                                 color: ThemeData.dark().cardColor,
                                 child: SizedBox(
-                                  width: contentWidth - 8,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: const [
-                                            Text(
-                                              'Employees',
-                                              style: TextStyle(fontSize: 20),
-                                            ),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Spacer(),
-                                            ElevatedButton(
-                                                onPressed: () {
-                                                  openNewEmployeeDialog(
-                                                      context, snapshot.data!);
-                                                },
-                                                style: ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStateProperty
-                                                            .all(Colors
-                                                                .green[800])),
-                                                child: const Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 15.0,
-                                                      horizontal: 8.0),
-                                                  child: Text("New Employee"),
-                                                )),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            snapshot.data!.employees == null
-                                                ? Text("no employees yet")
-                                                : EmployeesTable(
-                                                    snapshot.data!.employees!,
-                                                    snapshot.data!)
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                  width: isSmallScreen(context)
+                                      ? contentWidth
+                                      : contentWidth / 2 - 8,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: const [
+                                          Text(
+                                            'Employees',
+                                            style: TextStyle(fontSize: 20),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Spacer(),
+                                          ElevatedButton(
+                                              onPressed: () {
+                                                openNewEmployeeDialog(
+                                                    context, _company);
+                                              },
+                                              style: ButtonStyle(
+                                                  backgroundColor:
+                                                      MaterialStateProperty.all(
+                                                          Colors.green[800])),
+                                              child: const Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 15.0,
+                                                    horizontal: 8.0),
+                                                child: Text("New Employee"),
+                                              )),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          snapshot.data!.employees == null
+                                              ? Text("no employees yet")
+                                              : EmployeesTable(
+                                                  _company.employees!,
+                                                  _company),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 )),
+                            SizedBox(
+                              width: isSmallScreen(context)
+                                  ? contentWidth
+                                  : contentWidth / 2,
+                              child: DisplayMediaList(
+                                lMedia: _company.media!,
+                                whereToUpload: "company/${_company.id}",
+                                lastScreen: CompanyPage(),
+                              ),
+                            )
                           ],
                         ),
                       )

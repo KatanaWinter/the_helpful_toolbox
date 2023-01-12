@@ -46,7 +46,9 @@ class _EmployeesTableState extends State<EmployeesTable> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SizedBox(
-                  width: contentWidth - 40,
+                  width: isSmallScreen(context)
+                      ? contentWidth - 60
+                      : contentWidth / 2 - 50,
                   child: TextField(
                     controller: searchController,
                     decoration: const InputDecoration(
@@ -92,14 +94,14 @@ class _EmployeesTableState extends State<EmployeesTable> {
     NumberFormat formatter = new NumberFormat("000000");
     isSmallScreen(context)
         ? tableWidth = tableWidth - 100
-        : tableWidth = tableWidth - 250;
+        : tableWidth = tableWidth / 2 - 250;
 
     return lEmployee.length <= 0
         ? const Center(
             child: CircularProgressIndicator(),
           )
         : Container(
-            height: 400,
+            height: 300,
             child: ListView.builder(
               scrollDirection: Axis.vertical,
               itemCount: lFilteredEmployee.length,
@@ -129,7 +131,9 @@ class _EmployeesTableState extends State<EmployeesTable> {
                           ),
                           Container(
                             alignment: Alignment.center,
-                            width: tableWidth * 0.3,
+                            width: isSmallScreen(context)
+                                ? tableWidth * 0.4
+                                : tableWidth * 0.5,
                             height: 60,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -141,23 +145,6 @@ class _EmployeesTableState extends State<EmployeesTable> {
                                 AutoSizeText(
                                     maxLines: 2,
                                     "Email: ${employee.email ?? ""}"),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            alignment: Alignment.center,
-                            width: tableWidth * 0.3,
-                            height: 60,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                AutoSizeText(employee.propertie?.street ?? ""),
-                                AutoSizeText(
-                                    "${employee.propertie?.city ?? ""} ${employee.propertie?.state ?? ""}"),
-                                AutoSizeText(
-                                    maxLines: 2,
-                                    employee.propertie?.postalcode ?? ""),
                               ],
                             ),
                           ),
