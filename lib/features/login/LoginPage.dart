@@ -233,15 +233,6 @@ class _LoginPageState extends State<LoginPage> {
           Map<String, dynamic> temp = json.decode(value.body);
           String message = temp["message"];
           snackbarwithMessage("Login Error! $message", context, 2);
-          //   var snackBar = SnackBar(
-          //     content: Text(
-          //       "Login Error! $message",
-          //       style: TextStyle(color: Colors.white),
-          //     ),
-          //     backgroundColor: (Colors.red),
-          //     duration: Duration(seconds: 4),
-          //   );
-          //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       },
     );
@@ -251,12 +242,6 @@ class _LoginPageState extends State<LoginPage> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('ConnectionString', text);
     Navigator.pop(context);
-    // const snackBar = SnackBar(
-    //   content: Text("Connection saved!"),
-    //   backgroundColor: (Colors.green),
-    //   duration: Duration(seconds: 2),
-    // );
-    // ScaffoldMessenger.of(context).showSnackBar(snackBar);
     snackbarwithMessage("Connection saved!", context, 1);
   }
 }

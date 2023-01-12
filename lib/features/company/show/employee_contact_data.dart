@@ -86,8 +86,9 @@ class EmployeeContactDataCard extends StatelessWidget {
                           const SizedBox(
                             height: 10,
                           ),
-                          SelectableText(
-                              DateFormat.yMMMd().format(employee.birthdate!)),
+                          SelectableText(employee.birthdate == null
+                              ? ""
+                              : DateFormat.yMMMd().format(employee.birthdate!)),
                         ],
                       ),
                     )

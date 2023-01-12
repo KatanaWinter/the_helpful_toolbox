@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 
 import 'dart:convert';
 
+import 'MediaModel.dart';
+
 List<Company> companyFromJson(String str) =>
     List<Company>.from(json.decode(str).map((x) => Company.fromJson(x)));
 
@@ -24,19 +26,20 @@ class Company {
   List<Employee>? employees;
   List<Offerlist>? offerlists;
   Property? propertie;
+  List<Media>? media;
 
-  Company({
-    this.id,
-    this.name,
-    this.logoPath,
-    this.phone,
-    this.mobile,
-    this.email,
-    this.propertieId,
-    this.employees,
-    this.offerlists,
-    this.propertie,
-  });
+  Company(
+      {this.id,
+      this.name,
+      this.logoPath,
+      this.phone,
+      this.mobile,
+      this.email,
+      this.propertieId,
+      this.employees,
+      this.offerlists,
+      this.propertie,
+      this.media});
 
   factory Company.fromJson(Map<String, dynamic> json) => Company(
         id: json["id"],
@@ -53,6 +56,9 @@ class Company {
         propertie: json["propertie"] == null
             ? null
             : Property.fromJson(json["propertie"]),
+        media: json["media"] == null
+            ? null
+            : List<Media>.from(json["media"].map((x) => Media.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {

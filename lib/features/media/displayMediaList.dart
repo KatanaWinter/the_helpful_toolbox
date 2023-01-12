@@ -7,8 +7,12 @@ import 'package:the_helpful_toolbox/helper/media_query.dart';
 class DisplayMediaList extends StatefulWidget {
   List<Media> lMedia;
   String whereToUpload;
+  Widget lastScreen;
   DisplayMediaList(
-      {required this.lMedia, required this.whereToUpload, super.key});
+      {required this.lMedia,
+      required this.whereToUpload,
+      required this.lastScreen,
+      super.key});
 
   @override
   State<DisplayMediaList> createState() => _DisplayMediaListState();
@@ -108,7 +112,8 @@ class _DisplayMediaListState extends State<DisplayMediaList> {
                               Spacer(),
                               ElevatedButton(
                                   onPressed: () {
-                                    openDialogNewMedia(context);
+                                    openDialogNewMedia(context,
+                                        lastScreen: widget.lastScreen);
                                   },
                                   style: ButtonStyle(
                                       backgroundColor:
@@ -139,7 +144,7 @@ class _DisplayMediaListState extends State<DisplayMediaList> {
   }
 
   buildList(BuildContext context, List<Media> lFilteredMedia) {
-    return lFilteredMedia.length <= 0
+    return lFilteredMedia.length < 0
         ? const Center(
             child: CircularProgressIndicator(),
           )
@@ -174,11 +179,11 @@ class _DisplayMediaListState extends State<DisplayMediaList> {
                                     icon: const Icon(Icons.download)),
                                 IconButton(
                                     onPressed: () {
-                                      // employee.employeeDelete(context);
-                                      // Navigator.of(context).push(
-                                      //     MaterialPageRoute(
-                                      //         builder: (context) =>
-                                      //             CompanyPage()));
+                                      deleteMedia(
+                                          context: context,
+                                          media: _media,
+                                          sUploadTo: widget.whereToUpload,
+                                          lastScreen: widget.lastScreen);
                                     },
                                     icon: const Icon(Icons.delete)),
                               ],
@@ -197,11 +202,15 @@ class _DisplayMediaListState extends State<DisplayMediaList> {
           );
   }
 
-  openDialogNewMedia(context) {
+  openDialogNewMedia(context, {required Widget lastScreen}) {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return UploadMediaDialog(context, sUploadTo: widget.whereToUpload);
+        return UploadMediaDialog(
+          context,
+          sUploadTo: widget.whereToUpload,
+          lastScreen: lastScreen,
+        );
       },
     );
   }
@@ -209,5 +218,43 @@ class _DisplayMediaListState extends State<DisplayMediaList> {
   downloadMedia(context, Media media) {
     media.mediaDownload(context);
     print("media download ready");
+  }
+
+  deleteMedia(
+      {required BuildContext context,
+      required Media media,
+      required String sUploadTo,
+      required Widget lastScreen}) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Delete media'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Are you sure you want to delete the media?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Yes'),
+              onPressed: () {
+                media.mediaDelete(context, sUploadTo);
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => lastScreen));
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

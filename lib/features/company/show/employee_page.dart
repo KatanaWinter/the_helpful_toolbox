@@ -1,15 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/data/models/EmployeeModel.dart';
-import 'package:the_helpful_toolbox/data/models/client.dart';
-import 'package:the_helpful_toolbox/features/clients/clients_page.dart';
-import 'package:the_helpful_toolbox/features/clients/dialog/editClientDialogInClients.dart';
 import 'package:the_helpful_toolbox/features/clients/dialog/newClientDialog.dart';
-import 'package:the_helpful_toolbox/features/clients/show/billingAddress_card.dart';
-import 'package:the_helpful_toolbox/features/clients/show/cases_card.dart';
-import 'package:the_helpful_toolbox/features/clients/show/contactdata_card.dart';
-import 'package:the_helpful_toolbox/features/clients/show/properties_card.dart';
 import 'package:the_helpful_toolbox/features/company/company_page.dart';
 import 'package:the_helpful_toolbox/features/company/dialog/EmployeeEditDialog.dart';
 import 'package:the_helpful_toolbox/features/company/show/employee_address_card.dart';
@@ -20,14 +11,14 @@ import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class EmployeePage extends StatefulWidget {
   Employee employee;
-  EmployeePage(this.employee, {Key? key});
+  EmployeePage(this.employee, {super.key});
 
   @override
   State<EmployeePage> createState() => _EmployeePageState();
 }
 
 class _EmployeePageState extends State<EmployeePage> {
-  Future<Employee>? dataLoaded = null;
+  Future<Employee>? dataLoaded;
   Employee _employee = Employee();
   @override
   void initState() {
@@ -97,7 +88,7 @@ class _EmployeePageState extends State<EmployeePage> {
                       ButtonBar(children: [
                         IconButton(
                             onPressed: () {
-                              openEditEmployeeDialog(context, snapshot.data!);
+                              openEditEmployeeDialog(context, employee);
                             },
                             icon: const Icon(Icons.edit)),
                       ]),
@@ -110,23 +101,23 @@ class _EmployeePageState extends State<EmployeePage> {
                     children: [
                       Column(
                         children: [
-                          EmployeeContactDataCard(snapshot.data!),
+                          EmployeeContactDataCard(employee),
                         ],
                       ),
-                      EmployeeAddressCard(snapshot.data!),
+                      EmployeeAddressCard(employee),
                     ],
                   ),
                   Wrap(
                     crossAxisAlignment: WrapCrossAlignment.start,
                     children: [
-                      snapshot.data!.media == null
-                          ? Text("")
+                      employee.media == null
+                          ? const Text("")
                           : SizedBox(
                               width: 600,
                               child: DisplayMediaList(
-                                lMedia: snapshot.data!.media!,
-                                whereToUpload:
-                                    "uploadToEmployee/${snapshot.data!.id}",
+                                lMedia: employee.media!,
+                                whereToUpload: "employee/${employee.id}",
+                                lastScreen: EmployeePage(employee),
                               ))
                     ],
                   ),

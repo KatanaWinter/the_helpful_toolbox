@@ -7,7 +7,9 @@ import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class UploadMediaDialog extends StatefulWidget {
   String sUploadTo;
-  UploadMediaDialog(BuildContext context, {super.key, required this.sUploadTo});
+  Widget lastScreen;
+  UploadMediaDialog(BuildContext context,
+      {super.key, required this.sUploadTo, required this.lastScreen});
 
   @override
   State<UploadMediaDialog> createState() => _UploadMediaDialogState();
@@ -150,6 +152,7 @@ class _UploadMediaDialogState extends State<UploadMediaDialog> {
     //     : debugPrint("save employee to Database failed");
 
     setState(() {});
-    Navigator.of(context).pop();
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => widget.lastScreen));
   }
 }

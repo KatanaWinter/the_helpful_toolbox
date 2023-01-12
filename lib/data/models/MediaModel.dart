@@ -1,12 +1,9 @@
-import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:file_picker/src/platform_file.dart';
 import 'package:filesystem_picker/filesystem_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_file_dialog/flutter_file_dialog.dart';
 import 'package:open_app_file/open_app_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:the_helpful_toolbox/helper/api_service.dart';
@@ -83,7 +80,6 @@ class Media {
       debugPrint("Error in Media save :$e");
       return _media;
     }
-    return _media;
   }
 
   Future<Media> mediaDownload(context) async {
@@ -121,6 +117,27 @@ class Media {
     } catch (e) {
       debugPrint("Error in save :$e");
       return _media;
+    }
+  }
+
+  Future<bool> mediaDelete(context, String whereToStore) async {
+    try {
+      ApiService apiService = ApiService();
+      http.Response response = await apiService.delete(
+          url: '/media/${whereToStore}/${id}', context: context);
+
+      if (response.statusCode == 200) {
+        debugPrint("Delete Media successful");
+        snackbarwithMessage("Media Deleted", context, 1);
+        return true;
+      } else {
+        debugPrint("Error in Server delete Media");
+        snackbarwithMessage("Error in Server delete Media", context, 1);
+        return false;
+      }
+    } catch (e) {
+      debugPrint("Error in save :$e");
+      return false;
     }
   }
 }
