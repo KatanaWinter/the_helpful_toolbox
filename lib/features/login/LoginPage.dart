@@ -218,12 +218,7 @@ class _LoginPageState extends State<LoginPage> {
     var response = user.loginUser(user, context).then(
       (value) {
         if (value!.statusCode == 200) {
-          const snackBar = SnackBar(
-            content: Text("Login Successful!"),
-            backgroundColor: (Colors.green),
-            duration: Duration(seconds: 2),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          snackbarwithMessage("Login Successful!", context, 1);
 
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => const Dashboard()),

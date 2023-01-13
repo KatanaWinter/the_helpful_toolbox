@@ -29,11 +29,6 @@ class IconSidebar extends StatelessWidget {
                 );
               }),
           const Spacer(),
-          // IconButton(
-          //   padding: EdgeInsets.all(0.0),
-          //   icon: Icon(Icons.arrow_right),
-          //   onPressed: () {},
-          // )
         ],
       ),
     );

@@ -7,6 +7,7 @@ import 'package:the_helpful_toolbox/data/models/client.dart';
 import 'package:the_helpful_toolbox/features/login/LoginPage.dart';
 import 'package:the_helpful_toolbox/helper/constants.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:the_helpful_toolbox/helper/snackbarDisplay.dart';
 
 class ApiService {
   Future<http.Response> get(
@@ -15,6 +16,7 @@ class ApiService {
       Map<String, dynamic>? body,
       BuildContext? context}) async {
     try {
+      checkConnection(context);
       final prefs = await SharedPreferences.getInstance();
       var bearerToken = await prefs.getString('Bearer Token');
       if (bearerToken == null) {
@@ -44,6 +46,7 @@ class ApiService {
   Future<http.Response> post(
       {String? url, Map<String, dynamic>? body, BuildContext? context}) async {
     try {
+      checkConnection(context);
       final prefs = await SharedPreferences.getInstance();
       var bearerToken = await prefs.getString('Bearer Token');
       if (bearerToken == null) {
@@ -74,6 +77,7 @@ class ApiService {
       Map<String, dynamic>? body,
       BuildContext? context}) async {
     try {
+      checkConnection(context);
       final prefs = await SharedPreferences.getInstance();
       var bearerToken = await prefs.getString('Bearer Token');
       if (bearerToken == null) {
@@ -104,6 +108,7 @@ class ApiService {
       Map<String, dynamic>? body,
       BuildContext? context}) async {
     try {
+      checkConnection(context);
       final prefs = await SharedPreferences.getInstance();
       var bearerToken = await prefs.getString('Bearer Token');
       if (bearerToken == null) {
@@ -200,5 +205,43 @@ class ApiService {
       print(e);
     }
     return false;
+  }
+
+  void checkConnection(context) async {
+    try {
+      String url = "/check";
+
+      String connString = await getBaseUrl();
+      url = "$connString$url";
+      final http.Response response = await http.get(
+        Uri.parse(url),
+      );
+      if (response.statusCode == 200) {
+        return;
+      }
+      if (behaviorOnError(response.statusCode, context)) {
+        snackbarwithMessage(
+            "Connection Error : ${response.statusCode}", context, 1);
+
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+          (route) => false,
+        );
+      }
+    } catch (e) {
+      print(e);
+      snackbarwithMessage("Connection Error : ${e}", context, 1);
+
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+        (route) => false,
+      );
+    }
+    snackbarwithMessage("Connection Error, back to login", context, 1);
+
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => const LoginPage()),
+      (route) => false,
+    );
   }
 }
