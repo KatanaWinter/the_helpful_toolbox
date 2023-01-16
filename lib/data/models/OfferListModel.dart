@@ -40,7 +40,7 @@ class Offerlist {
         "active": active.toString(),
       };
 
-  Future<bool> employeeStore(context) async {
+  Future<bool> offerlistStore(context) async {
     try {
       var body = toJson();
       ApiService apiService = ApiService();
@@ -60,7 +60,7 @@ class Offerlist {
     }
   }
 
-  Future<bool> employeeUpdate(context) async {
+  Future<bool> offerlistUpdate(context) async {
     try {
       var body = toJson();
 
@@ -79,7 +79,7 @@ class Offerlist {
     }
   }
 
-  Future<Offerlist> companyShow(context) async {
+  Future<Offerlist> offerlistShow(context) async {
     Offerlist model = Offerlist();
     try {
       ApiService apiService = ApiService();
@@ -100,7 +100,7 @@ class Offerlist {
     return model;
   }
 
-  Future<bool> employeeDelete(context) async {
+  Future<bool> offerlistDelete(context) async {
     try {
       ApiService apiService = ApiService();
       String sId = id.toString();
@@ -118,7 +118,7 @@ class Offerlist {
   }
 }
 
-Future<List<Offerlist>> employeeIndex(context) async {
+Future<List<Offerlist>> offerlistIndex(context) async {
   List<Offerlist> model = [];
   try {
     ApiService apiService = ApiService();
