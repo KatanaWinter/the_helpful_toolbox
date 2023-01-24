@@ -167,8 +167,7 @@ Future<List<Property>> propertyIndex(context) async {
   List<Property> model = [];
   try {
     ApiService apiService = ApiService();
-    var response =
-        await apiService.get(url: "/billingAddresses", context: context);
+    var response = await apiService.get(url: "/properties", context: context);
     if (response.statusCode == 200) {
       model = propertiesFromJson(response.body);
       // debugPrint("test");
