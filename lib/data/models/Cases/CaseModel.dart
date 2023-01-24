@@ -80,8 +80,8 @@ class Case {
         quote: json["quote"] ? null : Quote.fromJson(json["quote"]),
         job: json["job"] ? null : Job.fromJson(json["job"]),
         invoice: json["invoice"] ? null : Invoice.fromJson(json["invoice"]),
-        state: json["state"] ? null : State.fromJson(json["state"]),
-        status: json["status"] ? null : Status.fromJson(json["status"]),
+        state: json["state"] ? null : CaseState.fromJson(json["state"]),
+        status: json["status"] ? null : CaseStatus.fromJson(json["status"]),
       );
 
   Map<String, dynamic> toJson() => {
