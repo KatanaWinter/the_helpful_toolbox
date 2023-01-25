@@ -1,8 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:the_helpful_toolbox/features/cases/data/case.dart';
 import 'package:the_helpful_toolbox/data/models/client.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
+
+import '../../../data/models/Cases/CaseModel.dart';
 
 class CasesCard extends StatefulWidget {
   Client client;
@@ -86,17 +87,17 @@ class _CasesCardState extends State<CasesCard> {
                             String searchVal = val.toLowerCase();
                             lFilteredCases = lCases
                                 .where((e) =>
-                                    e.name.toLowerCase().contains(searchVal) ||
-                                    e.state.name
+                                    e.name!.toLowerCase().contains(searchVal) ||
+                                    e.state!.name!
                                         .toLowerCase()
                                         .contains(searchVal) ||
-                                    e.property.street!
+                                    e.propertie!.street!
                                         .toLowerCase()
                                         .contains(searchVal) ||
-                                    e.property.city!
+                                    e.propertie!.city!
                                         .toLowerCase()
                                         .contains(searchVal) ||
-                                    e.property.postalcode!
+                                    e.propertie!.postalcode!
                                         .toLowerCase()
                                         .contains(searchVal))
                                 .toList();
@@ -135,8 +136,8 @@ class _CasesCardState extends State<CasesCard> {
                           setState(() {
                             lFilteredCases = lCases
                                 .where((e) =>
-                                    e.state.name.toLowerCase() == "jobs" &&
-                                    e.status.name.toLowerCase() == "new")
+                                    e.state?.name?.toLowerCase() == "jobs" &&
+                                    e.status?.name?.toLowerCase() == "new")
                                 .toList();
 
                             allActions = false;
@@ -158,7 +159,7 @@ class _CasesCardState extends State<CasesCard> {
                           setState(() {
                             lFilteredCases = lCases
                                 .where((e) =>
-                                    e.state.name.toLowerCase() == "request")
+                                    e.state!.name!.toLowerCase() == "request")
                                 .toList();
                             allActions = false;
                             activeJobs = false;
@@ -178,7 +179,7 @@ class _CasesCardState extends State<CasesCard> {
                         onPressed: () {
                           setState(() {
                             lFilteredCases = lCases
-                                .where((e) => e.state.name
+                                .where((e) => e.state!.name!
                                     .toLowerCase()
                                     .contains("quote"))
                                 .toList();
@@ -200,8 +201,8 @@ class _CasesCardState extends State<CasesCard> {
                         onPressed: () {
                           setState(() {
                             lFilteredCases = lCases
-                                .where(
-                                    (e) => e.state.name.toLowerCase() == "job")
+                                .where((e) =>
+                                    e.state!.name!.toLowerCase() == "job")
                                 .toList();
                             allActions = false;
                             activeJobs = false;
@@ -222,7 +223,7 @@ class _CasesCardState extends State<CasesCard> {
                           setState(() {
                             lFilteredCases = lCases
                                 .where((e) =>
-                                    e.state.name.toLowerCase() == "invoice")
+                                    e.state!.name!.toLowerCase() == "invoice")
                                 .toList();
                             allActions = false;
                             activeJobs = false;
@@ -297,22 +298,22 @@ class _CasesCardState extends State<CasesCard> {
                   children: [
                     SizedBox(
                         width: listWidth * 0.2,
-                        child: AutoSizeText(sCase.state.name)),
+                        child: AutoSizeText(sCase.state?.name ?? "")),
                     SizedBox(
                         width: listWidth * 0.3,
-                        child: AutoSizeText(sCase.name)),
+                        child: AutoSizeText(sCase.name ?? "")),
                     SizedBox(
                       width: listWidth * 0.3,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           AutoSizeText(
-                            sCase.property.street!,
+                            sCase.propertie!.street!,
                             style: const TextStyle(fontSize: 15),
                             maxLines: 2,
                           ),
                           AutoSizeText(
-                            "${sCase.property.city} ${sCase.property.state} ${sCase.property.postalcode}",
+                            "${sCase.propertie!.city} ${sCase.propertie!.state} ${sCase.propertie!.postalcode}",
                             style: const TextStyle(fontSize: 15),
                             maxLines: 2,
                           ),

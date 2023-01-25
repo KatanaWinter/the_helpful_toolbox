@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:the_helpful_toolbox/features/cases/data/case.dart';
-import 'package:the_helpful_toolbox/features/cases/data/case_state.dart';
+import 'package:the_helpful_toolbox/data/models/Cases/CaseModel.dart';
+import 'package:the_helpful_toolbox/data/models/Cases/CaseStateModel.dart';
 import 'package:the_helpful_toolbox/features/cases/presentation/dialog/newCaseDialog.dart';
 import 'package:the_helpful_toolbox/features/floatingActionButton/actionbutton.dart';
 import 'package:the_helpful_toolbox/features/navigation/presentation/sidebarnav.dart';
@@ -17,7 +17,7 @@ class _CasesPageState extends State<CasesPage> {
   TextEditingController searchController = TextEditingController();
   List<Case> lCases = List<Case>.empty(growable: true);
   late List<Case> lFilteredCases = List<Case>.empty(growable: true);
-  List<CaseState> lCaseState = getAllStateFilter();
+  List<CaseState> lCaseState = List<CaseState>.empty(growable: true);
   CaseState _selectedState = CaseState(name: "All");
 
   @override
@@ -25,6 +25,10 @@ class _CasesPageState extends State<CasesPage> {
     lFilteredCases = lCases;
     _selectedState = lCaseState.first;
     super.initState();
+  }
+
+  getCaseStates() async {
+    lCaseState = await caseStateIndex(context);
   }
 
   @override
