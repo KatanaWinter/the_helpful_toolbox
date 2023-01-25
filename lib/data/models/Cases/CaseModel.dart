@@ -7,6 +7,13 @@ import 'package:the_helpful_toolbox/data/models/property.dart';
 import 'package:the_helpful_toolbox/helper/api_service.dart';
 import 'package:http/http.dart' as http;
 
+import 'CaseStateModel.dart';
+import 'CaseStatusModel.dart';
+import 'Invoice/InvoiceModel.dart';
+import 'Jobs/JobModel.dart';
+import 'Quote/QuoteModel.dart';
+import 'Request/RequestModel.dart';
+
 List<Case> casesFromJson(String str) =>
     List<Case>.from(json.decode(str).map((x) => Case.fromJson(x)));
 
