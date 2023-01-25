@@ -3,7 +3,6 @@ import 'package:the_helpful_toolbox/data/models/client.dart';
 import 'package:the_helpful_toolbox/data/models/property.dart';
 import 'package:the_helpful_toolbox/features/clients/show/client_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
-import 'package:http/http.dart' as http;
 
 class EditPropertyDialog extends StatefulWidget {
   Property property;
@@ -19,14 +18,12 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
 
   @override
   void initState() {
-    // TODO: implement initState
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    Property _property = widget.property;
+    Property property = widget.property;
     return AlertDialog(
       title: const Text('Edit Property'),
       content: Form(
@@ -56,9 +53,9 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Name'),
-                                initialValue: _property.name,
+                                initialValue: property.name,
                                 onChanged: (val) => setState(() {
-                                  _property.name = val;
+                                  property.name = val;
                                 }),
                               ),
                             ),
@@ -68,9 +65,9 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Street'),
-                                initialValue: _property.street,
+                                initialValue: property.street,
                                 onChanged: (val) => setState(() {
-                                  _property.street = val;
+                                  property.street = val;
                                 }),
                               ),
                             ),
@@ -80,9 +77,9 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Street 2'),
-                                initialValue: _property.street2,
+                                initialValue: property.street2,
                                 onChanged: (val) => setState(() {
-                                  _property.street2 = val;
+                                  property.street2 = val;
                                 }),
                               ),
                             ),
@@ -92,9 +89,9 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'City'),
-                                initialValue: _property.city,
+                                initialValue: property.city,
                                 onChanged: (val) => setState(() {
-                                  _property.city = val;
+                                  property.city = val;
                                 }),
                               ),
                             ),
@@ -104,9 +101,9 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'State'),
-                                initialValue: _property.state,
+                                initialValue: property.state,
                                 onChanged: (val) => setState(() {
-                                  _property.state = val;
+                                  property.state = val;
                                 }),
                               ),
                             ),
@@ -116,9 +113,9 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Postal Code'),
-                                initialValue: _property.postalcode,
+                                initialValue: property.postalcode,
                                 onChanged: (val) => setState(() {
-                                  _property.postalcode = val;
+                                  property.postalcode = val;
                                 }),
                               ),
                             ),
@@ -151,7 +148,7 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
             child: Text('Save'),
           ),
           onPressed: () {
-            savedEditProperty(context, _property);
+            savedEditProperty(context, property);
             // Hier passiert etwas anderes
           },
         ),
@@ -161,8 +158,6 @@ class _EditPropertyDialogState extends State<EditPropertyDialog> {
 
   savedEditProperty(context, Property property) async {
     debugPrint("save property");
-
-    bool _response = await property.propertyUpdate(context);
 
     // Navigator.of(context)
     //     .push(MaterialPageRoute(builder: (context) => ClientPage(_client)));

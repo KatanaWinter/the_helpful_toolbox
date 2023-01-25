@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/data/models/client.dart';
@@ -79,7 +77,7 @@ class PropertiesCard extends StatelessWidget {
                                             context, property);
                                       },
                                       icon: const Icon(Icons.edit)),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
                                   IconButton(

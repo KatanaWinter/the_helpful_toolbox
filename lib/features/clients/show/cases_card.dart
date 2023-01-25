@@ -16,7 +16,6 @@ class CasesCard extends StatefulWidget {
 class _CasesCardState extends State<CasesCard> {
   TextEditingController searchController = TextEditingController();
 
-  String _searchResult = '';
   List<Case> lCases = List<Case>.empty(growable: true);
   List<Case> lFilteredCases = List<Case>.empty(growable: true);
   bool allActions = true,
@@ -82,7 +81,6 @@ class _CasesCardState extends State<CasesCard> {
                           hintText: 'Search for ...',
                         ),
                         onChanged: (val) {
-                          _searchResult = val;
                           setState(() {
                             String searchVal = val.toLowerCase();
                             lFilteredCases = lCases

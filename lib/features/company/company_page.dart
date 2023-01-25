@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/data/models/CompanyModel.dart';
-import 'package:the_helpful_toolbox/data/models/property.dart';
 import 'package:the_helpful_toolbox/features/company/dialog/EmployeeCreateDialog.dart';
 import 'package:the_helpful_toolbox/features/company/dialog/editCompanyaddressDialog.dart';
 import 'package:the_helpful_toolbox/features/company/dialog/editCompanydataDialog.dart';
@@ -19,24 +18,21 @@ class CompanyPage extends StatefulWidget {
 
 class _CompanyPageState extends State<CompanyPage> {
   Future<Company>? _fCompany;
-  Company _company = Company(id: 1);
+  final Company _company = Company(id: 1);
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _fCompany = getCompany();
   }
 
   Future<Company> getCompany() async {
     Company company = await _company.companyShow(context);
-    print("test");
     return company;
   }
 
   @override
   Widget build(BuildContext context) {
     double contentWidth = getContentWidth(context);
-    double screenWidth = getScreenWidth(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -46,7 +42,7 @@ class _CompanyPageState extends State<CompanyPage> {
         future: _fCompany,
         builder: ((context, snapshot) {
           if (snapshot.hasData) {
-            Company _company = snapshot.data!;
+            Company company = snapshot.data!;
             return Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -102,7 +98,7 @@ class _CompanyPageState extends State<CompanyPage> {
                                           Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
-                                            children: [],
+                                            children: const [],
                                           )
                                         ],
                                       ),
@@ -130,11 +126,11 @@ class _CompanyPageState extends State<CompanyPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          AutoSizeText(
+                                          const AutoSizeText(
                                             'Company Data',
                                             style: TextStyle(fontSize: 20),
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 10,
                                           ),
                                           IconButton(
@@ -142,7 +138,7 @@ class _CompanyPageState extends State<CompanyPage> {
                                                 openEditDataDialog(
                                                     context, snapshot.data!);
                                               },
-                                              icon: Icon(Icons.edit))
+                                              icon: const Icon(Icons.edit))
                                         ],
                                       ),
                                       const SizedBox(
@@ -177,18 +173,18 @@ class _CompanyPageState extends State<CompanyPage> {
                                               children: [
                                                 AutoSizeText(
                                                     snapshot.data!.name ?? ""),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 10,
                                                 ),
                                                 AutoSizeText(
                                                     snapshot.data!.phone ?? ""),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 10,
                                                 ),
                                                 AutoSizeText(
                                                     snapshot.data!.mobile ??
                                                         ""),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 10,
                                                 ),
                                               ],
@@ -220,7 +216,7 @@ class _CompanyPageState extends State<CompanyPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          AutoSizeText(
+                                          const AutoSizeText(
                                             'Company Address',
                                             style: TextStyle(fontSize: 20),
                                           ),
@@ -229,7 +225,7 @@ class _CompanyPageState extends State<CompanyPage> {
                                                 openEditPropertyDialog(
                                                     context, snapshot.data!);
                                               },
-                                              icon: Icon(Icons.edit))
+                                              icon: const Icon(Icons.edit))
                                         ],
                                       ),
                                       const SizedBox(
@@ -273,25 +269,25 @@ class _CompanyPageState extends State<CompanyPage> {
                                                 AutoSizeText(snapshot.data!
                                                         .propertie?.street ??
                                                     ""),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 5,
                                                 ),
                                                 AutoSizeText(snapshot.data!
                                                         .propertie?.street2 ??
                                                     ""),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 10,
                                                 ),
                                                 AutoSizeText(snapshot.data!
                                                         .propertie?.city ??
                                                     ""),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 10,
                                                 ),
                                                 AutoSizeText(snapshot.data!
                                                         .propertie?.state ??
                                                     ""),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 10,
                                                 ),
                                                 AutoSizeText(snapshot
@@ -299,7 +295,7 @@ class _CompanyPageState extends State<CompanyPage> {
                                                         .propertie
                                                         ?.postalcode ??
                                                     ""),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 10,
                                                 ),
                                               ],
@@ -351,11 +347,11 @@ class _CompanyPageState extends State<CompanyPage> {
                                       ),
                                       Row(
                                         children: [
-                                          Spacer(),
+                                          const Spacer(),
                                           ElevatedButton(
                                               onPressed: () {
                                                 openNewEmployeeDialog(
-                                                    context, _company);
+                                                    context, company);
                                               },
                                               style: ButtonStyle(
                                                   backgroundColor:
@@ -372,10 +368,9 @@ class _CompanyPageState extends State<CompanyPage> {
                                       Row(
                                         children: [
                                           snapshot.data!.employees == null
-                                              ? Text("no employees yet")
+                                              ? const Text("no employees yet")
                                               : EmployeesTable(
-                                                  _company.employees!,
-                                                  _company),
+                                                  company.employees!, company),
                                         ],
                                       ),
                                     ],
@@ -386,9 +381,9 @@ class _CompanyPageState extends State<CompanyPage> {
                                   ? contentWidth
                                   : contentWidth / 2,
                               child: DisplayMediaList(
-                                lMedia: _company.media!,
-                                whereToUpload: "company/${_company.id}",
-                                lastScreen: CompanyPage(),
+                                lMedia: company.media!,
+                                whereToUpload: "company/${company.id}",
+                                lastScreen: const CompanyPage(),
                               ),
                             )
                           ],
@@ -402,7 +397,7 @@ class _CompanyPageState extends State<CompanyPage> {
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
           }
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }),
       ),
     );

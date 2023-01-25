@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class NewCaseDialog extends StatefulWidget {
-  NewCaseDialog({super.key});
+  const NewCaseDialog({super.key});
 
   @override
   State<NewCaseDialog> createState() => _NewCaseDialogState();

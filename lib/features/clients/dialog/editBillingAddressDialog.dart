@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:the_helpful_toolbox/data/models/BillingAddressModel.dart';
 import 'package:the_helpful_toolbox/data/models/client.dart';
-import 'package:the_helpful_toolbox/data/models/property.dart';
-import 'package:the_helpful_toolbox/features/clients/clients_page.dart';
 import 'package:the_helpful_toolbox/features/clients/show/client_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
@@ -30,7 +27,7 @@ class _EditBillingAddressDialogState extends State<EditBillingAddressDialog> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    super.initState();
 
     widget.client.billingAddress != null
         ? _billingAddress = widget.client.billingAddress!
@@ -165,7 +162,7 @@ class _EditBillingAddressDialogState extends State<EditBillingAddressDialog> {
                                 },
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             Row(
@@ -192,9 +189,7 @@ class _EditBillingAddressDialogState extends State<EditBillingAddressDialog> {
                                     if (_formKey.currentState!.validate()) {
                                       saveBillingAddressForClient(context,
                                           widget.client, _billingAddress);
-                                    } else {
-                                      print('Error');
-                                    }
+                                    } else {}
                                     // Hier passiert etwas anderes
                                   },
                                 ),
@@ -213,10 +208,10 @@ class _EditBillingAddressDialogState extends State<EditBillingAddressDialog> {
   }
 
   saveBillingAddressForClient(
-      context, Client _client, BillingAddress billingAddress) async {
+      context, Client client, BillingAddress billingAddress) async {
     debugPrint("save billing address to Database start");
-    billingAddress.clientId = _client.id;
-    if (_client.billingAddress == null) {
+    billingAddress.clientId = client.id;
+    if (client.billingAddress == null) {
       bool stored = await billingAddress.billingAddressStore(context);
       stored == true
           ? debugPrint("save billing address to Database success")
@@ -229,6 +224,6 @@ class _EditBillingAddressDialogState extends State<EditBillingAddressDialog> {
     }
     setState(() {});
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => ClientPage(_client)));
+        .push(MaterialPageRoute(builder: (context) => ClientPage(client)));
   }
 }

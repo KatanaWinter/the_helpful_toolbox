@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:the_helpful_toolbox/features/cases/data/case.dart';
 import 'package:the_helpful_toolbox/helper/api_service.dart';
 import 'package:http/http.dart' as http;
 
@@ -45,7 +44,7 @@ class OnSiteAssessment {
       };
 
   Future<OnSiteAssessment> onSiteAssessmentStore(context) async {
-    OnSiteAssessment _model = OnSiteAssessment();
+    OnSiteAssessment model = OnSiteAssessment();
     try {
       debugPrint("save new onSiteAssessment");
 
@@ -56,16 +55,16 @@ class OnSiteAssessment {
 
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
-        _model = OnSiteAssessment.fromJson(tmp["data"]);
-        return _model;
+        model = OnSiteAssessment.fromJson(tmp["data"]);
+        return model;
       } else {
         debugPrint(response.body);
-        return _model;
+        return model;
       }
     } catch (e) {
       debugPrint("Error in update :$e");
     }
-    return _model;
+    return model;
   }
 
   Future<bool> onSiteAssessmentsUpdate(context) async {
@@ -74,7 +73,7 @@ class OnSiteAssessment {
 
       var body = toJson();
       String sId = id.toString();
-      ApiService apiService = new ApiService();
+      ApiService apiService = ApiService();
       http.Response response = await apiService.put(
           url: '/onSiteAssessments/$sId', body: body, context: context);
 
@@ -91,9 +90,8 @@ class OnSiteAssessment {
   }
 
   Future<OnSiteAssessment> onSiteAssessmentsShow(context) async {
-    OnSiteAssessment _model = OnSiteAssessment();
+    OnSiteAssessment model = OnSiteAssessment();
     try {
-      var body = toJson();
       ApiService apiService = ApiService();
       String sId = id.toString();
       var response = await apiService.get(
@@ -101,16 +99,16 @@ class OnSiteAssessment {
 
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
-        _model = OnSiteAssessment.fromJson(tmp["data"]);
+        model = OnSiteAssessment.fromJson(tmp["data"]);
       } else {
         debugPrint(response.body);
       }
 
-      return _model;
+      return model;
     } catch (e) {
       debugPrint("Error in show :$e");
     }
-    return _model;
+    return model;
   }
 
   Future<bool> onSiteAssessmentsDelete(context) async {

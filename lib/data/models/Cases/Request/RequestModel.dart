@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:the_helpful_toolbox/data/models/Cases/CaseModel.dart';
 import 'package:the_helpful_toolbox/data/models/Cases/Request/AppointmentDaysModel.dart';
 import 'package:the_helpful_toolbox/data/models/Cases/Request/AppointmentTimesModel.dart';
 import 'package:the_helpful_toolbox/data/models/Cases/Request/OnSiteAssessmentModel.dart';
-import 'package:the_helpful_toolbox/features/cases/data/case.dart';
 import 'package:the_helpful_toolbox/helper/api_service.dart';
 import 'package:http/http.dart' as http;
 
@@ -49,15 +49,10 @@ class Request {
         on_site_assessment_id: json["on_site_assessment_id"] ?? "",
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-        sCase: json["case"] == null ? null : json["case"],
-        appointmentTime: json["appointment_times"] == null
-            ? null
-            : json["appointment_times"],
-        appointmentDays:
-            json["appointment_days"] == null ? null : json["appointment_days"],
-        onSiteAssessment: json["on_site_assessment"] == null
-            ? null
-            : json["on_site_assessment"],
+        sCase: json["case"],
+        appointmentTime: json["appointment_times"],
+        appointmentDays: json["appointment_days"],
+        onSiteAssessment: json["on_site_assessment"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -69,7 +64,7 @@ class Request {
       };
 
   Future<Request> requestStore(context) async {
-    Request _model = Request();
+    Request model = Request();
     try {
       debugPrint("save new Request: $details");
 
@@ -80,16 +75,16 @@ class Request {
 
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
-        _model = Request.fromJson(tmp["data"]);
-        return _model;
+        model = Request.fromJson(tmp["data"]);
+        return model;
       } else {
         debugPrint(response.body);
-        return _model;
+        return model;
       }
     } catch (e) {
       debugPrint("Error in update :$e");
     }
-    return _model;
+    return model;
   }
 
   Future<bool> requestUpdate(context) async {
@@ -98,7 +93,7 @@ class Request {
 
       var body = toJson();
       String sId = id.toString();
-      ApiService apiService = new ApiService();
+      ApiService apiService = ApiService();
       http.Response response = await apiService.put(
           url: '/requests/$sId', body: body, context: context);
 
@@ -115,9 +110,8 @@ class Request {
   }
 
   Future<Request> requestsShow(context) async {
-    Request _model = Request();
+    Request model = Request();
     try {
-      var body = toJson();
       ApiService apiService = ApiService();
       String sId = id.toString();
       var response =
@@ -125,16 +119,16 @@ class Request {
 
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
-        _model = Request.fromJson(tmp["data"]);
+        model = Request.fromJson(tmp["data"]);
       } else {
         debugPrint(response.body);
       }
 
-      return _model;
+      return model;
     } catch (e) {
       debugPrint("Error in show :$e");
     }
-    return _model;
+    return model;
   }
 
   Future<bool> requestsDelete(context) async {

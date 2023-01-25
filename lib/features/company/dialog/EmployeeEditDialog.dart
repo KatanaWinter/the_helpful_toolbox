@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import 'package:the_helpful_toolbox/data/models/CompanyModel.dart';
 import 'package:the_helpful_toolbox/data/models/EmployeeModel.dart';
-import 'package:the_helpful_toolbox/features/company/company_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class EmployeeEditDialog extends StatefulWidget {
@@ -22,6 +19,7 @@ class _EmployeeEditDialogState extends State<EmployeeEditDialog> {
 
   @override
   void initState() {
+    super.initState();
     _employee = widget.employee;
   }
 
@@ -142,15 +140,15 @@ class _EmployeeEditDialogState extends State<EmployeeEditDialog> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
                                   children: [
-                                    Text("Birthdate:"),
+                                    const Text("Birthdate:"),
                                     Text(_employee.birthdate == null
                                         ? ""
                                         : DateFormat.yMMMEd()
                                             .format(_employee.birthdate!)),
-                                    Spacer(),
+                                    const Spacer(),
                                     ElevatedButton(
-                                        child: Text('Pick Birthdate'),
-                                        onPressed: _pickDateDialog)
+                                        onPressed: _pickDateDialog,
+                                        child: const Text('Pick Birthdate'))
                                   ],
                                 )),
                             const SizedBox(
@@ -179,9 +177,7 @@ class _EmployeeEditDialogState extends State<EmployeeEditDialog> {
                                     if (_formKey.currentState!.validate()) {
                                       saveEmployeeDataDialog(
                                           context, _employee);
-                                    } else {
-                                      print('Error');
-                                    }
+                                    } else {}
                                     // Hier passiert etwas anderes
                                   },
                                 ),
@@ -222,8 +218,8 @@ class _EmployeeEditDialogState extends State<EmployeeEditDialog> {
     });
   }
 
-  saveEmployeeDataDialog(context, Employee _employee) async {
-    bool stored = await _employee.employeeUpdate(context);
+  saveEmployeeDataDialog(context, Employee employee) async {
+    bool stored = await employee.employeeUpdate(context);
     stored == true
         ? debugPrint("update employee to Database success")
         : debugPrint("update employee to Database failed");

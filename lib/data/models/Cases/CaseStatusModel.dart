@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:the_helpful_toolbox/features/cases/data/case.dart';
 import 'package:the_helpful_toolbox/helper/api_service.dart';
 import 'package:http/http.dart' as http;
 
@@ -41,7 +40,7 @@ class CaseStatus {
       {"id": id, "name": name, "case_state_id": case_state_id, "color": color};
 
   Future<CaseStatus> caseStatusStore(context) async {
-    CaseStatus _model = CaseStatus();
+    CaseStatus model = CaseStatus();
     try {
       debugPrint("save new Case: $name");
 
@@ -52,16 +51,16 @@ class CaseStatus {
 
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
-        _model = CaseStatus.fromJson(tmp["data"]);
-        return _model;
+        model = CaseStatus.fromJson(tmp["data"]);
+        return model;
       } else {
         debugPrint(response.body);
-        return _model;
+        return model;
       }
     } catch (e) {
       debugPrint("Error in update :$e");
     }
-    return _model;
+    return model;
   }
 
   Future<bool> caseStatusUpdate(context) async {
@@ -70,7 +69,7 @@ class CaseStatus {
 
       var body = toJson();
       String sId = id.toString();
-      ApiService apiService = new ApiService();
+      ApiService apiService = ApiService();
       http.Response response = await apiService.put(
           url: '/caseStatuses/$sId', body: body, context: context);
 
@@ -87,9 +86,8 @@ class CaseStatus {
   }
 
   Future<CaseStatus> caseStatusShow(context) async {
-    CaseStatus _model = CaseStatus();
+    CaseStatus model = CaseStatus();
     try {
-      var body = toJson();
       ApiService apiService = ApiService();
       String sId = id.toString();
       var response =
@@ -97,16 +95,16 @@ class CaseStatus {
 
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
-        _model = CaseStatus.fromJson(tmp["data"]);
+        model = CaseStatus.fromJson(tmp["data"]);
       } else {
         debugPrint(response.body);
       }
 
-      return _model;
+      return model;
     } catch (e) {
       debugPrint("Error in show :$e");
     }
-    return _model;
+    return model;
   }
 
   Future<bool> caseStatusDelete(context) async {

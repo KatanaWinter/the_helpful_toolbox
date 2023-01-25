@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:the_helpful_toolbox/data/models/BillingAddressModel.dart';
 import 'package:the_helpful_toolbox/data/models/CompanyModel.dart';
 import 'package:the_helpful_toolbox/data/models/property.dart';
 import 'package:the_helpful_toolbox/features/company/company_page.dart';
@@ -28,7 +26,7 @@ class _EditCompanyAddressDialogState extends State<EditCompanyAddressDialog> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    super.initState();
 
     widget.company.propertie != null
         ? _companyAddress = widget.company.propertie!
@@ -162,7 +160,7 @@ class _EditCompanyAddressDialogState extends State<EditCompanyAddressDialog> {
                                 },
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             Row(
@@ -189,9 +187,7 @@ class _EditCompanyAddressDialogState extends State<EditCompanyAddressDialog> {
                                     if (_formKey.currentState!.validate()) {
                                       saveCompanyAddressDialog(context,
                                           widget.company, _companyAddress);
-                                    } else {
-                                      print('Error');
-                                    }
+                                    } else {}
                                     // Hier passiert etwas anderes
                                   },
                                 ),
@@ -209,10 +205,9 @@ class _EditCompanyAddressDialogState extends State<EditCompanyAddressDialog> {
     );
   }
 
-  saveCompanyAddressDialog(
-      context, Company _company, Property propertie) async {
+  saveCompanyAddressDialog(context, Company company, Property propertie) async {
     debugPrint("save company address to Database start");
-    if (_company.propertie == null) {
+    if (company.propertie == null) {
       Property stored = await propertie.propertyStore(context);
       stored == true
           ? debugPrint("save company address to Database success")
@@ -225,6 +220,6 @@ class _EditCompanyAddressDialogState extends State<EditCompanyAddressDialog> {
     }
     setState(() {});
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => CompanyPage()));
+        .push(MaterialPageRoute(builder: (context) => const CompanyPage()));
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/data/models/client.dart';
 import 'package:the_helpful_toolbox/features/clients/clients_page.dart';
@@ -21,7 +19,7 @@ class ClientPage extends StatefulWidget {
 }
 
 class _ClientPageState extends State<ClientPage> {
-  Future<Client>? dataLoaded = null;
+  Future<Client>? dataLoaded;
   Client _client = Client();
   @override
   void initState() {
@@ -80,7 +78,7 @@ class _ClientPageState extends State<ClientPage> {
                       ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => ClientsPage()));
+                                builder: (context) => const ClientsPage()));
                           },
                           child: const Padding(
                             padding: EdgeInsets.all(8.0),

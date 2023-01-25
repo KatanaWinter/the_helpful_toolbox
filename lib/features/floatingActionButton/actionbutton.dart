@@ -27,7 +27,7 @@ class _ActionButtonState extends State<ActionButton> {
         // return object of type Dialog
         return AlertDialog(
           title: const Text("Create New..."),
-          content: Container(
+          content: SizedBox(
             height: 200,
             child: Column(
               children: [

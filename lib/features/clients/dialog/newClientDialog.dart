@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/data/models/BillingAddressModel.dart';
 import 'package:the_helpful_toolbox/data/models/client.dart';
-import 'package:the_helpful_toolbox/data/models/property.dart';
 import 'package:the_helpful_toolbox/features/clients/clients_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
@@ -16,7 +15,7 @@ class NewClientDialog extends StatefulWidget {
 
 class _NewClientDialogState extends State<NewClientDialog> {
   final _formKey = GlobalKey<FormState>();
-  Client _client = Client(
+  final Client _client = Client(
     id: 1,
     title: "",
     firstname: "",
@@ -29,7 +28,7 @@ class _NewClientDialogState extends State<NewClientDialog> {
     properties: [],
   );
 
-  BillingAddress _billingAddress = BillingAddress(
+  final BillingAddress _billingAddress = BillingAddress(
       clientId: 1,
       name: "",
       street: "",
@@ -170,9 +169,7 @@ class _NewClientDialogState extends State<NewClientDialog> {
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               saveClientWithProperty(context, _client, _billingAddress);
-            } else {
-              print('Error');
-            }
+            } else {}
             // Hier passiert etwas anderes
           },
         ),
@@ -181,16 +178,16 @@ class _NewClientDialogState extends State<NewClientDialog> {
   }
 
   saveClientWithProperty(
-      context, Client _client, BillingAddress billingAddress) async {
+      context, Client client, BillingAddress billingAddress) async {
     debugPrint("save client to Database");
     if (_billingAddress.name!.isNotEmpty) {
-      _client.billingAddress = _billingAddress;
-      await _client.saveClient(_client, context);
+      client.billingAddress = _billingAddress;
+      await client.saveClient(client, context);
     } else {
-      await _client.saveClient(_client, context);
+      await client.saveClient(client, context);
     }
-    sleep(Duration(seconds: 3));
+    sleep(const Duration(seconds: 3));
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => ClientsPage()));
+        .push(MaterialPageRoute(builder: (context) => const ClientsPage()));
   }
 }

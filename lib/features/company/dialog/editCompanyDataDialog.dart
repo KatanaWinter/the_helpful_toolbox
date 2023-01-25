@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:the_helpful_toolbox/data/models/BillingAddressModel.dart';
 import 'package:the_helpful_toolbox/data/models/CompanyModel.dart';
-import 'package:the_helpful_toolbox/data/models/property.dart';
 import 'package:the_helpful_toolbox/features/company/company_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
@@ -20,7 +17,7 @@ class _EditCompanyDataDialogState extends State<EditCompanyDataDialog> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    super.initState();
 
     widget.company != null ? _company = widget.company : "";
   }
@@ -95,7 +92,7 @@ class _EditCompanyDataDialogState extends State<EditCompanyDataDialog> {
                                 }),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             Row(
@@ -121,9 +118,7 @@ class _EditCompanyDataDialogState extends State<EditCompanyDataDialog> {
                                   onPressed: () {
                                     if (_formKey.currentState!.validate()) {
                                       saveCompanyDataDialog(context, _company);
-                                    } else {
-                                      print('Error');
-                                    }
+                                    } else {}
                                     // Hier passiert etwas anderes
                                   },
                                 ),
@@ -141,20 +136,20 @@ class _EditCompanyDataDialogState extends State<EditCompanyDataDialog> {
     );
   }
 
-  saveCompanyDataDialog(context, Company _company) async {
-    if (_company == null) {
-      bool stored = await _company.companieStore(context);
+  saveCompanyDataDialog(context, Company company) async {
+    if (company == null) {
+      bool stored = await company.companieStore(context);
       stored == true
           ? debugPrint("save company data to Database success")
           : debugPrint("save company data to Database failed");
     } else {
-      bool stored = await _company.companyUpdate(context);
+      bool stored = await company.companyUpdate(context);
       stored == true
           ? debugPrint("save company data to Database success")
           : debugPrint("save company data to Database failed");
     }
     setState(() {});
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => CompanyPage()));
+        .push(MaterialPageRoute(builder: (context) => const CompanyPage()));
   }
 }

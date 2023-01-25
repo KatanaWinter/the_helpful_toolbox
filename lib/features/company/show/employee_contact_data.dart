@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:the_helpful_toolbox/data/models/EmployeeModel.dart';
-import 'package:the_helpful_toolbox/data/models/client.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class EmployeeContactDataCard extends StatelessWidget {

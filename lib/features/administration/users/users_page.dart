@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/data/models/UserModel.dart';
-import 'package:the_helpful_toolbox/features/cases/data/case.dart';
 import 'package:the_helpful_toolbox/features/cases/presentation/dialog/newCaseDialog.dart';
 import 'package:the_helpful_toolbox/features/navigation/presentation/sidebarnav.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';

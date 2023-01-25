@@ -1,7 +1,5 @@
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:the_helpful_toolbox/data/models/MediaModel.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
@@ -17,13 +15,15 @@ class UploadMediaDialog extends StatefulWidget {
 
 class _UploadMediaDialogState extends State<UploadMediaDialog> {
   final _formKey = GlobalKey<FormState>();
-  Media _media = Media();
+  final Media _media = Media();
   late PlatformFile lFile;
   FilePickerResult? result;
-  TextEditingController _mediaName = TextEditingController();
+  final TextEditingController _mediaName = TextEditingController();
 
   @override
-  void initState() {}
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,14 +88,12 @@ class _UploadMediaDialogState extends State<UploadMediaDialog> {
                                       withData: true,
                                       type: FileType.custom);
                                   if (result == null) {
-                                    print("No file selected");
                                   } else {
                                     setState(() {});
                                     result?.files.forEach((element) {
                                       _media.name = element.name;
                                       _mediaName.text = element.name;
                                       lFile = element;
-                                      print(element.name);
                                     });
                                   }
                                 },
@@ -125,9 +123,7 @@ class _UploadMediaDialogState extends State<UploadMediaDialog> {
                                   onPressed: () {
                                     if (_formKey.currentState!.validate()) {
                                       saveMediaDialog(context, _media, lFile);
-                                    } else {
-                                      print('Error');
-                                    }
+                                    } else {}
                                     // Hier passiert etwas anderes
                                   },
                                 ),

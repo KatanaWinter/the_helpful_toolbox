@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:the_helpful_toolbox/data/models/CompanyModel.dart';
 import 'package:the_helpful_toolbox/data/models/OfferListModel.dart';
 import 'package:the_helpful_toolbox/features/clients/clients_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
@@ -16,7 +13,7 @@ class CreatOfferlistDialog extends StatefulWidget {
 
 class _CreatOfferlistDialogState extends State<CreatOfferlistDialog> {
   final _formKey = GlobalKey<FormState>();
-  Offerlist _offerlist = Offerlist(active: 1, description: "", name: "");
+  final Offerlist _offerlist = Offerlist(active: 1, description: "", name: "");
 
   @override
   Widget build(BuildContext context) {
@@ -105,9 +102,7 @@ class _CreatOfferlistDialogState extends State<CreatOfferlistDialog> {
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               saveOfferlist(context, _offerlist);
-            } else {
-              print('Error');
-            }
+            } else {}
             // Hier passiert etwas anderes
           },
         ),
@@ -115,11 +110,11 @@ class _CreatOfferlistDialogState extends State<CreatOfferlistDialog> {
     );
   }
 
-  saveOfferlist(context, Offerlist _offerlist) async {
+  saveOfferlist(context, Offerlist offerlist) async {
     debugPrint("save offerlist to Database");
-    await _offerlist.offerlistStore(context);
+    await offerlist.offerlistStore(context);
 
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => ClientsPage()));
+        .push(MaterialPageRoute(builder: (context) => const ClientsPage()));
   }
 }

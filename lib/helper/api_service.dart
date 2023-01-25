@@ -1,12 +1,9 @@
-import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:the_helpful_toolbox/data/models/client.dart';
 import 'package:the_helpful_toolbox/features/login/LoginPage.dart';
 import 'package:the_helpful_toolbox/helper/constants.dart';
-import 'package:http_parser/http_parser.dart';
 import 'package:the_helpful_toolbox/helper/snackbarDisplay.dart';
 
 class ApiService {
@@ -18,7 +15,7 @@ class ApiService {
     try {
       checkConnection(context);
       final prefs = await SharedPreferences.getInstance();
-      var bearerToken = await prefs.getString('Bearer Token');
+      var bearerToken = prefs.getString('Bearer Token');
       if (bearerToken == null) {
         Navigator.of(context!).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const LoginPage()),
@@ -48,7 +45,7 @@ class ApiService {
     try {
       checkConnection(context);
       final prefs = await SharedPreferences.getInstance();
-      var bearerToken = await prefs.getString('Bearer Token');
+      var bearerToken = prefs.getString('Bearer Token');
       if (bearerToken == null) {
         Navigator.of(context!).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const LoginPage()),
@@ -79,7 +76,7 @@ class ApiService {
     try {
       checkConnection(context);
       final prefs = await SharedPreferences.getInstance();
-      var bearerToken = await prefs.getString('Bearer Token');
+      var bearerToken = prefs.getString('Bearer Token');
       if (bearerToken == null) {
         Navigator.of(context!).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const LoginPage()),
@@ -110,7 +107,7 @@ class ApiService {
     try {
       checkConnection(context);
       final prefs = await SharedPreferences.getInstance();
-      var bearerToken = await prefs.getString('Bearer Token');
+      var bearerToken = prefs.getString('Bearer Token');
       if (bearerToken == null) {
         Navigator.of(context!).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const LoginPage()),
@@ -177,16 +174,13 @@ class ApiService {
       required Map<String, dynamic> body}) async {
     var dio = Dio();
     final prefs = await SharedPreferences.getInstance();
-    var bearerToken = await prefs.getString('Bearer Token');
+    var bearerToken = prefs.getString('Bearer Token');
     if (bearerToken == null) {
       Navigator.of(context!).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const LoginPage()),
         (route) => false,
       );
     }
-    var headers = {
-      'Authorization': 'Bearer $bearerToken',
-    };
     String connString = await getBaseUrl();
     url = "$connString$url";
     try {
@@ -194,16 +188,12 @@ class ApiService {
       final response = await dio.post(url, data: formData);
 
       if (response.statusCode == 200) {
-        print("upload success");
         return true;
       } else {
-        print("error in upload");
         return false;
       }
       // return response;
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
     return false;
   }
 
@@ -229,8 +219,7 @@ class ApiService {
         );
       }
     } catch (e) {
-      print(e);
-      snackbarwithMessage("Connection Error : ${e}", context, 1);
+      snackbarwithMessage("Connection Error : $e", context, 1);
 
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const LoginPage()),

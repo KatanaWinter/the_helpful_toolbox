@@ -3,7 +3,6 @@ import 'package:the_helpful_toolbox/data/models/client.dart';
 import 'package:the_helpful_toolbox/data/models/property.dart';
 import 'package:the_helpful_toolbox/features/clients/show/client_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
-import 'package:http/http.dart' as http;
 
 class AddPropertyDialog extends StatefulWidget {
   Client client;
@@ -15,7 +14,7 @@ class AddPropertyDialog extends StatefulWidget {
 
 class _AddPropertyDialogState extends State<AddPropertyDialog> {
   final _formKey = GlobalKey<FormState>();
-  Property _property = Property(
+  final Property _property = Property(
       clientId: -1,
       name: "",
       street: "",
@@ -26,8 +25,6 @@ class _AddPropertyDialogState extends State<AddPropertyDialog> {
 
   @override
   void initState() {
-    // TODO: implement initState
-
     super.initState();
   }
 
@@ -184,9 +181,7 @@ class _AddPropertyDialogState extends State<AddPropertyDialog> {
             if (_formKey.currentState!.validate()) {
               _property.clientId = widget.client.id;
               SaveProperty(context, widget.client, _property);
-            } else {
-              print('Error');
-            }
+            } else {}
             // Hier passiert etwas anderes
           },
         ),

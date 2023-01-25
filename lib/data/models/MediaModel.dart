@@ -59,7 +59,7 @@ class Media {
 
   Future<Media> mediaStore(
       context, PlatformFile lFile, String whereToStore) async {
-    Media _media = Media();
+    Media media = Media();
 
     try {
       List<int> fileBytes = lFile.bytes!;
@@ -70,53 +70,52 @@ class Media {
       ApiService apiService = ApiService();
       var body = toJson();
       apiService.uploadFile(
-        url: '/media/${whereToStore}',
+        url: '/media/$whereToStore',
         formData: formData,
         context: context,
         body: body,
       );
-      return _media;
+      return media;
     } catch (e) {
       debugPrint("Error in Media save :$e");
-      return _media;
+      return media;
     }
   }
 
   Future<Media> mediaDownload(context) async {
-    Media _media = Media();
+    Media media = Media();
     try {
       var body = toJson();
       ApiService apiService = ApiService();
       http.Response response = await apiService.post(
-          url: '/media/${id}', body: body, context: context);
+          url: '/media/$id', body: body, context: context);
 
       if (response.statusCode == 200) {
         // var tmp = json.decode(response.body);
         Directory? appDocDir = await getDownloadsDirectory();
-        String? _path = await FilesystemPicker.openDialog(
+        String? path = await FilesystemPicker.openDialog(
             context: context,
             rootDirectory: appDocDir!,
             fsType: FilesystemType.folder,
             showGoUp: true);
-        print(_path);
-        if (_path == null) {
+        if (path == null) {
           snackbarwithMessage("No folder selected", context, 2);
-          return _media;
+          return media;
         }
 
-        File _file = await File("${_path}\\${fileName}").create();
-        _file.writeAsBytes(response.bodyBytes);
-        OpenAppFile.open(_file.path);
+        File file = await File("$path\\$fileName").create();
+        file.writeAsBytes(response.bodyBytes);
+        OpenAppFile.open(file.path);
         debugPrint("Receive Media successful");
-        snackbarwithMessage("File saved to: ${_path}", context, 1);
+        snackbarwithMessage("File saved to: $path", context, 1);
       } else {
         debugPrint(response.body);
-        return _media;
+        return media;
       }
-      return _media;
+      return media;
     } catch (e) {
       debugPrint("Error in save :$e");
-      return _media;
+      return media;
     }
   }
 
@@ -124,7 +123,7 @@ class Media {
     try {
       ApiService apiService = ApiService();
       http.Response response = await apiService.delete(
-          url: '/media/${whereToStore}/${id}', context: context);
+          url: '/media/$whereToStore/$id', context: context);
 
       if (response.statusCode == 200) {
         debugPrint("Delete Media successful");

@@ -2,17 +2,15 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:the_helpful_toolbox/data/models/client.dart';
-import 'package:the_helpful_toolbox/data/models/property.dart';
 import 'package:the_helpful_toolbox/features/clients/dialog/editClientDialog.dart';
 import 'package:the_helpful_toolbox/features/clients/dialog/newClientDialog.dart';
 import 'package:the_helpful_toolbox/features/clients/show/client_page.dart';
 import 'package:the_helpful_toolbox/features/floatingActionButton/actionbutton.dart';
 import 'package:the_helpful_toolbox/features/navigation/presentation/sidebarnav.dart';
-import 'package:the_helpful_toolbox/helper/api_service.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class ClientsPage extends StatefulWidget {
-  ClientsPage({Key? key});
+  const ClientsPage({super.key});
 
   @override
   State<ClientsPage> createState() => _ClientsPageState();
@@ -22,7 +20,6 @@ class _ClientsPageState extends State<ClientsPage> {
   TextEditingController searchController = TextEditingController();
   late List<Client> lClients = [];
   late List<Client> lFilteredClients = [];
-  String _searchResult = '';
   late Future dataLoaded;
 
   @override
@@ -43,8 +40,6 @@ class _ClientsPageState extends State<ClientsPage> {
 
   @override
   Widget build(BuildContext context) {
-    double tableWidth = 0.00;
-
     double screenWidth = getScreenWidth(context);
     return Scaffold(
       appBar: AppBar(
@@ -96,32 +91,31 @@ class _ClientsPageState extends State<ClientsPage> {
                                                 hintText: 'Search for ...',
                                               ),
                                               onChanged: (val) {
-                                                _searchResult = val;
                                                 setState(() {
-                                                  String _searchVal =
+                                                  String searchVal =
                                                       val.toLowerCase();
                                                   lFilteredClients = lClients
                                                       .where((e) =>
                                                           e.firstname!
                                                               .toLowerCase()
                                                               .contains(
-                                                                  _searchVal) ||
+                                                                  searchVal) ||
                                                           e.lastname!
                                                               .toLowerCase()
                                                               .contains(
-                                                                  _searchVal) ||
+                                                                  searchVal) ||
                                                           e.email!
                                                               .toLowerCase()
                                                               .contains(
-                                                                  _searchVal) ||
+                                                                  searchVal) ||
                                                           e.phonenumber!
                                                               .toLowerCase()
                                                               .contains(
-                                                                  _searchVal) ||
+                                                                  searchVal) ||
                                                           e.mobilenumber!
                                                               .toLowerCase()
                                                               .contains(
-                                                                  _searchVal))
+                                                                  searchVal))
                                                       .toList();
                                                 });
                                               },
@@ -185,11 +179,11 @@ class _ClientsPageState extends State<ClientsPage> {
   buildList(context, List<Client> lFiltered) {
     double tableWidth = getScreenWidth(context);
 
-    NumberFormat formatter = new NumberFormat("000000");
+    NumberFormat formatter = NumberFormat("000000");
     isSmallScreen(context)
         ? tableWidth = tableWidth - 100
         : tableWidth = tableWidth - 250;
-    return lClients.length <= 0
+    return lClients.isEmpty
         ? const Center(
             child: CircularProgressIndicator(),
           )
@@ -295,7 +289,8 @@ class _ClientsPageState extends State<ClientsPage> {
                                   client.deleteClient(context);
 
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => ClientsPage()));
+                                      builder: (context) =>
+                                          const ClientsPage()));
                                 },
                                 icon: const Icon(Icons.delete)),
                           ],

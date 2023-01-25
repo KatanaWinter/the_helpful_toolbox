@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:the_helpful_toolbox/data/models/CompanyModel.dart';
 import 'package:the_helpful_toolbox/data/models/OfferListModel.dart';
 import 'package:the_helpful_toolbox/features/offerlist/offerlists_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
@@ -19,11 +18,9 @@ class _OfferListTableState extends State<OfferListTable> {
   TextEditingController searchController = TextEditingController();
   List<Offerlist> lOLists = [];
   List<Offerlist> lFilteredOLists = [];
-  String _searchResult = '';
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     lOLists = widget.lOfferlists;
     lFilteredOLists = lOLists;
@@ -31,7 +28,6 @@ class _OfferListTableState extends State<OfferListTable> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = getScreenWidth(context);
     double contentWidth = getContentWidth(context);
 
     return Expanded(
@@ -57,12 +53,11 @@ class _OfferListTableState extends State<OfferListTable> {
                       hintText: 'Search for ...',
                     ),
                     onChanged: (val) {
-                      _searchResult = val;
                       setState(() {
-                        String _searchVal = val.toLowerCase();
+                        String searchVal = val.toLowerCase();
                         lFilteredOLists = lOLists
                             .where((e) =>
-                                e.name!.toLowerCase().contains(_searchVal))
+                                e.name!.toLowerCase().contains(searchVal))
                             .toList();
                       });
                     },
@@ -84,23 +79,23 @@ class _OfferListTableState extends State<OfferListTable> {
 
   buildList(BuildContext context, List<Offerlist> lFilterdOList) {
     double tableWidth = getScreenWidth(context);
-    NumberFormat formatter = new NumberFormat("000000");
+    NumberFormat formatter = NumberFormat("000000");
     isSmallScreen(context)
         ? tableWidth = tableWidth - 100
         : tableWidth = tableWidth / 2 - 250;
 
-    return lOLists.length <= 0
+    return lOLists.isEmpty
         ? const Center(
             child: CircularProgressIndicator(),
           )
-        : Container(
+        : SizedBox(
             height: 300,
             child: ListView.builder(
               scrollDirection: Axis.vertical,
               itemCount: lFilterdOList.length,
               itemBuilder: ((context, index) {
                 Offerlist oList = lFilterdOList[index];
-                return Container(
+                return SizedBox(
                   width: tableWidth,
                   child: Column(
                     children: [
@@ -149,7 +144,7 @@ class _OfferListTableState extends State<OfferListTable> {
                           ),
                         ],
                       ),
-                      Divider(
+                      const Divider(
                         height: 10,
                       )
                     ],
@@ -160,7 +155,7 @@ class _OfferListTableState extends State<OfferListTable> {
           );
   }
 
-  openEditOfferlistDialog(context, int cId, Offerlist _oList) {
+  openEditOfferlistDialog(context, int cId, Offerlist oList) {
     // return showDialog(
     //   context: context,
     //   builder: (BuildContext context) {

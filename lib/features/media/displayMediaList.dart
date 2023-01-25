@@ -22,11 +22,9 @@ class _DisplayMediaListState extends State<DisplayMediaList> {
   TextEditingController searchController = TextEditingController();
   List<Media> lMedia = [];
   List<Media> lFilteredMedia = [];
-  String _searchResult = '';
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     lMedia = widget.lMedia;
     lFilteredMedia = lMedia;
@@ -34,10 +32,7 @@ class _DisplayMediaListState extends State<DisplayMediaList> {
 
   @override
   Widget build(BuildContext context) {
-    double contentWidth = getContentWidth(context);
-
     double width = double.maxFinite;
-    double screenWidth = getScreenWidth(context);
 
     return Card(
         elevation: 10,
@@ -68,7 +63,7 @@ class _DisplayMediaListState extends State<DisplayMediaList> {
                   height: 10,
                 ),
                 Row(
-                  children: [
+                  children: const [
                     SizedBox(
                       width: 50,
                     )
@@ -97,19 +92,18 @@ class _DisplayMediaListState extends State<DisplayMediaList> {
                                     hintText: 'Search for ...',
                                   ),
                                   onChanged: (val) {
-                                    _searchResult = val;
                                     setState(() {
-                                      String _searchVal = val.toLowerCase();
+                                      String searchVal = val.toLowerCase();
                                       lFilteredMedia = lMedia
                                           .where((e) => e.fileName!
                                               .toLowerCase()
-                                              .contains(_searchVal))
+                                              .contains(searchVal))
                                           .toList();
                                     });
                                   },
                                 ),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               ElevatedButton(
                                   onPressed: () {
                                     openDialogNewMedia(context,
@@ -144,58 +138,55 @@ class _DisplayMediaListState extends State<DisplayMediaList> {
   }
 
   buildList(BuildContext context, List<Media> lFilteredMedia) {
-    return lFilteredMedia.length < 0
+    return lFilteredMedia.length > 1
         ? const Center(
             child: CircularProgressIndicator(),
           )
-        : Container(
+        : SizedBox(
             height: 300,
             child: ListView.builder(
               scrollDirection: Axis.vertical,
               itemCount: lFilteredMedia.length,
               itemBuilder: ((context, index) {
-                Media _media = lFilteredMedia[index];
-                return Container(
-                  child: Column(
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            width: 200,
-                            height: 50,
-                            child: AutoSizeText(
-                                textAlign: TextAlign.start,
-                                "${_media.fileName} "),
+                Media media = lFilteredMedia[index];
+                return Column(
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          width: 200,
+                          height: 50,
+                          child: AutoSizeText(
+                              textAlign: TextAlign.start, "${media.fileName} "),
+                        ),
+                        Expanded(
+                          child: ButtonBar(
+                            children: [
+                              IconButton(
+                                  onPressed: () {
+                                    downloadMedia(context, media);
+                                  },
+                                  icon: const Icon(Icons.download)),
+                              IconButton(
+                                  onPressed: () {
+                                    deleteMedia(
+                                        context: context,
+                                        media: media,
+                                        sUploadTo: widget.whereToUpload,
+                                        lastScreen: widget.lastScreen);
+                                  },
+                                  icon: const Icon(Icons.delete)),
+                            ],
                           ),
-                          Expanded(
-                            child: ButtonBar(
-                              children: [
-                                IconButton(
-                                    onPressed: () {
-                                      downloadMedia(context, _media);
-                                    },
-                                    icon: const Icon(Icons.download)),
-                                IconButton(
-                                    onPressed: () {
-                                      deleteMedia(
-                                          context: context,
-                                          media: _media,
-                                          sUploadTo: widget.whereToUpload,
-                                          lastScreen: widget.lastScreen);
-                                    },
-                                    icon: const Icon(Icons.delete)),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      Divider(
-                        height: 10,
-                      )
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                    const Divider(
+                      height: 10,
+                    )
+                  ],
                 );
               }),
             ),
@@ -217,7 +208,6 @@ class _DisplayMediaListState extends State<DisplayMediaList> {
 
   downloadMedia(context, Media media) {
     media.mediaDownload(context);
-    print("media download ready");
   }
 
   deleteMedia(

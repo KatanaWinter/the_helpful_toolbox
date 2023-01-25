@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:the_helpful_toolbox/data/models/EmployeeModel.dart';
 import 'package:the_helpful_toolbox/data/models/property.dart';
 import 'package:the_helpful_toolbox/features/company/show/employee_page.dart';
@@ -27,6 +26,8 @@ class _EmployeeEditAddressDialogState extends State<EmployeeEditAddressDialog> {
 
   @override
   void initState() {
+    super.initState();
+    // ignore: todo
     // TODO: implement initState
 
     widget.employee.propertieId != null
@@ -165,7 +166,7 @@ class _EmployeeEditAddressDialogState extends State<EmployeeEditAddressDialog> {
                                 },
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             Row(
@@ -192,9 +193,7 @@ class _EmployeeEditAddressDialogState extends State<EmployeeEditAddressDialog> {
                                     if (_formKey.currentState!.validate()) {
                                       savePropertyForEmployee(
                                           context, widget.employee, _propertie);
-                                    } else {
-                                      print('Error');
-                                    }
+                                    } else {}
                                     // Hier passiert etwas anderes
                                   },
                                 ),
@@ -212,26 +211,25 @@ class _EmployeeEditAddressDialogState extends State<EmployeeEditAddressDialog> {
     );
   }
 
-  savePropertyForEmployee(
-      context, Employee _employee, Property _property) async {
+  savePropertyForEmployee(context, Employee employee, Property property) async {
     debugPrint("save billing address to Database start");
-    if (_employee.propertie == null) {
-      Property stored = await _property.propertyStore(context);
+    if (employee.propertie == null) {
+      Property stored = await property.propertyStore(context);
       if (stored != null) {
         ("save billing address to Database success");
-        _employee.propertieId = stored.id;
-        _employee.employeeUpdate(context);
+        employee.propertieId = stored.id;
+        employee.employeeUpdate(context);
       } else {
         debugPrint("save billing address to Database failed");
       }
     } else {
-      bool stored = await _property.propertyUpdate(context);
+      bool stored = await property.propertyUpdate(context);
       stored == true
           ? debugPrint("save billing address to Database success")
           : debugPrint("save billing address to Database failed");
     }
     setState(() {});
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => EmployeePage(_employee)));
+        .push(MaterialPageRoute(builder: (context) => EmployeePage(employee)));
   }
 }

@@ -139,7 +139,6 @@ class Client {
 
   Future<http.Response?> deleteClient(context) async {
     try {
-      var body = toJson();
       ApiService apiService = ApiService();
       String sId = id.toString();
       var response =
@@ -159,7 +158,6 @@ class Client {
   }
 
   Future<Client> showClient(context) async {
-    var body = toJson();
     ApiService apiService = ApiService();
     String sId = id.toString();
     var response = await apiService.get(url: "/clients/$sId", context: context);

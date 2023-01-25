@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:the_helpful_toolbox/features/cases/data/case.dart';
 import 'package:the_helpful_toolbox/helper/api_service.dart';
 import 'package:http/http.dart' as http;
 
+import '../CaseModel.dart';
 import 'QuoteItemModel.dart';
 
 List<Quote> quotesFromJson(String str) =>
@@ -58,7 +58,7 @@ class Quote {
         required_deposit: json["required_deposit"] ?? 0.00,
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-        sCase: json["case"] == null ? null : json["case"],
+        sCase: json["case"],
         items: List<QuoteItem>.from(
             json["items"].map((x) => QuoteItem.fromJson(x))),
       );
@@ -77,7 +77,7 @@ class Quote {
       };
 
   Future<Quote> quotesStore(context) async {
-    Quote _model = Quote();
+    Quote model = Quote();
     try {
       debugPrint("save new quotes: $message");
 
@@ -88,16 +88,16 @@ class Quote {
 
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
-        _model = Quote.fromJson(tmp["data"]);
-        return _model;
+        model = Quote.fromJson(tmp["data"]);
+        return model;
       } else {
         debugPrint(response.body);
-        return _model;
+        return model;
       }
     } catch (e) {
       debugPrint("Error in update :$e");
     }
-    return _model;
+    return model;
   }
 
   Future<bool> quotesUpdate(context) async {
@@ -106,7 +106,7 @@ class Quote {
 
       var body = toJson();
       String sId = id.toString();
-      ApiService apiService = new ApiService();
+      ApiService apiService = ApiService();
       http.Response response = await apiService.put(
           url: '/quotes/$sId', body: body, context: context);
 
@@ -123,9 +123,8 @@ class Quote {
   }
 
   Future<Quote> quotesShow(context) async {
-    Quote _model = Quote();
+    Quote model = Quote();
     try {
-      var body = toJson();
       ApiService apiService = ApiService();
       String sId = id.toString();
       var response =
@@ -133,16 +132,16 @@ class Quote {
 
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
-        _model = Quote.fromJson(tmp["data"]);
+        model = Quote.fromJson(tmp["data"]);
       } else {
         debugPrint(response.body);
       }
 
-      return _model;
+      return model;
     } catch (e) {
       debugPrint("Error in show :$e");
     }
-    return _model;
+    return model;
   }
 
   Future<bool> quotesDelete(context) async {

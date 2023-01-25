@@ -17,7 +17,7 @@ class DataTableExamplePage extends StatelessWidget {
       body: Row(
         children: [
           SidebarNavigation(),
-          Flexible(child: DataTableTable()),
+          const Flexible(child: DataTableTable()),
         ],
       ),
     );

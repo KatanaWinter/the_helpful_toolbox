@@ -27,7 +27,7 @@ class Endpoints {
 
 getBaseUrl() async {
   final prefs = await SharedPreferences.getInstance();
-  var connectionBaseString = await prefs.getString('ConnectionString');
+  var connectionBaseString = prefs.getString('ConnectionString');
   if (connectionBaseString != null) {
     connectionBaseString = "$connectionBaseString/api";
   } else {
@@ -39,7 +39,7 @@ getBaseUrl() async {
 
 getBearerToken(context) async {
   final prefs = await SharedPreferences.getInstance();
-  var bearerToken = await prefs.getString('Bearer Token');
+  var bearerToken = prefs.getString('Bearer Token');
 
   if (bearerToken != null) {
     return bearerToken;

@@ -1,9 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:the_helpful_toolbox/data/models/UserModel.dart';
-import 'package:the_helpful_toolbox/features/dashboard/dashboard.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 import 'package:the_helpful_toolbox/helper/snackbarDisplay.dart';
 
@@ -17,7 +13,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _formKey2 = GlobalKey<FormState>();
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   final TextEditingController _connectionString = TextEditingController();
@@ -34,12 +29,10 @@ class _LoginPageState extends State<LoginPage> {
 
     final connString = prefs.getString('ConnectionString') ?? '';
     _connectionString.text = connString;
-    print(name);
   }
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = getScreenWidth(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -120,9 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                           onFieldSubmitted: (value) {
                             if (_formKey.currentState!.validate()) {
                               loginUser(_email.text, _password.text);
-                            } else {
-                              print("Formular ist nicht gültig");
-                            }
+                            } else {}
                           },
                         ),
                       ),
@@ -134,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
                             onPressed: () {
                               _formKey.currentState!.reset();
                             },
-                            child: Text('Delete'),
+                            child: const Text('Delete'),
                           ),
                           const SizedBox(
                             width: 20,
@@ -143,11 +134,9 @@ class _LoginPageState extends State<LoginPage> {
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 loginUser(_email.text, _password.text);
-                              } else {
-                                print("Formular ist nicht gültig");
-                              }
+                              } else {}
                             },
-                            child: Text('Login'),
+                            child: const Text('Login'),
                           )
                         ],
                       ),
@@ -163,12 +152,11 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _showSettingsDialog(TextEditingController connectionString) {
-    final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
     showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text("Login Settings"),
+            title: const Text("Login Settings"),
             content: Form(
               key: _formKey2,
               child: Column(
@@ -190,9 +178,7 @@ class _LoginPageState extends State<LoginPage> {
                       onFieldSubmitted: (value) {
                         if (_formKey2.currentState!.validate()) {
                           setConnectionString(connectionString.text);
-                        } else {
-                          print("Connection String nicht gültig");
-                        }
+                        } else {}
                       },
                     ),
                   ),
@@ -200,11 +186,9 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       if (_formKey2.currentState!.validate()) {
                         setConnectionString(connectionString.text);
-                      } else {
-                        print("Connection String nicht gültig");
-                      }
+                      } else {}
                     },
-                    child: Text('Save'),
+                    child: const Text('Save'),
                   )
                 ],
               ),
@@ -213,30 +197,15 @@ class _LoginPageState extends State<LoginPage> {
         });
   }
 
-  void loginUser(String email, String password) {
-    UserModel user = UserModel(email: email, password: password);
-    var response = user.loginUser(user, context).then(
-      (value) {
-        if (value!.statusCode == 200) {
-          snackbarwithMessage("Login Successful!", context, 1);
-
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const Dashboard()),
-            (route) => false,
-          );
-        } else {
-          Map<String, dynamic> temp = json.decode(value.body);
-          String message = temp["message"];
-          snackbarwithMessage("Login Error! $message", context, 2);
-        }
-      },
-    );
-  }
+  void loginUser(String email, String password) {}
 
   Future<void> setConnectionString(String text) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('ConnectionString', text);
-    Navigator.pop(context);
-    snackbarwithMessage("Connection saved!", context, 1);
+    await prefs.setString('ConnectionString', text).then(
+      (value) {
+        Navigator.pop(context);
+        snackbarwithMessage("Connection saved!", context, 1);
+      },
+    );
   }
 }

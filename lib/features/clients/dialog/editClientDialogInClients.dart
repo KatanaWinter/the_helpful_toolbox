@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/data/models/BillingAddressModel.dart';
 import 'package:the_helpful_toolbox/data/models/client.dart';
-import 'package:the_helpful_toolbox/data/models/property.dart';
-import 'package:the_helpful_toolbox/features/clients/clients_page.dart';
 import 'package:the_helpful_toolbox/features/clients/show/client_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 

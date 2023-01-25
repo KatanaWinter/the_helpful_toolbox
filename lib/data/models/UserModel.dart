@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_helpful_toolbox/helper/api_service.dart';
@@ -36,7 +33,7 @@ class UserModel {
       var body = user.toJson();
       String connString = await getBaseUrl();
       http.Response response = await http.post(
-        Uri.parse(connString + Endpoints.auth + "/login"),
+        Uri.parse("$connString${Endpoints.auth}/login"),
         body: body,
       );
       if (response.statusCode == 200) {
@@ -55,9 +52,9 @@ class UserModel {
       String eMessage = e.toString();
       var snackBar = SnackBar(
         content: Text("Login Error! $eMessage",
-            style: TextStyle(color: Colors.white)),
+            style: const TextStyle(color: Colors.white)),
         backgroundColor: (Colors.red),
-        duration: Duration(seconds: 4),
+        duration: const Duration(seconds: 4),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
@@ -67,7 +64,7 @@ class UserModel {
 
 Future<List<UserModel>> getUsers(context) async {
   try {
-    ApiService apiService = new ApiService();
+    ApiService apiService = ApiService();
 
     List<UserModel> lUsers = <UserModel>[];
     http.Response response =

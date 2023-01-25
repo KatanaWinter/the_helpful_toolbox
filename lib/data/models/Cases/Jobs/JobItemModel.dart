@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:the_helpful_toolbox/features/cases/data/case.dart';
-import 'package:the_helpful_toolbox/features/cases/data/job.dart';
 import 'package:the_helpful_toolbox/helper/api_service.dart';
 import 'package:http/http.dart' as http;
 
@@ -65,7 +63,7 @@ class JobItem {
       };
 
   Future<JobItem> jobsItemsStore(context) async {
-    JobItem _model = JobItem();
+    JobItem model = JobItem();
     try {
       debugPrint("save new job item");
 
@@ -76,16 +74,16 @@ class JobItem {
 
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
-        _model = JobItem.fromJson(tmp["data"]);
-        return _model;
+        model = JobItem.fromJson(tmp["data"]);
+        return model;
       } else {
         debugPrint(response.body);
-        return _model;
+        return model;
       }
     } catch (e) {
       debugPrint("Error in update :$e");
     }
-    return _model;
+    return model;
   }
 
   Future<bool> jobsItemsUpdate(context) async {
@@ -94,7 +92,7 @@ class JobItem {
 
       var body = toJson();
       String sId = id.toString();
-      ApiService apiService = new ApiService();
+      ApiService apiService = ApiService();
       http.Response response = await apiService.put(
           url: '/jobsItems/$sId', body: body, context: context);
 
@@ -111,9 +109,8 @@ class JobItem {
   }
 
   Future<JobItem> jobsItemsShow(context) async {
-    JobItem _model = JobItem();
+    JobItem model = JobItem();
     try {
-      var body = toJson();
       ApiService apiService = ApiService();
       String sId = id.toString();
       var response =
@@ -121,16 +118,16 @@ class JobItem {
 
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
-        _model = JobItem.fromJson(tmp["data"]);
+        model = JobItem.fromJson(tmp["data"]);
       } else {
         debugPrint(response.body);
       }
 
-      return _model;
+      return model;
     } catch (e) {
       debugPrint("Error in show :$e");
     }
-    return _model;
+    return model;
   }
 
   Future<bool> jobsItemsDelete(context) async {

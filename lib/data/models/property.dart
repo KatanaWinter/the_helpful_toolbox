@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:the_helpful_toolbox/helper/api_service.dart';
-import 'package:the_helpful_toolbox/helper/constants.dart';
 
 List<Property> propertiesFromJson(String str) =>
     List<Property>.from(json.decode(str).map((x) => Property.fromJson(x)));
@@ -105,7 +104,7 @@ class Property {
 
       var body = toJson();
       String sId = id.toString();
-      ApiService apiService = new ApiService();
+      ApiService apiService = ApiService();
       http.Response response = await apiService.put(
           url: '/properties/$sId', body: body, context: context);
 

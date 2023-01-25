@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/data/models/Cases/Jobs/JobItemModel.dart';
-import 'package:the_helpful_toolbox/features/cases/data/case.dart';
 import 'package:the_helpful_toolbox/helper/api_service.dart';
 import 'package:http/http.dart' as http;
 
+import '../CaseModel.dart';
 import 'JobVisitModel.dart';
 
 List<Job> jobsFromJson(String str) =>
@@ -52,7 +52,7 @@ class Job {
         tax: json["tax"] ?? 0.00,
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-        sCase: json["case"] == null ? null : json["case"],
+        sCase: json["case"],
         items:
             List<JobItem>.from(json["items"].map((x) => JobItem.fromJson(x))),
         visits: List<JobVisit>.from(
@@ -70,7 +70,7 @@ class Job {
       };
 
   Future<Job> jobsStore(context) async {
-    Job _model = Job();
+    Job model = Job();
     try {
       debugPrint("save new jobs");
 
@@ -81,16 +81,16 @@ class Job {
 
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
-        _model = Job.fromJson(tmp["data"]);
-        return _model;
+        model = Job.fromJson(tmp["data"]);
+        return model;
       } else {
         debugPrint(response.body);
-        return _model;
+        return model;
       }
     } catch (e) {
       debugPrint("Error in update :$e");
     }
-    return _model;
+    return model;
   }
 
   Future<bool> jobsUpdate(context) async {
@@ -99,7 +99,7 @@ class Job {
 
       var body = toJson();
       String sId = id.toString();
-      ApiService apiService = new ApiService();
+      ApiService apiService = ApiService();
       http.Response response =
           await apiService.put(url: '/jobs/$sId', body: body, context: context);
 
@@ -116,25 +116,24 @@ class Job {
   }
 
   Future<Job> jobsShow(context) async {
-    Job _model = Job();
+    Job model = Job();
     try {
-      var body = toJson();
       ApiService apiService = ApiService();
       String sId = id.toString();
       var response = await apiService.get(url: "/jobs/$sId", context: context);
 
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
-        _model = Job.fromJson(tmp["data"]);
+        model = Job.fromJson(tmp["data"]);
       } else {
         debugPrint(response.body);
       }
 
-      return _model;
+      return model;
     } catch (e) {
       debugPrint("Error in show :$e");
     }
-    return _model;
+    return model;
   }
 
   Future<bool> jobsDelete(context) async {

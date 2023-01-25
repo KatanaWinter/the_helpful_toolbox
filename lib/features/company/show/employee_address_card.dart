@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/data/models/EmployeeModel.dart';
-import 'package:the_helpful_toolbox/features/clients/dialog/editBillingAddressDialog.dart';
 import 'package:the_helpful_toolbox/features/company/dialog/employeeEditAddressDialog.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
@@ -48,27 +47,27 @@ class _EmployeeAddressCardState extends State<EmployeeAddressCard> {
                 ),
                 Row(
                   children: [
-                    Spacer(),
+                    const Spacer(),
                     Column(
                       children: [
                         AutoSizeText(
-                          "${widget.employee.propertie?.street ?? ""}",
-                          style: TextStyle(fontSize: 18),
+                          widget.employee.propertie?.street ?? "",
+                          style: const TextStyle(fontSize: 18),
                           maxLines: 3,
                         ),
                         AutoSizeText(
                           "${widget.employee.propertie?.city ?? ""} , ${widget.employee.propertie?.state ?? ""} ${widget.employee.propertie?.postalcode ?? ""}",
-                          style: TextStyle(fontSize: 18),
+                          style: const TextStyle(fontSize: 18),
                           maxLines: 3,
                         ),
                       ],
                     ),
-                    Spacer(),
+                    const Spacer(),
                     IconButton(
                         onPressed: () {
                           openEditPropertyDialog(context, widget.employee);
                         },
-                        icon: Icon(Icons.edit))
+                        icon: const Icon(Icons.edit))
                   ],
                 )
               ],
@@ -77,11 +76,11 @@ class _EmployeeAddressCardState extends State<EmployeeAddressCard> {
         ));
   }
 
-  openEditPropertyDialog(context, Employee _employee) {
+  openEditPropertyDialog(context, Employee employee) {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return EmployeeEditAddressDialog(employee: _employee);
+        return EmployeeEditAddressDialog(employee: employee);
       },
     );
   }

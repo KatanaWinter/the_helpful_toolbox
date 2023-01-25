@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:the_helpful_toolbox/features/cases/data/case.dart';
 import 'package:the_helpful_toolbox/helper/api_service.dart';
 import 'package:http/http.dart' as http;
+
+import 'CaseModel.dart';
 
 List<CaseNotes> caseNotesFromJson(String str) =>
     List<CaseNotes>.from(json.decode(str).map((x) => CaseNotes.fromJson(x)));
@@ -88,7 +89,6 @@ class CaseNotes {
   Future<CaseNotes> caseNotesShow(context) async {
     CaseNotes _case = CaseNotes();
     try {
-      var body = toJson();
       ApiService apiService = ApiService();
       String sId = id.toString();
       var response =

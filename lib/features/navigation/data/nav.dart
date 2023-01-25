@@ -31,7 +31,7 @@ getMainNavigationItems() {
         id: 2,
         name: "Clients",
         icon: const Icon(Icons.people),
-        Screen: ClientsPage()),
+        Screen: const ClientsPage()),
     NavigationItem(
         id: 3,
         name: "Cases",

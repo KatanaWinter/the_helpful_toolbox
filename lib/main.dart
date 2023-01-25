@@ -10,7 +10,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool _navCollapsed = false;
     return MaterialApp(
       title: 'The Helpful Toolbox',
       theme: ThemeData.dark(),

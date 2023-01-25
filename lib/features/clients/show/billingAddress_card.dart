@@ -48,11 +48,11 @@ class _BillingAddressCardState extends State<BillingAddressCard> {
                   ),
                   Row(
                     children: [
-                      Spacer(),
+                      const Spacer(),
                       Column(
                         children: [
                           AutoSizeText(
-                            "${widget.client.billingAddress?.street ?? ""}",
+                            widget.client.billingAddress?.street ?? "",
                             maxLines: 3,
                           ),
                           AutoSizeText(
@@ -61,12 +61,12 @@ class _BillingAddressCardState extends State<BillingAddressCard> {
                           ),
                         ],
                       ),
-                      Spacer(),
+                      const Spacer(),
                       IconButton(
                           onPressed: () {
                             openEditPropertyDialog(context, widget.client);
                           },
-                          icon: Icon(Icons.edit))
+                          icon: const Icon(Icons.edit))
                     ],
                   )
                 ],
@@ -76,11 +76,11 @@ class _BillingAddressCardState extends State<BillingAddressCard> {
     );
   }
 
-  openEditPropertyDialog(context, Client _client) {
+  openEditPropertyDialog(context, Client client) {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return EditBillingAddressDialog(client: _client);
+        return EditBillingAddressDialog(client: client);
       },
     );
   }

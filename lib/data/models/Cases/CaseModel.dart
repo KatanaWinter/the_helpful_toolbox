@@ -134,7 +134,7 @@ class Case {
 
       var body = toJson();
       String sId = id.toString();
-      ApiService apiService = new ApiService();
+      ApiService apiService = ApiService();
       http.Response response = await apiService.put(
           url: '/cases/$sId', body: body, context: context);
 
@@ -153,7 +153,6 @@ class Case {
   Future<Case> caseShow(context) async {
     Case _case = Case();
     try {
-      var body = toJson();
       ApiService apiService = ApiService();
       String sId = id.toString();
       var response = await apiService.get(url: "/cases/$sId", context: context);

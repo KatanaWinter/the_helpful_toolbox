@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:the_helpful_toolbox/data/models/CompanyModel.dart';
 import 'package:the_helpful_toolbox/data/models/EmployeeModel.dart';
@@ -16,10 +15,11 @@ class EmployeeCreateDialog extends StatefulWidget {
 
 class _EmployeeCreateDialogState extends State<EmployeeCreateDialog> {
   final _formKey = GlobalKey<FormState>();
-  Employee _employee = Employee();
+  final Employee _employee = Employee();
 
   @override
   void initState() {
+    super.initState();
     _employee.companyId = widget.company.id;
   }
 
@@ -138,15 +138,15 @@ class _EmployeeCreateDialogState extends State<EmployeeCreateDialog> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
                                   children: [
-                                    Text("Birthdate:"),
+                                    const Text("Birthdate:"),
                                     Text(_employee.birthdate == null
                                         ? ""
                                         : DateFormat.yMMMEd()
                                             .format(_employee.birthdate!)),
-                                    Spacer(),
+                                    const Spacer(),
                                     ElevatedButton(
-                                        child: Text('Pick Birthdate'),
-                                        onPressed: _pickDateDialog)
+                                        onPressed: _pickDateDialog,
+                                        child: const Text('Pick Birthdate'))
                                   ],
                                 )),
                             const SizedBox(
@@ -175,9 +175,7 @@ class _EmployeeCreateDialogState extends State<EmployeeCreateDialog> {
                                     if (_formKey.currentState!.validate()) {
                                       saveEmployeeDataDialog(
                                           context, _employee);
-                                    } else {
-                                      print('Error');
-                                    }
+                                    } else {}
                                     // Hier passiert etwas anderes
                                   },
                                 ),
@@ -218,14 +216,14 @@ class _EmployeeCreateDialogState extends State<EmployeeCreateDialog> {
     });
   }
 
-  saveEmployeeDataDialog(context, Employee _employee) async {
-    bool stored = await _employee.employeeStore(context);
+  saveEmployeeDataDialog(context, Employee employee) async {
+    bool stored = await employee.employeeStore(context);
     stored == true
         ? debugPrint("save employee to Database success")
         : debugPrint("save employee to Database failed");
 
     setState(() {});
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => CompanyPage()));
+        .push(MaterialPageRoute(builder: (context) => const CompanyPage()));
   }
 }

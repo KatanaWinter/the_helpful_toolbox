@@ -5,7 +5,7 @@ import 'package:the_helpful_toolbox/features/navigation/presentation/textIconSid
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class SidebarNavigation extends StatefulWidget {
-  SidebarNavigation({super.key});
+  const SidebarNavigation({super.key});
 
   @override
   State<SidebarNavigation> createState() => _SidebarNavigationState();

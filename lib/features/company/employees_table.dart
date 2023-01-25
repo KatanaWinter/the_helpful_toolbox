@@ -1,11 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:the_helpful_toolbox/data/models/CompanyModel.dart';
 import 'package:the_helpful_toolbox/data/models/EmployeeModel.dart';
 import 'package:the_helpful_toolbox/features/company/company_page.dart';
-import 'package:the_helpful_toolbox/features/company/dialog/EmployeeCreateDialog.dart';
 import 'package:the_helpful_toolbox/features/company/dialog/EmployeeEditDialog.dart';
 import 'package:the_helpful_toolbox/features/company/show/employee_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
@@ -23,11 +21,9 @@ class _EmployeesTableState extends State<EmployeesTable> {
   TextEditingController searchController = TextEditingController();
   List<Employee> lEmployee = [];
   List<Employee> lFilteredEmployee = [];
-  String _searchResult = '';
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     lEmployee = widget.lEmployee;
     lFilteredEmployee = lEmployee;
@@ -35,7 +31,6 @@ class _EmployeesTableState extends State<EmployeesTable> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = getScreenWidth(context);
     double contentWidth = getContentWidth(context);
 
     return Expanded(
@@ -61,15 +56,14 @@ class _EmployeesTableState extends State<EmployeesTable> {
                       hintText: 'Search for ...',
                     ),
                     onChanged: (val) {
-                      _searchResult = val;
                       setState(() {
-                        String _searchVal = val.toLowerCase();
+                        String searchVal = val.toLowerCase();
                         lFilteredEmployee = lEmployee
                             .where((e) =>
                                 e.firstname!
                                     .toLowerCase()
-                                    .contains(_searchVal) ||
-                                e.lastname!.toLowerCase().contains(_searchVal))
+                                    .contains(searchVal) ||
+                                e.lastname!.toLowerCase().contains(searchVal))
                             .toList();
                       });
                     },
@@ -91,23 +85,23 @@ class _EmployeesTableState extends State<EmployeesTable> {
 
   buildList(BuildContext context, List<Employee> lFilteredEmployee) {
     double tableWidth = getScreenWidth(context);
-    NumberFormat formatter = new NumberFormat("000000");
+    NumberFormat formatter = NumberFormat("000000");
     isSmallScreen(context)
         ? tableWidth = tableWidth - 100
         : tableWidth = tableWidth / 2 - 250;
 
-    return lEmployee.length <= 0
+    return lEmployee.isEmpty
         ? const Center(
             child: CircularProgressIndicator(),
           )
-        : Container(
+        : SizedBox(
             height: 300,
             child: ListView.builder(
               scrollDirection: Axis.vertical,
               itemCount: lFilteredEmployee.length,
               itemBuilder: ((context, index) {
                 Employee employee = lFilteredEmployee[index];
-                return Container(
+                return SizedBox(
                   width: tableWidth,
                   child: Column(
                     children: [
@@ -168,7 +162,7 @@ class _EmployeesTableState extends State<EmployeesTable> {
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  CompanyPage()));
+                                                  const CompanyPage()));
                                     },
                                     icon: const Icon(Icons.delete)),
                               ],
@@ -176,7 +170,7 @@ class _EmployeesTableState extends State<EmployeesTable> {
                           ),
                         ],
                       ),
-                      Divider(
+                      const Divider(
                         height: 10,
                       )
                     ],
@@ -191,7 +185,8 @@ class _EmployeesTableState extends State<EmployeesTable> {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return EmployeeEditDialog(employee: employee, backPage: CompanyPage());
+        return EmployeeEditDialog(
+            employee: employee, backPage: const CompanyPage());
       },
     );
   }

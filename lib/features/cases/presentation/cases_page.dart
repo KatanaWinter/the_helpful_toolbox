@@ -88,7 +88,7 @@ class _CasesPageState extends State<CasesPage> {
                                                   String searchVal =
                                                       val.toLowerCase();
                                                   lFilteredCases = lCases
-                                                      .where((e) => e.name
+                                                      .where((e) => e.name!
                                                           .toLowerCase()
                                                           .contains(searchVal))
                                                       .toList();
@@ -114,7 +114,7 @@ class _CasesPageState extends State<CasesPage> {
                                                 child: Padding(
                                                   padding:
                                                       const EdgeInsets.all(8.0),
-                                                  child: Text(state.name),
+                                                  child: Text(state.name!),
                                                 ),
                                               );
                                             }).toList(),
@@ -179,7 +179,7 @@ class _CasesPageState extends State<CasesPage> {
       itemCount: lCases.length,
       itemBuilder: (context, i) {
         return Column(
-          children: [Text(lCases[i].name)],
+          children: [Text(lCases[i].name!)],
         );
       },
     );
