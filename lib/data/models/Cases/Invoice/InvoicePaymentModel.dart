@@ -55,7 +55,7 @@ class InvoicePayment {
       };
 
   Future<InvoicePayment> invoicePaymentsStore(context) async {
-    InvoicePayment _model = InvoicePayment();
+    InvoicePayment model = InvoicePayment();
     try {
       debugPrint("save new invoicesPayments");
 
@@ -66,16 +66,16 @@ class InvoicePayment {
 
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
-        _model = InvoicePayment.fromJson(tmp["data"]);
-        return _model;
+        model = InvoicePayment.fromJson(tmp["data"]);
+        return model;
       } else {
         debugPrint(response.body);
-        return _model;
+        return model;
       }
     } catch (e) {
       debugPrint("Error in update :$e");
     }
-    return _model;
+    return model;
   }
 
   Future<bool> invoicePaymentsUpdate(context) async {
@@ -84,7 +84,7 @@ class InvoicePayment {
 
       var body = toJson();
       String sId = id.toString();
-      ApiService apiService = new ApiService();
+      ApiService apiService = ApiService();
       http.Response response = await apiService.put(
           url: '/invoicesPayments/$sId', body: body, context: context);
 
@@ -101,9 +101,8 @@ class InvoicePayment {
   }
 
   Future<InvoicePayment> invoicePaymentsShow(context) async {
-    InvoicePayment _model = InvoicePayment();
+    InvoicePayment model = InvoicePayment();
     try {
-      var body = toJson();
       ApiService apiService = ApiService();
       String sId = id.toString();
       var response =
@@ -111,16 +110,16 @@ class InvoicePayment {
 
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
-        _model = InvoicePayment.fromJson(tmp["data"]);
+        model = InvoicePayment.fromJson(tmp["data"]);
       } else {
         debugPrint(response.body);
       }
 
-      return _model;
+      return model;
     } catch (e) {
       debugPrint("Error in show :$e");
     }
-    return _model;
+    return model;
   }
 
   Future<bool> invoicePaymentsDelete(context) async {

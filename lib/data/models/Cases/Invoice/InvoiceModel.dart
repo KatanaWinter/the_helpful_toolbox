@@ -1,9 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:the_helpful_toolbox/data/models/Cases/CaseModel.dart';
 import 'package:the_helpful_toolbox/data/models/Cases/Invoice/InvoiceItem.dart';
-import 'package:the_helpful_toolbox/data/models/Cases/Jobs/JobItemModel.dart';
-import 'package:the_helpful_toolbox/features/cases/data/case.dart';
 import 'package:the_helpful_toolbox/helper/api_service.dart';
 import 'package:http/http.dart' as http;
 
@@ -50,7 +49,7 @@ class Invoice {
         balance_amount: json["balance_amount"] ?? 0.00,
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
-        sCase: json["case"] == null ? null : json["case"],
+        sCase: json["case"],
         payments: List<InvoicePayment>.from(
             json["items"].map((x) => InvoicePayment.fromJson(x))),
         items: List<InvoiceItem>.from(
@@ -67,7 +66,7 @@ class Invoice {
       };
 
   Future<Invoice> invoicesStore(context) async {
-    Invoice _model = Invoice();
+    Invoice model = Invoice();
     try {
       debugPrint("save new invoice");
 
@@ -78,16 +77,16 @@ class Invoice {
 
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
-        _model = Invoice.fromJson(tmp["data"]);
-        return _model;
+        model = Invoice.fromJson(tmp["data"]);
+        return model;
       } else {
         debugPrint(response.body);
-        return _model;
+        return model;
       }
     } catch (e) {
       debugPrint("Error in update :$e");
     }
-    return _model;
+    return model;
   }
 
   Future<bool> invoicesUpdate(context) async {
@@ -96,7 +95,7 @@ class Invoice {
 
       var body = toJson();
       String sId = id.toString();
-      ApiService apiService = new ApiService();
+      ApiService apiService = ApiService();
       http.Response response = await apiService.put(
           url: '/invoices/$sId', body: body, context: context);
 
@@ -113,9 +112,8 @@ class Invoice {
   }
 
   Future<Invoice> invoicesShow(context) async {
-    Invoice _model = Invoice();
+    Invoice model = Invoice();
     try {
-      var body = toJson();
       ApiService apiService = ApiService();
       String sId = id.toString();
       var response =
@@ -123,16 +121,16 @@ class Invoice {
 
       if (response.statusCode == 200) {
         var tmp = json.decode(response.body);
-        _model = Invoice.fromJson(tmp["data"]);
+        model = Invoice.fromJson(tmp["data"]);
       } else {
         debugPrint(response.body);
       }
 
-      return _model;
+      return model;
     } catch (e) {
       debugPrint("Error in show :$e");
     }
-    return _model;
+    return model;
   }
 
   Future<bool> invoicesDelete(context) async {
