@@ -6,6 +6,7 @@ import 'package:filesystem_picker/filesystem_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:open_app_file/open_app_file.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:the_helpful_toolbox/data/models/OfferListItemModel.dart';
 import 'package:the_helpful_toolbox/helper/api_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:the_helpful_toolbox/helper/snackbarDisplay.dart';
@@ -21,6 +22,7 @@ class Media {
     this.disk,
     this.collection,
     this.size,
+    this.items,
   });
 
   int? id;
@@ -32,6 +34,7 @@ class Media {
   String? disk;
   String? collection;
   int? size;
+  List<OfferlistItem>? items;
 
   factory Media.fromJson(Map<String, dynamic> json) => Media(
         id: json["id"],
@@ -43,6 +46,8 @@ class Media {
         disk: json["disk"],
         collection: json["collection"],
         size: json["size"],
+        items: List<OfferlistItem>.from(
+            json["items"].map((x) => OfferlistItem.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
