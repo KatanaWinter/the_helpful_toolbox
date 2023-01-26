@@ -64,7 +64,7 @@ class Quote {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
+        // "id": id,
         "number": number,
         "opportunity": opportunity.toString(),
         "message": message,

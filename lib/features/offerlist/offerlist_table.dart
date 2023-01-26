@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:the_helpful_toolbox/data/models/OfferListModel.dart';
+import 'package:the_helpful_toolbox/features/offerlist/dialog/editOfferlistDialog.dart';
 import 'package:the_helpful_toolbox/features/offerlist/offerlists_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
@@ -156,16 +157,12 @@ class _OfferListTableState extends State<OfferListTable> {
   }
 
   openEditOfferlistDialog(context, int cId, Offerlist oList) {
-    // return showDialog(
-    //   context: context,
-    //   builder: (BuildContext context) {
-    //     return OfferListEditDialog(
-    //         employee: _oList,
-    //         backPage: OfferlistPage(
-    //           company: company,
-    //         ));
-    //   },
-    // );
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return EditOfferlistDialog(cId: cId, offerlist: oList);
+      },
+    );
   }
 
   showOfferlist(context, Offerlist oList) {

@@ -12,29 +12,25 @@ String offerListToJson(List<Offerlist> data) =>
 class Offerlist {
   Offerlist({
     this.id,
-    this.companyId,
     this.name,
     this.description,
     this.active,
   });
 
   int? id;
-  int? companyId;
   String? name;
   String? description;
   int? active;
 
   factory Offerlist.fromJson(Map<String, dynamic> json) => Offerlist(
         id: json["id"],
-        companyId: json["company_id"],
         name: json["name"],
         description: json["description"],
         active: json["active"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id ?? "",
-        "company_id": companyId.toString(),
+        // "id": id.toString(),
         "name": name.toString(),
         "description": description.toString(),
         "active": active.toString(),

@@ -104,7 +104,7 @@ class _EditOfferlistDialogState extends State<EditOfferlistDialog> {
           ),
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              saveOfferlist(context, widget.offerlist);
+              editOfferlist(context, widget.offerlist);
             } else {}
             // Hier passiert etwas anderes
           },
@@ -113,7 +113,7 @@ class _EditOfferlistDialogState extends State<EditOfferlistDialog> {
     );
   }
 
-  saveOfferlist(context, Offerlist offerlist) async {
+  editOfferlist(context, Offerlist offerlist) async {
     debugPrint("edit offerlist to Database");
     await offerlist.offerlistUpdate(context);
 

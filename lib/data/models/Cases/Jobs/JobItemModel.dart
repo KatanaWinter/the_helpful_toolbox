@@ -51,7 +51,7 @@ class JobItem {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
+        // "id": id,
         "job_id": job_id.toString(),
         "name": name,
         "description": description,

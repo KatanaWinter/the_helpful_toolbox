@@ -92,16 +92,16 @@ class Case {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
+        // "id": id,
         "name": name,
-        "client_id": clientId,
-        "property_id": propertyId,
-        "requests_id": requestsId,
-        "quote_id": quoteId,
-        "job_id": jobId,
-        "invoice_id": invoiceId,
-        "case_state_id": caseStateId,
-        "case_status_id": caseStatusId
+        "client_id": clientId.toString(),
+        "property_id": propertyId.toString(),
+        "requests_id": requestsId.toString(),
+        "quote_id": quoteId.toString(),
+        "job_id": jobId.toString(),
+        "invoice_id": invoiceId.toString(),
+        "case_state_id": caseStateId.toString(),
+        "case_status_id": caseStatusId.toString()
       };
 
   Future<Case> caseStore(context) async {

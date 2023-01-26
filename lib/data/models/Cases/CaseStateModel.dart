@@ -31,7 +31,7 @@ class CaseState {
             json["statuses"].map((x) => CaseStatus.fromJson(x))),
       );
 
-  Map<String, dynamic> toJson() => {"id": id, "name": name};
+  Map<String, dynamic> toJson() => {"name": name};
 
   Future<CaseState> caseStateStore(context) async {
     CaseState model = CaseState();

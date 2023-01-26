@@ -49,7 +49,7 @@ class AppointmentDays {
           updatedAt: DateTime.parse(json["updated_at"]));
 
   Map<String, dynamic> toJson() => {
-        "id": id,
+        // "id": id,
         "Monday": Monday.toString(),
         "Tuesday": Tuesday.toString(),
         "Wednesday": Wednesday.toString(),

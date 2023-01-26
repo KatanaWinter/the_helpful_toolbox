@@ -38,7 +38,7 @@ class CaseNotes {
         cases: json["cases"],
       );
 
-  Map<String, dynamic> toJson() => {"id": id, "text": text, "case_id": caseId};
+  Map<String, dynamic> toJson() => {"text": text, "case_id": caseId.toString()};
 
   Future<CaseNotes> caseNotesStore(context) async {
     CaseNotes _caseNotes = CaseNotes();

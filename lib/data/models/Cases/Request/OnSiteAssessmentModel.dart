@@ -37,7 +37,7 @@ class OnSiteAssessment {
           updatedAt: DateTime.parse(json["updated_at"]));
 
   Map<String, dynamic> toJson() => {
-        "id": id,
+        // "id": id,
         "needed": needed.toString(),
         "text": text.toString(),
         "date": date.toString(),

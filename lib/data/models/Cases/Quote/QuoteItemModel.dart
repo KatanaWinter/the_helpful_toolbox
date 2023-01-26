@@ -51,8 +51,8 @@ class QuoteItem {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "quote_id": quote_id,
+        // "id": id,
+        "quote_id": quote_id.toString(),
         "name": name,
         "description": description,
         "quantity": quantity.toString(),

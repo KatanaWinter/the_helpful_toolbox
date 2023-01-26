@@ -60,7 +60,7 @@ class Job {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
+        // "id": id,
         "OneTimeJob": OneTimeJob,
         "start_date": start_date.toString(),
         "end_date": end_date.toString(),

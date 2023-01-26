@@ -46,7 +46,7 @@ class InvoicePayment {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
+        // "id": id,
         "method": method,
         "invoice_id": invoice_id.toString(),
         "amount": amount,
