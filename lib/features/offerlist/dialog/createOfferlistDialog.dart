@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:the_helpful_toolbox/data/models/OfferListModel.dart';
 import 'package:the_helpful_toolbox/features/clients/clients_page.dart';
+import 'package:the_helpful_toolbox/features/offerlist/offerlists_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
 class CreatOfferlistDialog extends StatefulWidget {
@@ -115,6 +116,6 @@ class _CreatOfferlistDialogState extends State<CreatOfferlistDialog> {
     await offerlist.offerlistStore(context);
 
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const ClientsPage()));
+        .push(MaterialPageRoute(builder: (context) => const OfferlistPage()));
   }
 }

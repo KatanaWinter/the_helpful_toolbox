@@ -33,7 +33,7 @@ class Offerlist {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id.toString(),
+        "id": id ?? "",
         "company_id": companyId.toString(),
         "name": name.toString(),
         "description": description.toString(),

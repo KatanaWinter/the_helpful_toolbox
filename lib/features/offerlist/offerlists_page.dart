@@ -31,7 +31,7 @@ class _OfferlistPageState extends State<OfferlistPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Company'),
+        title: const Text('Offerlists'),
       ),
       body: FutureBuilder<List<Offerlist>>(
         future: _fOfferList,
@@ -97,6 +97,9 @@ class _OfferlistPageState extends State<OfferlistPage> {
                                                     horizontal: 8.0),
                                                 child: Text("New Offerlist"),
                                               )),
+                                          SizedBox(
+                                            width: 10,
+                                          )
                                         ],
                                       ),
                                       Row(
