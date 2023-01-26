@@ -134,7 +134,7 @@ class _OfferlistPageState extends State<OfferlistPage> {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return CreatOfferlistDialog(
+        return CreateOfferlistDialog(
           cId: company,
         );
       },

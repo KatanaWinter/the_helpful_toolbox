@@ -4,15 +4,15 @@ import 'package:the_helpful_toolbox/features/clients/clients_page.dart';
 import 'package:the_helpful_toolbox/features/offerlist/offerlists_page.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 
-class CreatOfferlistDialog extends StatefulWidget {
+class CreateOfferlistDialog extends StatefulWidget {
   int cId;
-  CreatOfferlistDialog({super.key, required this.cId});
+  CreateOfferlistDialog({super.key, required this.cId});
 
   @override
-  State<CreatOfferlistDialog> createState() => _CreatOfferlistDialogState();
+  State<CreateOfferlistDialog> createState() => _CreateOfferlistDialogState();
 }
 
-class _CreatOfferlistDialogState extends State<CreatOfferlistDialog> {
+class _CreateOfferlistDialogState extends State<CreateOfferlistDialog> {
   final _formKey = GlobalKey<FormState>();
   final Offerlist _offerlist = Offerlist(active: 1, description: "", name: "");
 
