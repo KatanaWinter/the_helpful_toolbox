@@ -23,6 +23,7 @@ class _CasesPageState extends State<CasesPage> {
   @override
   void initState() {
     lFilteredCases = lCases;
+    getCaseStates();
     _selectedState = lCaseState.first;
     super.initState();
   }

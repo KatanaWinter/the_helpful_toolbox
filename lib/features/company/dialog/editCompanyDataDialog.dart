@@ -13,13 +13,10 @@ class EditCompanyDataDialog extends StatefulWidget {
 
 class _EditCompanyDataDialogState extends State<EditCompanyDataDialog> {
   final _formKey = GlobalKey<FormState>();
-  Company _company = Company();
 
   @override
   void initState() {
     super.initState();
-
-    widget.company != null ? _company = widget.company : "";
   }
 
   @override
@@ -53,12 +50,15 @@ class _EditCompanyDataDialogState extends State<EditCompanyDataDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Name'),
-                                initialValue: _company.name,
+                                initialValue: widget.company.name,
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'Please enter a value';
                                   }
                                   return null;
+                                },
+                                onChanged: (val) {
+                                  widget.company.name = val;
                                 },
                               ),
                             ),
@@ -68,9 +68,9 @@ class _EditCompanyDataDialogState extends State<EditCompanyDataDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Phone'),
-                                initialValue: _company.phone,
+                                initialValue: widget.company.phone,
                                 onChanged: (val) => setState(() {
-                                  _company.phone = val;
+                                  widget.company.phone = val;
                                 }),
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -86,9 +86,9 @@ class _EditCompanyDataDialogState extends State<EditCompanyDataDialog> {
                                 decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
                                     labelText: 'Mobile'),
-                                initialValue: _company.mobile,
+                                initialValue: widget.company.mobile,
                                 onChanged: (val) => setState(() {
-                                  _company.mobile = val;
+                                  widget.company.mobile = val;
                                 }),
                               ),
                             ),
@@ -117,7 +117,8 @@ class _EditCompanyDataDialogState extends State<EditCompanyDataDialog> {
                                   ),
                                   onPressed: () {
                                     if (_formKey.currentState!.validate()) {
-                                      saveCompanyDataDialog(context, _company);
+                                      saveCompanyDataDialog(
+                                          context, widget.company);
                                     } else {}
                                     // Hier passiert etwas anderes
                                   },

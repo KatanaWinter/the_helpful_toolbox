@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:the_helpful_toolbox/data/models/UserModel.dart';
+import 'package:the_helpful_toolbox/features/dashboard/dashboard.dart';
 import 'package:the_helpful_toolbox/helper/media_query.dart';
 import 'package:the_helpful_toolbox/helper/snackbarDisplay.dart';
 
@@ -197,7 +201,25 @@ class _LoginPageState extends State<LoginPage> {
         });
   }
 
-  void loginUser(String email, String password) {}
+  void loginUser(String email, String password) {
+    UserModel user = UserModel(email: email, password: password);
+    var response = user.loginUser(user, context).then(
+      (value) {
+        if (value!.statusCode == 200) {
+          snackbarwithMessage("Login Successful!", context, 1);
+
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const Dashboard()),
+            (route) => false,
+          );
+        } else {
+          Map<String, dynamic> temp = json.decode(value.body);
+          String message = temp["message"];
+          snackbarwithMessage("Login Error! $message", context, 2);
+        }
+      },
+    );
+  }
 
   Future<void> setConnectionString(String text) async {
     final prefs = await SharedPreferences.getInstance();

@@ -68,14 +68,6 @@ class Company {
         "phone": phone ?? "",
         "mobile": mobile ?? "",
         "email": email.toString(),
-        "employees": employees == null
-            ? null
-            : List<dynamic>.from(employees!.map((x) => x.toJson())),
-        // "offerlists": offerlists == null
-        //     ? null
-        //     : List<dynamic>.from(offerlists!.map((x) => x.toJson())),
-        // "propertie": propertie!.toJson(),
-        // "propertie_id": propertieId.toString(),
       };
 
   Future<bool> companieStore(context) async {
